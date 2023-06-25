@@ -1,14 +1,16 @@
-package dev.amir.cqrsusercommandservice.application.service;
+package dev.amir.cqrsusercommandservice.application.port.input;
 
-import dev.amir.cqrsusercommandservice.application.repository.UserRepository;
+import dev.amir.cqrsusercommandservice.application.port.output.UserOutputPort;
 import dev.amir.cqrsusercommandservice.domain.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+@Service
+public class UserInputAdapter implements UserInputPort {
 
-    private final UserRepository userRepository;
+    private final UserOutputPort userOutputPort;
 
     @Override
     public String createUser(User user) {
@@ -16,6 +18,6 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Invalid User, id field must be empty");
         }
 
-        return userRepository.save(user);
+        return userOutputPort.save(user).getId();
     }
 }
