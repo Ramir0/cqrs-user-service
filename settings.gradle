@@ -1,0 +1,3 @@
+rootProject.name = 'cqrs-user-service'
+
+include 'cqrs-user-command-service'
