@@ -20,4 +20,22 @@ public class UserInputAdapter implements UserInputPort {
 
         return userOutputPort.save(user).getId();
     }
+
+    @Override
+    public void updateUser(User user) {
+        if (!StringUtils.hasText(user.getId())) {
+            throw new IllegalArgumentException("Invalid User, id field must exist");
+        }
+
+        userOutputPort.save(user);
+    }
+
+    @Override
+    public boolean deleteUser(String userId) {
+        if (!StringUtils.hasText(userId)) {
+            throw new IllegalArgumentException("Invalid User, id field must exist");
+        }
+
+        return userOutputPort.delete(userId);
+    }
 }

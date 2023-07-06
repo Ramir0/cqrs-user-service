@@ -18,4 +18,10 @@ public class UserOutputAdapter implements UserOutputPort {
     public User save(User user) {
         return jpaMapper.convert(jpaRepository.save(jpaMapper.convert(user)));
     }
+
+    @Override
+    public boolean delete(String userId) {
+        jpaRepository.deleteById(userId);
+        return true;
+    }
 }

@@ -57,4 +57,52 @@ class UserInputPortTest {
         assertEquals("Invalid User, id field must be empty", exception.getMessage());
         verify(userOutputPort, never()).save(any(User.class));
     }
+
+    @Test
+    void testUpdateUser() {
+        User user = new User();
+        user.setId(UUID.randomUUID().toString());
+        user.setName("John");
+        user.setLastname("Smith");
+        user.setEmail("jsmith@test.com");
+        user.setActive(true);
+
+        userService.updateUser(user);
+
+        verify(userOutputPort).save(any(User.class));
+    }
+
+    @Test
+    void testUpdateUser_ShouldThrowException() {
+        User user = new User();
+        user.setName("John");
+        user.setLastname("Smith");
+        user.setEmail("jsmith@test.com");
+        user.setActive(true);
+
+        var exception = assertThrows(IllegalArgumentException.class, () -> userService.updateUser(user));
+
+        assertEquals("Invalid User, id field must exist", exception.getMessage());
+        verify(userOutputPort, never()).save(any(User.class));
+    }
+
+    @Test
+    void testDeleteUser() {
+        String userId = UUID.randomUUID().toString();
+
+        when(userOutputPort.delete(eq(userId))).thenReturn(true);
+
+        boolean isUserDeleted = userService.deleteUser(userId);
+
+        assertTrue(isUserDeleted);
+        verify(userOutputPort).delete(eq(userId));
+    }
+
+    @Test
+    void testDeleteUser_ShouldThrowException() {
+        var exception = assertThrows(IllegalArgumentException.class, () -> userService.deleteUser(null));
+
+        assertEquals("Invalid User, id field must exist", exception.getMessage());
+        verify(userOutputPort, never()).delete(anyString());
+    }
 }
