@@ -16,3 +16,10 @@ spring:
     open-in-view: false
   flyway:
     enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    queues:
+      users-queue: q.users

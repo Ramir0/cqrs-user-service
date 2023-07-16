@@ -1,5 +1,6 @@
 package dev.amir.usercommand.application.port.input;
 
+import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.util.StringUtils;
 public class UserUseCases implements UserInputPort {
 
     private final UserOutputPort userOutputPort;
+    private final UserMessageOutputPort userMessageOutputPort;
 
     @Override
     public String createUser(User user) {
@@ -18,7 +20,9 @@ public class UserUseCases implements UserInputPort {
             throw new IllegalArgumentException("Invalid User, id field must be empty");
         }
 
-        return userOutputPort.save(user).getId();
+        User savedUser = userOutputPort.save(user);
+        userMessageOutputPort.sendMessage(savedUser);
+        return savedUser.getId();
     }
 
     @Override
