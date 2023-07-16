@@ -2,6 +2,7 @@ package dev.amir.userquery.framework.output.adapter;
 
 import dev.amir.userquery.application.port.output.UserOutputPort;
 import dev.amir.userquery.domain.entity.User;
+import dev.amir.userquery.framework.output.entity.UserMongo;
 import dev.amir.userquery.framework.output.mapper.UserMongoMapper;
 import dev.amir.userquery.framework.output.repository.UserMongoRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,11 @@ public class UserOutputAdapter implements UserOutputPort {
     @Override
     public Optional<User> getById(String userId) {
         return userMongoRepository.findById(userId).map(userMongoMapper::convert);
+    }
+
+    @Override
+    public User save(User user) {
+        UserMongo savedUser = userMongoRepository.save(userMongoMapper.convert(user));
+        return userMongoMapper.convert(savedUser);
     }
 }

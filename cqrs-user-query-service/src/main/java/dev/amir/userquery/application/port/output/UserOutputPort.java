@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface UserOutputPort {
     Collection<User> getAll();
     Optional<User> getById(String userId);
+    User save(User user);
 }

@@ -8,4 +8,5 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMongoMapper {
     User convert(UserMongo userMongo);
+    UserMongo convert(User user);
 }
