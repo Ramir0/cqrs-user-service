@@ -1,8 +1,8 @@
-package dev.amir.cqrsusercommandservice.application.service;
+package dev.amir.usercommand.application.service;
 
-import dev.amir.cqrsusercommandservice.application.port.input.UserInputAdapter;
-import dev.amir.cqrsusercommandservice.application.port.output.UserOutputPort;
-import dev.amir.cqrsusercommandservice.domain.entity.User;
+import dev.amir.usercommand.application.port.input.UserUseCases;
+import dev.amir.usercommand.application.port.output.UserOutputPort;
+import dev.amir.usercommand.domain.entity.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ class UserInputPortTest {
     @Mock
     private UserOutputPort userOutputPort;
     @InjectMocks
-    private UserInputAdapter userService;
+    private UserUseCases userService;
 
     @Test
     void testCreateUser() {
