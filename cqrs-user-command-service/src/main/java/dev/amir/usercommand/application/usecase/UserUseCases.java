@@ -32,7 +32,8 @@ public class UserUseCases implements UserInputPort {
             throw new IllegalArgumentException("Invalid User, id field must exist");
         }
 
-        userOutputPort.save(user);
+        User savedUser = userOutputPort.save(user);
+        userMessageOutputPort.sendMessage(savedUser);
     }
 
     @Override
