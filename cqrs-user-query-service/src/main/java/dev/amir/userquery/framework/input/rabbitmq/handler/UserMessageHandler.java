@@ -1,7 +1,7 @@
 package dev.amir.userquery.framework.input.rabbitmq.handler;
 
-import dev.amir.userquery.framework.input.rabbitmq.message.CreateUserMessage;
+import dev.amir.userquery.framework.input.rabbitmq.message.SaveUserMessage;
 
 public interface UserMessageHandler {
-    void handle(CreateUserMessage message);
+    void handle(SaveUserMessage message);
 }
