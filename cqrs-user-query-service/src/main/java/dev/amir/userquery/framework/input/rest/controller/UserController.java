@@ -1,6 +1,7 @@
 package dev.amir.userquery.framework.input.rest.controller;
 
 import dev.amir.userquery.framework.input.rest.handler.UserQueryHandler;
+import dev.amir.userquery.framework.input.rest.query.GetAllUsersQuery;
 import dev.amir.userquery.framework.input.rest.query.GetUserByIdQuery;
 import dev.amir.userquery.framework.input.rest.response.GetAllUsersResponse;
 import dev.amir.userquery.framework.input.rest.response.GetUserByIdResponse;
@@ -18,11 +19,11 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<GetAllUsersResponse> getAllUsers() {
-        return ResponseEntity.ok(userQueryHandler.getAllUsers());
+        return ResponseEntity.ok(userQueryHandler.handle(new GetAllUsersQuery()));
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<GetUserByIdResponse> getUserById(GetUserByIdQuery query) {
-        return ResponseEntity.ok(userQueryHandler.getUserById(query));
+        return ResponseEntity.ok(userQueryHandler.handle(query));
     }
 }

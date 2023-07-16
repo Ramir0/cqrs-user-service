@@ -14,7 +14,7 @@ public class UserMessageHandlerImpl implements UserMessageHandler {
     private final UserMessageMapper userMessageMapper;
 
     @Override
-    public void createUser(CreateUserMessage message) {
+    public void handle(CreateUserMessage message) {
         User user = userMessageMapper.convert(message);
         userCommandInputPort.createUser(user);
     }

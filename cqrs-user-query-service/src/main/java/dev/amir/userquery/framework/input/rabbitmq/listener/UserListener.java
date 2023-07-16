@@ -13,6 +13,6 @@ public class UserListener {
 
     @RabbitListener(queues = {"${spring.rabbitmq.queues.users-queue}"})
     public void onUser(CreateUserMessage message) {
-        userMessageHandler.createUser(message);
+        userMessageHandler.handle(message);
     }
 }
