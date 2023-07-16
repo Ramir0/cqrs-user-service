@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'dev.amir.cqrs-user-command-service' is invalid and this project uses 'dev.amir.cqrsusercommandservice' instead.
+* The original package name 'dev.amir.cqrs-user-command-service' is invalid and this project uses 'dev.amir.usercommand' instead.
 
 # Getting Started
 
