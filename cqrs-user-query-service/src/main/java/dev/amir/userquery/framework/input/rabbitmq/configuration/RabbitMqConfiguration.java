@@ -17,7 +17,7 @@ public class RabbitMqConfiguration {
     }
 
     @Bean
-    public Queue createResourceProcessQueue() {
+    public Queue createUsersQueue() {
         return new Queue(usersQueue);
     }
 }
