@@ -8,3 +8,9 @@ services:
       - ./.data:/data/configdb
     ports:
       - 27017:27017
+  user-rabbitmq:
+    image: rabbitmq:management
+    restart: no
+    ports:
+      - 5672:5672
+      - 15672:15672
