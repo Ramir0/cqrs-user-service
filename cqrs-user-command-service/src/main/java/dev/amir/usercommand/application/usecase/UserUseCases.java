@@ -1,5 +1,6 @@
-package dev.amir.usercommand.application.port.input;
+package dev.amir.usercommand.application.usecase;
 
+import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;

@@ -1,6 +1,6 @@
 package dev.amir.usercommand.application.service;
 
-import dev.amir.usercommand.application.port.input.UserUseCases;
+import dev.amir.usercommand.application.usecase.UserUseCases;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
 import org.junit.jupiter.api.Test;

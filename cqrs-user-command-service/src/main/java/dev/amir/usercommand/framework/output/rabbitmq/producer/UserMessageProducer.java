@@ -3,7 +3,7 @@ package dev.amir.usercommand.framework.output.rabbitmq.producer;
 import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.framework.output.rabbitmq.mapper.UserMessageMapper;
-import dev.amir.usercommand.framework.output.rabbitmq.message.CreateUserMessage;
+import dev.amir.usercommand.framework.output.rabbitmq.message.SaveUserMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +20,7 @@ public class UserMessageProducer implements UserMessageOutputPort {
 
     @Override
     public void sendMessage(User user) {
-        CreateUserMessage message = userMessageMapper.convert(user);
+        SaveUserMessage message = userMessageMapper.convert(user);
         rabbitTemplate.convertAndSend(usersQueue, message);
     }
 }
