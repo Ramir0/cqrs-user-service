@@ -1,7 +1,8 @@
 package dev.amir.usercommand.application.service;
 
-import dev.amir.usercommand.application.usecase.UserUseCases;
+import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
+import dev.amir.usercommand.application.usecase.UserUseCases;
 import dev.amir.usercommand.domain.entity.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,8 +20,10 @@ import static org.mockito.Mockito.*;
 class UserInputPortTest {
     @Mock
     private UserOutputPort userOutputPort;
+    @Mock
+    private UserMessageOutputPort userMessageOutputPort;
     @InjectMocks
-    private UserUseCases userService;
+    private UserUseCases userUseCases;
 
     @Test
     void testCreateUser() {
@@ -34,13 +37,15 @@ class UserInputPortTest {
         User userResponse = new User();
         userResponse.setId(UUID.randomUUID().toString());
         when(userOutputPort.save(any(User.class))).thenReturn(userResponse);
+        doNothing().when(userMessageOutputPort).sendMessage(any(User.class));
 
         // When
-        String newUserId = userService.createUser(user);
+        String newUserId = userUseCases.createUser(user);
 
         // Then
         assertTrue(StringUtils.hasText(newUserId));
         verify(userOutputPort).save(any(User.class));
+        verify(userMessageOutputPort).sendMessage(any(User.class));
     }
 
     @Test
@@ -52,7 +57,7 @@ class UserInputPortTest {
         user.setEmail("amir@test.com");
         user.setActive(true);
 
-        var exception = assertThrows(IllegalArgumentException.class, () -> userService.createUser(user));
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCases.createUser(user));
 
         assertEquals("Invalid User, id field must be empty", exception.getMessage());
         verify(userOutputPort, never()).save(any(User.class));
@@ -67,9 +72,13 @@ class UserInputPortTest {
         user.setEmail("jsmith@test.com");
         user.setActive(true);
 
-        userService.updateUser(user);
+        when(userOutputPort.save(any(User.class))).thenReturn(user);
+        doNothing().when(userMessageOutputPort).sendMessage(any(User.class));
+
+        userUseCases.updateUser(user);
 
         verify(userOutputPort).save(any(User.class));
+        verify(userMessageOutputPort).sendMessage(any(User.class));
     }
 
     @Test
@@ -80,7 +89,7 @@ class UserInputPortTest {
         user.setEmail("jsmith@test.com");
         user.setActive(true);
 
-        var exception = assertThrows(IllegalArgumentException.class, () -> userService.updateUser(user));
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCases.updateUser(user));
 
         assertEquals("Invalid User, id field must exist", exception.getMessage());
         verify(userOutputPort, never()).save(any(User.class));
@@ -92,7 +101,7 @@ class UserInputPortTest {
 
         when(userOutputPort.delete(eq(userId))).thenReturn(true);
 
-        boolean isUserDeleted = userService.deleteUser(userId);
+        boolean isUserDeleted = userUseCases.deleteUser(userId);
 
         assertTrue(isUserDeleted);
         verify(userOutputPort).delete(eq(userId));
@@ -100,7 +109,7 @@ class UserInputPortTest {
 
     @Test
     void testDeleteUser_ShouldThrowException() {
-        var exception = assertThrows(IllegalArgumentException.class, () -> userService.deleteUser(null));
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCases.deleteUser(null));
 
         assertEquals("Invalid User, id field must exist", exception.getMessage());
         verify(userOutputPort, never()).delete(anyString());
