@@ -6,6 +6,8 @@ import dev.amir.usercommand.framework.input.rest.command.UpdateUserCommand;
 
 public interface UserCommandHandler {
     String handle(CreateUserCommand command);
+
     void handle(UpdateUserCommand command, String userId);
+
     boolean handle(DeleteUserCommand command, String userId);
 }
