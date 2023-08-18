@@ -5,12 +5,11 @@ import dev.amir.userquery.domain.entity.User;
 import dev.amir.userquery.framework.output.entity.UserMongo;
 import dev.amir.userquery.framework.output.mapper.UserMongoMapper;
 import dev.amir.userquery.framework.output.repository.UserMongoRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
@@ -21,9 +20,9 @@ public class UserOutputAdapter implements UserOutputPort {
     @Override
     public Collection<User> getAll() {
         return userMongoRepository.findAll()
-                .stream()
-                .map(userMongoMapper::convert)
-                .collect(Collectors.toList());
+            .stream()
+            .map(userMongoMapper::convert)
+            .collect(Collectors.toList());
     }
 
     @Override
