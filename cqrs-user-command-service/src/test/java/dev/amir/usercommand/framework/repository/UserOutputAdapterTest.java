@@ -21,14 +21,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class UserOutputAdapterTest {
     @Mock
-    private UserJpaMapper jpaMapper;
+    private UserJpaMapper jpaMapperMock;
     @Mock
-    private UserJpaRepository jpaRepository;
+    private UserJpaRepository jpaRepositoryMock;
     @InjectMocks
-    private UserOutputAdapter userRepository;
+    private UserOutputAdapter userRepositoryMock;
 
     @Test
-    void save_WithValidData() {
+    void test_save_WithValidData() {
         User user = new User();
         user.setName("Amir");
         User savedUser = new User();
@@ -39,15 +39,15 @@ class UserOutputAdapterTest {
         UserJpa savedUserJpa = new UserJpa();
         savedUserJpa.setId(UUID.randomUUID().toString());
 
-        when(jpaMapper.convert(eq(user))).thenReturn(userJpa);
-        when(jpaRepository.save(userJpa)).thenReturn(savedUserJpa);
-        when(jpaMapper.convert(eq(savedUserJpa))).thenReturn(savedUser);
+        when(jpaMapperMock.convert(eq(user))).thenReturn(userJpa);
+        when(jpaRepositoryMock.save(userJpa)).thenReturn(savedUserJpa);
+        when(jpaMapperMock.convert(eq(savedUserJpa))).thenReturn(savedUser);
 
-        User actualSavedUser = userRepository.save(user);
+        User actualSavedUser = userRepositoryMock.save(user);
 
         assertEquals(savedUser.getId(), actualSavedUser.getId());
-        verify(jpaMapper).convert(eq(user));
-        verify(jpaRepository).save(userJpa);
-        verify(jpaMapper).convert(eq(savedUserJpa));
+        verify(jpaMapperMock).convert(eq(user));
+        verify(jpaRepositoryMock).save(userJpa);
+        verify(jpaMapperMock).convert(eq(savedUserJpa));
     }
 }

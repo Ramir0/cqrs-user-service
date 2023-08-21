@@ -19,14 +19,14 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UserInputPortTest {
     @Mock
-    private UserOutputPort userOutputPort;
+    private UserOutputPort userOutputPortMock;
     @Mock
-    private UserMessageOutputPort userMessageOutputPort;
+    private UserMessageOutputPort userMessageOutputPortMock;
     @InjectMocks
-    private UserUseCases userUseCases;
+    private UserUseCases userUseCasesMock;
 
     @Test
-    void testCreateUser() {
+    void test_CreateUser() {
         // Given
         User user = new User();
         user.setName("Amir");
@@ -36,20 +36,20 @@ class UserInputPortTest {
 
         User userResponse = new User();
         userResponse.setId(UUID.randomUUID().toString());
-        when(userOutputPort.save(any(User.class))).thenReturn(userResponse);
-        doNothing().when(userMessageOutputPort).sendMessage(any(User.class));
+        when(userOutputPortMock.save(any(User.class))).thenReturn(userResponse);
+        doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
         // When
-        String newUserId = userUseCases.createUser(user);
+        String newUserId = userUseCasesMock.createUser(user);
 
         // Then
         assertTrue(StringUtils.hasText(newUserId));
-        verify(userOutputPort).save(any(User.class));
-        verify(userMessageOutputPort).sendMessage(any(User.class));
+        verify(userOutputPortMock).save(any(User.class));
+        verify(userMessageOutputPortMock).sendMessage(any(User.class));
     }
 
     @Test
-    void testCreateUser_WithId_ShouldThrowException() {
+    void test_CreateUser_WithId_ShouldThrowException() {
         User user = new User();
         user.setId(UUID.randomUUID().toString());
         user.setName("Amir");
@@ -57,14 +57,14 @@ class UserInputPortTest {
         user.setEmail("amir@test.com");
         user.setActive(true);
 
-        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCases.createUser(user));
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCasesMock.createUser(user));
 
         assertEquals("Invalid User, id field must be empty", exception.getMessage());
-        verify(userOutputPort, never()).save(any(User.class));
+        verify(userOutputPortMock, never()).save(any(User.class));
     }
 
     @Test
-    void testUpdateUser() {
+    void test_UpdateUser() {
         User user = new User();
         user.setId(UUID.randomUUID().toString());
         user.setName("John");
@@ -72,46 +72,46 @@ class UserInputPortTest {
         user.setEmail("jsmith@test.com");
         user.setActive(true);
 
-        when(userOutputPort.save(any(User.class))).thenReturn(user);
-        doNothing().when(userMessageOutputPort).sendMessage(any(User.class));
+        when(userOutputPortMock.save(any(User.class))).thenReturn(user);
+        doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
-        userUseCases.updateUser(user);
+        userUseCasesMock.updateUser(user);
 
-        verify(userOutputPort).save(any(User.class));
-        verify(userMessageOutputPort).sendMessage(any(User.class));
+        verify(userOutputPortMock).save(any(User.class));
+        verify(userMessageOutputPortMock).sendMessage(any(User.class));
     }
 
     @Test
-    void testUpdateUser_ShouldThrowException() {
+    void test_UpdateUser_ShouldThrowException() {
         User user = new User();
         user.setName("John");
         user.setLastname("Smith");
         user.setEmail("jsmith@test.com");
         user.setActive(true);
 
-        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCases.updateUser(user));
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCasesMock.updateUser(user));
 
         assertEquals("Invalid User, id field must exist", exception.getMessage());
-        verify(userOutputPort, never()).save(any(User.class));
+        verify(userOutputPortMock, never()).save(any(User.class));
     }
 
     @Test
-    void testDeleteUser() {
+    void test_DeleteUser() {
         String userId = UUID.randomUUID().toString();
 
-        when(userOutputPort.delete(eq(userId))).thenReturn(true);
+        when(userOutputPortMock.delete(eq(userId))).thenReturn(true);
 
-        boolean isUserDeleted = userUseCases.deleteUser(userId);
+        boolean isUserDeleted = userUseCasesMock.deleteUser(userId);
 
         assertTrue(isUserDeleted);
-        verify(userOutputPort).delete(eq(userId));
+        verify(userOutputPortMock).delete(eq(userId));
     }
 
     @Test
-    void testDeleteUser_ShouldThrowException() {
-        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCases.deleteUser(null));
+    void test_DeleteUser_ShouldThrowException() {
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCasesMock.deleteUser(null));
 
         assertEquals("Invalid User, id field must exist", exception.getMessage());
-        verify(userOutputPort, never()).delete(anyString());
+        verify(userOutputPortMock, never()).delete(anyString());
     }
 }
