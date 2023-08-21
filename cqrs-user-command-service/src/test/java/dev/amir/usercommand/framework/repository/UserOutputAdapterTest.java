@@ -25,7 +25,7 @@ class UserOutputAdapterTest {
     @Mock
     private UserJpaRepository jpaRepositoryMock;
     @InjectMocks
-    private UserOutputAdapter userRepositoryMock;
+    private UserOutputAdapter userRepository;
 
     @Test
     void test_save_WithValidData() {
@@ -43,7 +43,7 @@ class UserOutputAdapterTest {
         when(jpaRepositoryMock.save(userJpa)).thenReturn(savedUserJpa);
         when(jpaMapperMock.convert(eq(savedUserJpa))).thenReturn(savedUser);
 
-        User actualSavedUser = userRepositoryMock.save(user);
+        User actualSavedUser = userRepository.save(user);
 
         assertEquals(savedUser.getId(), actualSavedUser.getId());
         verify(jpaMapperMock).convert(eq(user));

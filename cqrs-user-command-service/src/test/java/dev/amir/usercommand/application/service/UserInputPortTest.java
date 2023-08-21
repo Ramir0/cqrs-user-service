@@ -23,7 +23,7 @@ class UserInputPortTest {
     @Mock
     private UserMessageOutputPort userMessageOutputPortMock;
     @InjectMocks
-    private UserUseCases userUseCasesMock;
+    private UserUseCases userUseCases;
 
     @Test
     void test_CreateUser() {
@@ -40,7 +40,7 @@ class UserInputPortTest {
         doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
         // When
-        String newUserId = userUseCasesMock.createUser(user);
+        String newUserId = userUseCases.createUser(user);
 
         // Then
         assertTrue(StringUtils.hasText(newUserId));
@@ -57,7 +57,7 @@ class UserInputPortTest {
         user.setEmail("amir@test.com");
         user.setActive(true);
 
-        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCasesMock.createUser(user));
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCases.createUser(user));
 
         assertEquals("Invalid User, id field must be empty", exception.getMessage());
         verify(userOutputPortMock, never()).save(any(User.class));
@@ -75,7 +75,7 @@ class UserInputPortTest {
         when(userOutputPortMock.save(any(User.class))).thenReturn(user);
         doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
-        userUseCasesMock.updateUser(user);
+        userUseCases.updateUser(user);
 
         verify(userOutputPortMock).save(any(User.class));
         verify(userMessageOutputPortMock).sendMessage(any(User.class));
@@ -89,7 +89,7 @@ class UserInputPortTest {
         user.setEmail("jsmith@test.com");
         user.setActive(true);
 
-        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCasesMock.updateUser(user));
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCases.updateUser(user));
 
         assertEquals("Invalid User, id field must exist", exception.getMessage());
         verify(userOutputPortMock, never()).save(any(User.class));
@@ -101,7 +101,7 @@ class UserInputPortTest {
 
         when(userOutputPortMock.delete(eq(userId))).thenReturn(true);
 
-        boolean isUserDeleted = userUseCasesMock.deleteUser(userId);
+        boolean isUserDeleted = userUseCases.deleteUser(userId);
 
         assertTrue(isUserDeleted);
         verify(userOutputPortMock).delete(eq(userId));
@@ -109,7 +109,7 @@ class UserInputPortTest {
 
     @Test
     void test_DeleteUser_ShouldThrowException() {
-        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCasesMock.deleteUser(null));
+        var exception = assertThrows(IllegalArgumentException.class, () -> userUseCases.deleteUser(null));
 
         assertEquals("Invalid User, id field must exist", exception.getMessage());
         verify(userOutputPortMock, never()).delete(anyString());
