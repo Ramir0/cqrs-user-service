@@ -16,6 +16,8 @@
 - From command line **(cmd)** go to the project folder (the folder where the repository is cloned)
 - Once in the main project folder, open the **cqrs-user-query-service** folder and run the following command:
 	**docker-compose up -d**	
-- Go back to the main project folder, open the **cqrs-user-command-service** folder, eject the following command:
+- Go back to the main project folder, open the **cqrs-user-command-service** folder, run the following command:
 **docker-compose up -d**
+- Open the project folder in your preferred IDE
+- Run both projects using as the gradle task or following your preferred IDE default run process
 - When running the two projects (command, query) the port 8081 and 8082 appears without error in the editor console we can say that everything is fine.
