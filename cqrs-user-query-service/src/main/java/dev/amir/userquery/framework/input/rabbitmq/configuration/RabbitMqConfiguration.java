@@ -23,7 +23,7 @@ public class RabbitMqConfiguration {
 
     @Bean
     public Queue createUsersQueue() {
-      log.info("User queue created user name.");
+        log.info("User queue created user name.");
         return new Queue(usersQueue);
     }
 }

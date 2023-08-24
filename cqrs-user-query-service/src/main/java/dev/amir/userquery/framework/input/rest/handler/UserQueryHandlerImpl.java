@@ -19,15 +19,15 @@ public class UserQueryHandlerImpl implements UserQueryHandler {
 
     @Override
     public GetAllUsersResponse handle(GetAllUsersQuery query) {
-          log.info("Handling GetAllUsersQuery.");
+        log.info("Handling GetAllUsersQuery.");
         return new GetAllUsersResponse(userInputPort.getAllUsers());
     }
 
     @Override
     public GetUserByIdResponse handle(GetUserByIdQuery query) {
-          log.info("Handling GetUserByIdQuery for userId.");
-          log.debug("Processing GetUserByIdQuery for userId");
-          log.warn("User lookup triggered for userId");
+        log.info("Handling GetUserByIdQuery for userId.");
+        log.debug("Processing GetUserByIdQuery for userId");
+        log.warn("User lookup triggered for userId");
         GetUserByIdResponse response = new GetUserByIdResponse();
         userInputPort.getUserById(query.getUserId()).ifPresent(response::setUser);
         return response;
