@@ -8,5 +8,6 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserJpaMapper {
     UserJpa convert(User user);
+
     User convert(UserJpa userJpa);
 }
