@@ -6,6 +6,7 @@ import dev.amir.usercommand.framework.input.rest.command.UpdateUserCommand;
 import dev.amir.usercommand.framework.input.rest.handler.UserCommandHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,17 +28,22 @@ public class UserController {
         log.info("Received request to create a user.");
         String newUserId = commandHandler.handle(command);
 
-        log.info("User with ID: {} created",newUserId);
+        log.info("User with ID: {} created", newUserId);
         return ResponseEntity.ok(newUserId);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable String id, @RequestBody UpdateUserCommand command) {
         log.info("Received request to update");
-        commandHandler.handle(command, id);
 
-        log.info("User with ID {} updated",id);
-        return ResponseEntity.ok().build();
+        try {
+            commandHandler.handle(command, id);
+            log.info("User with ID {} updated", id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("Error updating user with ID {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("/{id}")

@@ -5,11 +5,11 @@ import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.mapper.UserJpaMapper;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,10 +22,10 @@ public class UserOutputAdapter implements UserOutputPort {
     @Override
     public User save(User user) {
         log.info("Saving user...");
-        User savedUSer = jpaMapper.convert(jpaRepository.save(jpaMapper.convert(user)));
+        User savedUser = jpaMapper.convert(jpaRepository.save(jpaMapper.convert(user)));
 
-        log.info("User: {} Saved",savedUSer.getName());
-        return savedUSer;
+        log.info("User: {} Saved", savedUser.getName());
+        return savedUser;
     }
 
     @Override
