@@ -6,8 +6,10 @@ import dev.amir.userquery.domain.entity.User;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserUseCases implements UserInputPort {
@@ -15,11 +17,34 @@ public class UserUseCases implements UserInputPort {
 
     @Override
     public Collection<User> getAllUsers() {
-        return userOutputPort.getAll();
+        log.info("Getting all users");
+        try {
+            Collection<User> users = userOutputPort.getAll();
+            log.info("Users quantity: {}", users.size());
+            return users;
+        } catch (Exception e) {
+            log.warn("Error while getting all users: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public Optional<User> getUserById(String userId) {
-        return userOutputPort.getById(userId);
+        log.info("Getting user");
+        try {
+            Optional<User> user = userOutputPort.getById(userId);
+
+            if (user.isPresent()) {
+                log.info("User with ID {} ", userId);
+            } else {
+                log.info("User with ID {} not found", userId);
+            }
+
+            return user;
+        } catch (Exception e) {
+            log.warn("Error while getting user with ID {}: {}", userId, e.getMessage());
+            return Optional.empty();
+        }
     }
+
 }
