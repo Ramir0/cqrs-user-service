@@ -37,13 +37,7 @@ public class UserCommandHandlerImpl implements UserCommandHandler {
     @Override
     public boolean handle(DeleteUserCommand command, String userId) {
         boolean deleted = userInputPort.deleteUser(userId);
-
-        if (deleted) {
-            log.info("User with ID {} deleted", userId);
-        } else {
-            log.warn("Failed to delete user");
-        }
-
+        log.info("verifying deletion of user with ID {} ", userId);
         return deleted;
     }
 }

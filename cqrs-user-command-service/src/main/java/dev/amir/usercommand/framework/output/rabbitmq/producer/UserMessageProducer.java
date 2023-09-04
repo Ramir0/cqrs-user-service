@@ -22,8 +22,10 @@ public class UserMessageProducer implements UserMessageOutputPort {
 
     @Override
     public void sendMessage(User user) {
+        log.info("Preparing to send message");
         SaveUserMessage message = userMessageMapper.convert(user);
         rabbitTemplate.convertAndSend(usersQueue, message);
-        log.info("Message sent for user: {}", user.getName());
+        log.info("Message sent for user: ID={}, Name={}, Email={}",
+                user.getId(), user.getName(), user.getEmail());
     }
 }

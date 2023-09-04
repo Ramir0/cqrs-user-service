@@ -24,7 +24,7 @@ public class UserOutputAdapter implements UserOutputPort {
         log.info("Saving user...");
         User savedUser = jpaMapper.convert(jpaRepository.save(jpaMapper.convert(user)));
 
-        log.info("User: {} Saved", savedUser.getName());
+        log.info("User with ID: {} and name: {} has been successfully saved", savedUser.getId(), savedUser.getName());
         return savedUser;
     }
 
@@ -34,7 +34,7 @@ public class UserOutputAdapter implements UserOutputPort {
 
         if (userToDelete.isPresent()) {
             jpaRepository.deleteById(userId);
-            log.info("User deleted with ID: {}", userId);
+            log.info("Eliminating user");
             return true;
         } else {
             log.warn("User not found, deletion skipped.");

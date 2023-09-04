@@ -28,7 +28,7 @@ public class UserController {
         log.info("Received request to create a user.");
         String newUserId = commandHandler.handle(command);
 
-        log.info("User with ID: {} created", newUserId);
+        log.info("User with ID {} has been successfully created", newUserId);
         return ResponseEntity.ok(newUserId);
     }
 
@@ -38,7 +38,7 @@ public class UserController {
 
         try {
             commandHandler.handle(command, id);
-            log.info("User with ID {} updated", id);
+            log.info("User with ID {} has been successfully update", id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             log.error("Error updating user with ID {}: {}", id, e.getMessage(), e);
@@ -52,9 +52,9 @@ public class UserController {
         boolean isUserDeleted = commandHandler.handle(new DeleteUserCommand(), id);
 
         if (isUserDeleted) {
-            log.info("User with ID {} deleted", id);
+            log.info("User with ID {} has been successfully deleted", id);
         } else {
-            log.warn("Failed to delete user with ID {}", id);
+            log.warn("An unexpected error occurred while deleting the user");
         }
 
         return ResponseEntity.ok(isUserDeleted);
