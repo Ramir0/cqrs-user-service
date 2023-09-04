@@ -4,6 +4,7 @@ import dev.amir.userquery.application.port.input.UserInputPort;
 import dev.amir.userquery.application.port.output.UserOutputPort;
 import dev.amir.userquery.domain.entity.User;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +24,8 @@ public class UserUseCases implements UserInputPort {
             log.info("Users quantity: {}", users.size());
             return users;
         } catch (Exception e) {
-            log.warn("Error while getting all users: {}", e.getMessage());
-            throw e;
+            log.error("Error while getting all users: {}", e);
+            return Collections.emptyList();
         }
     }
 
@@ -42,7 +43,7 @@ public class UserUseCases implements UserInputPort {
 
             return user;
         } catch (Exception e) {
-            log.warn("Error while getting user with ID {}: {}", userId, e.getMessage());
+            log.error("Error while getting user with ID {}: {}", userId, e.getMessage());
             return Optional.empty();
         }
     }
