@@ -24,7 +24,7 @@ public class UserUseCases implements UserInputPort {
             log.info("Users quantity: {}", users.size());
             return users;
         } catch (Exception e) {
-            log.error("Error while getting all users ", e);
+            log.error("Error while getting all users", e);
             return Collections.emptyList();
         }
     }
@@ -43,7 +43,7 @@ public class UserUseCases implements UserInputPort {
 
             return user;
         } catch (Exception e) {
-            log.error("Error while getting user",e);
+            log.error("Error while getting user", e);
             return Optional.empty();
         }
     }
