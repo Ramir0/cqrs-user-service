@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    default: test
+  mongodb: # Use an in-memory MongoDB for tests
+    embedded:
+      version: 4.0.2
+  rabbitmq:
+    queues:
+      users-queue: q.users  # Test queue
