@@ -22,13 +22,11 @@ public class UserController {
     @GetMapping
     public ResponseEntity<GetAllUsersResponse> getAllUsers() {
         log.info("Received request to get all users.");
-        log.debug("Calling userQueryHandler to handle GetAllUsersQuery.");
         return ResponseEntity.ok(userQueryHandler.handle(new GetAllUsersQuery()));
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<GetUserByIdResponse> getUserById(GetUserByIdQuery query) {
-        log.info("Received request to get user by ID: {}.");
         log.debug("Calling userQueryHandler to handle GetUserByIdQuery.");
         return ResponseEntity.ok(userQueryHandler.handle(query));
     }

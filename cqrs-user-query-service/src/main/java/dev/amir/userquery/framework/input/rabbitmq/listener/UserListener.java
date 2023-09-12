@@ -15,10 +15,10 @@ public class UserListener {
 
     @RabbitListener(queues = {"${spring.rabbitmq.queues.users-queue}"})
     public void onSaveUser(SaveUserMessage message) {
-        log.info("Received SaveUserMessage: {}.");
-        
+        log.info("Received SaveUserMessage with ID: {}.", message.getId());
+
         userMessageHandler.handle(message);
         
-        log.debug("Handling the SaveUserMessage for user with ID: {}.");
+        log.debug("SaveUserMessage with ID {} handled successfully.", message.getId());
     }
 }
