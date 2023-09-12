@@ -6,12 +6,9 @@ dependencies {
   compileOnly 'org.projectlombok:lombok'
   compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
 
-  developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
   annotationProcessor 'org.projectlombok:lombok'
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation "org.mockito:mockito-core:${mockitoVersion}"
-  testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }

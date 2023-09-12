@@ -30,14 +30,13 @@ class UserOutputAdapterTest {
     void test_save_WithValidData() {
         User user = new User();
         user.setName("Amir");
+        User savedUser = new User();
+        savedUser.setId(UUID.randomUUID().toString());
+
         UserJpa userJpa = new UserJpa();
         userJpa.setName("Amir");
-
-        String savedUserId = UUID.randomUUID().toString();
-        User savedUser = new User();
-        savedUser.setId(savedUserId);
         UserJpa savedUserJpa = new UserJpa();
-        savedUserJpa.setId(savedUserId);
+        savedUserJpa.setId(UUID.randomUUID().toString());
 
         when(jpaMapperMock.convert(eq(user))).thenReturn(userJpa);
         when(jpaRepositoryMock.save(userJpa)).thenReturn(savedUserJpa);
