@@ -34,13 +34,7 @@ public class UserUseCases implements UserInputPort {
         log.info("Getting user");
         try {
             Optional<User> user = userOutputPort.getById(userId);
-
-            if (user.isPresent()) {
-                log.info("User with ID {} ", userId);
-            } else {
-                log.info("User with ID {} not found", userId);
-            }
-
+            log.info("User with ID {} was found: {}", userId, user.isPresent());
             return user;
         } catch (Exception e) {
             log.error("Error while getting user", e);
