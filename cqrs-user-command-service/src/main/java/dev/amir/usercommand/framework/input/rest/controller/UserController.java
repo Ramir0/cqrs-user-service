@@ -41,7 +41,7 @@ public class UserController {
             log.info("User with ID {} has been successfully update", id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            log.error("Error updating user with ID {}: {}", id, e.getMessage(), e);
+            log.error("Error updating user with ID {}: {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
