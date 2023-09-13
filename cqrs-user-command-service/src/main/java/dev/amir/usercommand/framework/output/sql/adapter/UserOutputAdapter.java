@@ -34,7 +34,7 @@ public class UserOutputAdapter implements UserOutputPort {
 
         if (userToDelete.isPresent()) {
             jpaRepository.deleteById(userId);
-            log.info("Eliminating user");
+            log.info("Deleting user");
             return true;
         } else {
             log.warn("User not found, deletion skipped.");
