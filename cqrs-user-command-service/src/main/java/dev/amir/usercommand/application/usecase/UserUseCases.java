@@ -44,11 +44,11 @@ public class UserUseCases implements UserInputPort {
 
     @Override
     public boolean deleteUser(String userId) {
-        log.info("Attempting to delete user with ID: " + userId);
+        log.info("Attempting to delete user with id: " + userId);
         if (!StringUtils.hasText(userId)) {
             throw new IllegalArgumentException("Invalid User, id field must exist");
         }
-        log.info("User deletion request accepted ID:" + userId);
+        log.info("User successfully deleted with id" + userId);
         return userOutputPort.delete(userId);
     }
 }
