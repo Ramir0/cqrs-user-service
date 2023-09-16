@@ -17,11 +17,11 @@ public class UserMessageHandlerImpl implements UserMessageHandler {
 
     @Override
     public void handle(SaveUserMessage message) {
-        log.info("Handling incoming message: {}.", message);
+        log.info("Handling incoming message: {}.", message.id());
 
         User user = userMessageMapper.convert(message);
         userCommandInputPort.createUser(user);
         
-        log.info("Message with ID {} handled successfully.", message);
+        log.info("Message with ID {} handled successfully.", message.id());
     }
 }
