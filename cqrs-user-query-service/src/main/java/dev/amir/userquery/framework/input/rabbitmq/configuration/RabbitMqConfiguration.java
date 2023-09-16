@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMqConfiguration {
     @Value("${spring.rabbitmq.queues.users-queue}")
     private String usersQueue;
-    
+
     @Bean
     public Jackson2JsonMessageConverter converter() {
         log.info("Configuring Jackson2JsonMessageConverter bean.");

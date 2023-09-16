@@ -5,8 +5,8 @@ import dev.amir.userquery.framework.input.rest.query.GetAllUsersQuery;
 import dev.amir.userquery.framework.input.rest.query.GetUserByIdQuery;
 import dev.amir.userquery.framework.input.rest.response.GetAllUsersResponse;
 import dev.amir.userquery.framework.input.rest.response.GetUserByIdResponse;
-import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<GetUserByIdResponse> getUserById(GetUserByIdQuery query) {
-        log.debug("Calling userQueryHandler to handle GetUserByIdQuery.");
+        log.debug("Received request to get user by ID.");
         return ResponseEntity.ok(userQueryHandler.handle(query));
     }
 }

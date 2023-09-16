@@ -30,15 +30,15 @@ public class UserOutputAdapter implements UserOutputPort {
 
     @Override
     public Optional<User> getById(String userId) {
-        log.info("Getting user by ID: {} from the database.", userId);
+        log.info("Getting user by ID {} from the database.", userId);
         return userMongoRepository.findById(userId).map(userMongoMapper::convert);
     }
 
     @Override
     public User save(User user) {
-        log.info("Saving user in the database: {}.", user);
+        log.info("Saving user with ID {} in the database.", user.getId());
         UserMongo savedUser = userMongoRepository.save(userMongoMapper.convert(user));
-        log.info("User saved in the database with ID: {}.", savedUser.getId());
+        log.info("User with ID {} saved in the database.", savedUser.getId());
         return userMongoMapper.convert(savedUser);
     }
 }
