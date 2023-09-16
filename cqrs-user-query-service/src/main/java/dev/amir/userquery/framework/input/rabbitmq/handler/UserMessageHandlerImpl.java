@@ -16,6 +16,6 @@ public class UserMessageHandlerImpl implements UserMessageHandler {
     @Override
     public void handle(SaveUserMessage message) {
         User user = userMessageMapper.convert(message);
-        userCommandInputPort.createUser(user);
+        userCommandInputPort.saveUser(user);
     }
 }
