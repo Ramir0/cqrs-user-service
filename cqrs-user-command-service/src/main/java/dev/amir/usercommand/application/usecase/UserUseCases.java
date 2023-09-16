@@ -25,7 +25,7 @@ public class UserUseCases implements UserInputPort {
         }
 
         User savedUser = userOutputPort.save(user);
-        log.info("User successfully created and saved with id: " + savedUser.getId());
+        log.info("User successfully created and saved with ID: {}", savedUser.getId());
         userMessageOutputPort.sendMessage(savedUser);
         return savedUser.getId();
     }
@@ -38,17 +38,17 @@ public class UserUseCases implements UserInputPort {
         }
 
         User savedUser = userOutputPort.save(user);
-        log.info("User successfully updated with id: " + savedUser.getId());
+        log.info("User successfully updated with ID: {}", savedUser.getId());
         userMessageOutputPort.sendMessage(savedUser);
     }
 
     @Override
     public boolean deleteUser(String userId) {
-        log.info("Attempting to delete user with id: " + userId);
+        log.info("Attempting to delete user with ID: {}", userId);
         if (!StringUtils.hasText(userId)) {
             throw new IllegalArgumentException("Invalid User, id field must exist");
         }
-        log.info("User successfully deleted with id" + userId);
+        log.info("User successfully deleted with ID: {}", userId);
         return userOutputPort.delete(userId);
     }
 }
