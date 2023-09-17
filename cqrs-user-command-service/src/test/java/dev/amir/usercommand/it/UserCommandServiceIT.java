@@ -42,10 +42,11 @@ public class UserCommandServiceIT {
         when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPort).sendMessage(any());
 
+        String body = new String(getClass().getResourceAsStream("/responses/create-users-response.json").readAllBytes(), StandardCharsets.UTF_8);
+
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
                         .post("/user")
-                        .content(new String(getClass().getResourceAsStream("/responses/create-users-response.json")
-                                .readAllBytes(), StandardCharsets.UTF_8))
+                        .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -81,10 +82,11 @@ public class UserCommandServiceIT {
         when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPort).sendMessage(any());
 
+        String body = new String(getClass().getResourceAsStream("/responses/update-users-response.json").readAllBytes(), StandardCharsets.UTF_8);
+
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/user/{id}", expectedUUID)
-                        .content(new String(getClass().getResourceAsStream("/responses/update-users-response.json")
-                                .readAllBytes(), StandardCharsets.UTF_8))
+                        .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
