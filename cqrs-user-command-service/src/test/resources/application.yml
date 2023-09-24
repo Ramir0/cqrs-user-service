@@ -11,6 +11,11 @@ spring:
     platform: h2
   flyway:
     enabled: false  # Disable Flyway for tests
+  retry:
+    max-attempts: 1  # Only one attempt for testing purposes
+    initial-interval: 1000
+    multiplier: 2
+    max-interval: 30000
   rabbitmq:
     queues:
       users-queue: q.users  # Test queue

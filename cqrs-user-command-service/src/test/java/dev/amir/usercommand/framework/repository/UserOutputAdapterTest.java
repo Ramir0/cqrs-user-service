@@ -33,9 +33,9 @@ class UserOutputAdapterTest {
         UserJpa userJpa = new UserJpa();
         userJpa.setName("Amir");
 
-        String savedUserId = UUID.randomUUID().toString();
+        UUID savedUserId = UUID.randomUUID();
         User savedUser = new User();
-        savedUser.setId(savedUserId);
+        savedUser.setId(savedUserId.toString());
         UserJpa savedUserJpa = new UserJpa();
         savedUserJpa.setId(savedUserId);
 

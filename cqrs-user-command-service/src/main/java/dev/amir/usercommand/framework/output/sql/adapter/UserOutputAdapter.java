@@ -22,7 +22,8 @@ public class UserOutputAdapter implements UserOutputPort {
     @Override
     public User save(User user) {
         log.info("Saving user...");
-        User savedUser = jpaMapper.convert(jpaRepository.save(jpaMapper.convert(user)));
+        var userJpa = jpaMapper.convert(user);
+        User savedUser = jpaMapper.convert(jpaRepository.save(userJpa));
 
         log.info("User with ID: {} and name: {} has been successfully saved", savedUser.getId(), savedUser.getName());
         return savedUser;

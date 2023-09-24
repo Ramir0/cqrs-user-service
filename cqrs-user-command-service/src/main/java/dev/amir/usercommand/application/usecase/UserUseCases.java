@@ -3,7 +3,9 @@ package dev.amir.usercommand.application.usecase;
 import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
+import dev.amir.usercommand.application.retry.RetryExecutor;
 import dev.amir.usercommand.domain.entity.User;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -14,6 +16,7 @@ public class UserUseCases implements UserInputPort {
 
     private final UserOutputPort userOutputPort;
     private final UserMessageOutputPort userMessageOutputPort;
+    private final RetryExecutor retryExecutor;
 
     @Override
     public String createUser(User user) {
@@ -21,8 +24,9 @@ public class UserUseCases implements UserInputPort {
             throw new IllegalArgumentException("Invalid User, id field must be empty");
         }
 
-        User savedUser = userOutputPort.save(user);
-        userMessageOutputPort.sendMessage(savedUser);
+        user.setId(UUID.randomUUID().toString());
+        User savedUser = retryExecutor.execute(() -> userOutputPort.save(user));
+        retryExecutor.asyncExecute(() -> userMessageOutputPort.sendMessage(savedUser));
         return savedUser.getId();
     }
 
