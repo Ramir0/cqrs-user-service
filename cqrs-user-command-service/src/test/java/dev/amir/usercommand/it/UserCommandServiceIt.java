@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserCommandServiceIT {
+public class UserCommandServiceIt {
     @MockBean
     UserOutputPort userOutputPort;
     @MockBean
@@ -37,12 +37,13 @@ public class UserCommandServiceIT {
     @Test
     void createUserTest() throws Exception {
         User mockUser = new User();
-        String expectedUUID = UUID.randomUUID().toString();
-        mockUser.setId(expectedUUID);
+        String expectedUuid = UUID.randomUUID().toString();
+        mockUser.setId(expectedUuid);
         when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPort).sendMessage(any());
 
-        String body = new String(getClass().getResourceAsStream("/responses/create-users-response.json").readAllBytes(), StandardCharsets.UTF_8);
+        String body = new String(getClass().getResourceAsStream("/responses/create-users-response.json")
+                .readAllBytes(), StandardCharsets.UTF_8);
 
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
                         .post("/user")
@@ -52,7 +53,7 @@ public class UserCommandServiceIT {
                 .andReturn();
 
         String newUserId = response.getResponse().getContentAsString();
-        assertEquals(expectedUUID, newUserId);
+        assertEquals(expectedUuid, newUserId);
 
         verify(userOutputPort).save(any(User.class));
         verify(userMessageOutputPort).sendMessage(any(User.class));
@@ -60,32 +61,33 @@ public class UserCommandServiceIT {
 
     @Test
     public void deleteUserTest() throws Exception {
-        String expectedUUID = UUID.randomUUID().toString();
+        String expectedUuid = UUID.randomUUID().toString();
         when(userOutputPort.delete(any(String.class))).thenReturn(true);
 
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/user/{id}", expectedUUID))
+                        .delete("/user/{id}", expectedUuid))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String result = response.getResponse().getContentAsString();
         assertEquals("true", result);
 
-        verify(userOutputPort).delete(eq(expectedUUID));
+        verify(userOutputPort).delete(eq(expectedUuid));
     }
 
     @Test
     void updateUserTest() throws Exception {
         User mockUser = new User();
-        String expectedUUID = UUID.randomUUID().toString();
-        mockUser.setId(expectedUUID);
+        String expectedUuid = UUID.randomUUID().toString();
+        mockUser.setId(expectedUuid);
         when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPort).sendMessage(any());
 
-        String body = new String(getClass().getResourceAsStream("/responses/update-users-response.json").readAllBytes(), StandardCharsets.UTF_8);
+        String body = new String(getClass().getResourceAsStream("/responses/update-users-response.json")
+                .readAllBytes(), StandardCharsets.UTF_8);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/user/{id}", expectedUUID)
+                        .put("/user/{id}", expectedUuid)
                         .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
