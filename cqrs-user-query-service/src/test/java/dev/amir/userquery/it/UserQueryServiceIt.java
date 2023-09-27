@@ -1,0 +1,90 @@
+package dev.amir.userquery.it;
+
+import dev.amir.userquery.application.port.output.UserOutputPort;
+import dev.amir.userquery.domain.entity.User;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class UserQueryServiceIt {
+
+    @MockBean
+    UserOutputPort userOutputPort;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void getAllUsersTest() throws Exception {
+
+        List<User> mockUsers = Arrays.asList(
+                new User() {{
+                    setId("1");
+                    setName("kevin");
+                }},
+                new User() {{
+                    setId("2");
+                    setName("john");
+                }}
+        );
+
+        when(userOutputPort.getAll()).thenReturn(mockUsers);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/user")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()) //
+                .andExpect(jsonPath("$.users[0].name").value("kevin"))
+                .andExpect(jsonPath("$.users[1].name").value("john"))
+                .andExpect(jsonPath("$.users[0].id").value("1"))
+                .andExpect(jsonPath("$.users[1].id").value("2"))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+
+        assertTrue(content.contains("kevin"));
+        assertTrue(content.contains("john"));
+        verify(userOutputPort).getAll();
+    }
+
+    @Test
+    public void getUsersByIdTest() throws Exception {
+        User mockUser = new User();
+        String expectedUuid = UUID.randomUUID().toString();
+        mockUser.setName("kevin");
+        mockUser.setId(expectedUuid);
+        when(userOutputPort.getById(expectedUuid)).thenReturn(Optional.of(mockUser));
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}", expectedUuid)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.user.name").value("kevin"))
+                .andExpect(jsonPath("$.user.id").value(expectedUuid))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+
+        assertTrue(content.contains("kevin"));
+        assertNotNull(content);
+        verify(userOutputPort).getById(any());
+    }
+}
