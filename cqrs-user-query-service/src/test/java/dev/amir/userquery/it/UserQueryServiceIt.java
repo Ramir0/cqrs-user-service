@@ -13,12 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,19 +47,13 @@ public class UserQueryServiceIt {
 
         when(userOutputPort.getAll()).thenReturn(mockUsers);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/user")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()) //
+        mockMvc.perform(MockMvcRequestBuilders.get("/user").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.users[0].name").value("kevin"))
                 .andExpect(jsonPath("$.users[1].name").value("john"))
                 .andExpect(jsonPath("$.users[0].id").value("1"))
-                .andExpect(jsonPath("$.users[1].id").value("2"))
-                .andReturn();
+                .andExpect(jsonPath("$.users[1].id").value("2"));
 
-        String content = result.getResponse().getContentAsString();
-
-        assertTrue(content.contains("kevin"));
-        assertTrue(content.contains("john"));
         verify(userOutputPort).getAll();
     }
 
@@ -74,17 +65,12 @@ public class UserQueryServiceIt {
         mockUser.setId(expectedUuid);
         when(userOutputPort.getById(expectedUuid)).thenReturn(Optional.of(mockUser));
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}", expectedUuid)
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}", expectedUuid)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.user.name").value("kevin"))
                 .andExpect(jsonPath("$.user.id").value(expectedUuid))
-                .andExpect(status().isOk())
-                .andReturn();
+                .andExpect(status().isOk());
 
-        String content = result.getResponse().getContentAsString();
-
-        assertTrue(content.contains("kevin"));
-        assertNotNull(content);
-        verify(userOutputPort).getById(any());
+        verify(userOutputPort).getById(eq(expectedUuid));
     }
 }
