@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -63,7 +64,7 @@ public class UserQueryServiceIt {
         String expectedUuid = UUID.randomUUID().toString();
         mockUser.setName("kevin");
         mockUser.setId(expectedUuid);
-        when(userOutputPort.getById(expectedUuid)).thenReturn(Optional.of(mockUser));
+        when(userOutputPort.getById(any(String.class))).thenReturn(Optional.of(mockUser));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}", expectedUuid)
                         .contentType(MediaType.APPLICATION_JSON))
