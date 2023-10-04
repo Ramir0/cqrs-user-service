@@ -26,16 +26,16 @@ subprojects {
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
   }
 
-  tasks.register('stage') {
-    dependsOn 'bootJar'
-  }
-
   test {
     useJUnitPlatform()
   }
 }
 
 allprojects {
+  tasks.register('stage') {
+    dependsOn('clean', 'build')
+  }
+
   repositories {
     mavenCentral()
     mavenLocal()
