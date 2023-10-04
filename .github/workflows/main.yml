@@ -28,16 +28,20 @@ jobs:
       - name: Build
         run: ./gradlew build -x test
 
-      - name: Checkstyle Report
-        uses: jwgmeligmeyling/checkstyle-github-action@master
-        with:
-          path: '**/checkstyle-result.xml'
-
       - name: Unit Tests
         run: ./gradlew test
 
       - name: Integration Tests
         run: ./gradlew integrationTest
+
+      - name: Checkstyle Report
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        with:
+          paths: |
+            ${{ github.workspace }}cqrs-user-command-service/build/reports/checkstyle/test.xml,
+            ${{ github.workspace }}cqrs-user-command-service/build/reports/checkstyle/main.xml,
+            ${{ github.workspace }}cqrs-user-query-service/build/reports/checkstyle/test.xml,
+            ${{ github.workspace }}cqrs-user-query-service/build/reports/checkstyle/main.xml
 
       - name: Command Service Code Coverage Report
         run: .\gradlew :cqrs-user-command-service:jacocoTestReport
