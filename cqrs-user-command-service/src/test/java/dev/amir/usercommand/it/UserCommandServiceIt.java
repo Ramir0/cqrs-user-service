@@ -3,8 +3,10 @@ package dev.amir.usercommand.it;
 import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import org.assertj.core.util.Files;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.ResourceUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,12 +45,10 @@ public class UserCommandServiceIt {
         when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPort).sendMessage(any());
 
-        String body = new String(getClass().getResourceAsStream("/responses/create-users-response.json")
-                .readAllBytes(), StandardCharsets.UTF_8);
-
+        File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
                         .post("/user")
-                        .content(body)
+                        .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -83,12 +84,10 @@ public class UserCommandServiceIt {
         when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPort).sendMessage(any());
 
-        String body = new String(getClass().getResourceAsStream("/responses/update-users-response.json")
-                .readAllBytes(), StandardCharsets.UTF_8);
-
+        File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/user/{id}", expectedUuid)
-                        .content(body)
+                        .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
