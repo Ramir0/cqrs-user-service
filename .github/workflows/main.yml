@@ -1,5 +1,3 @@
-name: Build Spring Boot Application
-
 on:
   push:
     branches: [ main ]
@@ -60,15 +58,6 @@ jobs:
       - name: Unit Tests
         run: ./gradlew test
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          files: |
-            **/cqrs-user-command-service/build/test-results/**/*.xml
-            **/cqrs-user-command-service/build/test-results/test-results/**/*.trx
-            **/cqrs-user-command-service/build/test-results/test-results/**/*.json
-
       - name: Command Service Code Coverage Report
         run: ./gradlew 'cqrs-user-command-service:jacocoTestReport'
 
@@ -92,7 +81,7 @@ jobs:
 
   run-integration-tests:
     name: Run Integration Tests
-    needs: build-project
+    needs: run-unit-tests
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -113,3 +102,12 @@ jobs:
 
       - name: Integration Tests
         run: ./gradlew integrationTest
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            **/cqrs-user-command-service/build/test-results/**/*.xml
+            **/cqrs-user-command-service/build/test-results/**/*.trx
+            **/cqrs-user-command-service/build/test-results/**/*.json
