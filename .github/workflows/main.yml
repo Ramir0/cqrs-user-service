@@ -60,6 +60,15 @@ jobs:
       - name: Unit Tests
         run: ./gradlew test
 
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            **/cqrs-user-command-service/build/test-results/**/*.xml
+            **/cqrs-user-command-service/build/test-results/test-results/**/*.trx
+            **/cqrs-user-command-service/build/test-results/test-results/**/*.json
+
       - name: Command Service Code Coverage Report
         run: ./gradlew 'cqrs-user-command-service:jacocoTestReport'
 
