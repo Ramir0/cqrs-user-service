@@ -17,13 +17,13 @@ public class UserQueryHandlerImpl implements UserQueryHandler {
 
     @Override
     public GetAllUsersResponse handle(GetAllUsersQuery query) {
-        log.info("Handling all users query.");
+        log.info("Handling all users query");
         return new GetAllUsersResponse(userInputPort.getAllUsers());
     }
 
     @Override
     public GetUserByIdResponse handle(GetUserByIdQuery query) {
-        log.info("Handling user by ID: {}.", query.getUserId());
+        log.info("Handling user by ID: {}", query.getUserId());
         GetUserByIdResponse response = new GetUserByIdResponse();
         userInputPort.getUserById(query.getUserId()).ifPresent(response::setUser);
         return response;
