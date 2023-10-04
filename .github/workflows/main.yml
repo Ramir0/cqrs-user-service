@@ -1,0 +1,94 @@
+name: User Services
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-project:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      checks: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Grant execute permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Build
+        run: ./gradlew build -x test
+
+      - name: Checkstyle Report
+        uses: Juuxel/publish-checkstyle-report@v1
+        if: ${{ failure() || success() }}
+        with:
+          reports: |
+            **/build/reports/checkstyle/*.xml
+
+  run-unit-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: build-project
+    permissions:
+      pull-requests: write
+      checks: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Grant execute permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Run Unit Tests
+        run: ./gradlew test
+
+      - name: Run Integration Tests
+        run: ./gradlew integrationTest
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            **/cqrs-user-command-service/build/test-results/**/*.xml
+            **/cqrs-user-command-service/build/test-results/**/*.trx
+            **/cqrs-user-command-service/build/test-results/**/*.json
+
+      - name: Generate Command Service Code Coverage Report
+        run: ./gradlew 'cqrs-user-command-service:jacocoTestReport'
+
+      - name: Generate Query Service Code Coverage Report
+        run: ./gradlew 'cqrs-user-query-service:jacocoTestReport'
+
+      - name: Add Code Coverage Results to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: |
+            ${{ github.workspace }}/cqrs-user-command-service/build/reports/jacoco/test/jacocoTestReport.xml,
+            ${{ github.workspace }}/cqrs-user-query-service/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
+          title: '### :lobster: Coverage Report'
+          pass-emoji: ':green_circle:'
+          fail-emoji: ':red_circle:'
+          update-comment: true
