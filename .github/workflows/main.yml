@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  build-deploy:
+  build-project:
     name: Build User Services
     runs-on: ubuntu-latest
     permissions:
@@ -28,18 +28,34 @@ jobs:
       - name: Build
         run: ./gradlew build -x test
 
-      - name: Checkstyle report
+      - name: Checkstyle Report
         uses: Juuxel/publish-checkstyle-report@v1
         if: ${{ failure() || success() }}
         with:
           reports: |
             **/build/reports/checkstyle/*.xml
 
+  run-unit-tests:
+    needs: build-project
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Grant execute permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Setup
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
       - name: Unit Tests
         run: ./gradlew test
-
-      - name: Integration Tests
-        run: ./gradlew integrationTest
 
       - name: Command Service Code Coverage Report
         run: ./gradlew 'cqrs-user-command-service:jacocoTestReport'
@@ -57,3 +73,25 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
+
+  run-integration-tests:
+    needs: build-project
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Grant execute permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Setup
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Integration Tests
+        run: ./gradlew integrationTest
