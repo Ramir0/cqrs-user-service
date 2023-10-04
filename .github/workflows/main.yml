@@ -1,3 +1,5 @@
+name: User Services
+
 on:
   push:
     branches: [ main ]
@@ -5,7 +7,7 @@ on:
 
 jobs:
   build-project:
-    name: Build User Services
+    name: Build
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -74,7 +76,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
-          title: '# :lobster: Coverage Report'
+          title: '### :lobster: Coverage Report'
           pass-emoji: ':green_circle:'
           fail-emoji: ':red_circle:'
           update-comment: true
