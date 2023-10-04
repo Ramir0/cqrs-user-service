@@ -34,6 +34,14 @@ subprojects {
     toolVersion = "${jacocoVersion}"
   }
 
+  jacocoTestReport {
+    description = "Generate Jacoco coverage reports for the test build."
+    reports {
+      html.required.set(true)
+      xml.required.set(true)
+    }
+  }
+
   test {
     useJUnitPlatform()
     filter.includePatterns = ['*Test']
