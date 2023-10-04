@@ -1,0 +1,57 @@
+name: Build Spring Boot Application
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-deploy:
+    name: Build User Services
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Grant execute permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Setup
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Build
+        run: ./gradlew build -x test
+
+      - name: Checkstyle Report
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        with:
+          path: '**/checkstyle-result.xml'
+
+      - name: Unit Tests
+        run: ./gradlew test
+
+      - name: Integration Tests
+        run: ./gradlew integrationTest
+
+      - name: Command Service Code Coverage Report
+        run: .\gradlew :cqrs-user-command-service:jacocoTestReport
+
+      - name: Query Service Code Coverage Report
+        run: .\gradlew :cqrs-user-query-service:jacocoTestReport
+
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: |
+            ${{ github.workspace }}cqrs-user-command-service/build/reports/jacoco/test/jacocoTestReport.xml,
+            ${{ github.workspace }}cqrs-user-query-service/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
