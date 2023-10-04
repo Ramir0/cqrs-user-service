@@ -3,8 +3,6 @@ plugins {
   id 'io.spring.dependency-management' version "${springDependencyManagementPluginVersion}" apply false
 }
 
-tasks.register('stage') {}
-
 subprojects {
   group = 'dev.amir'
   version = '1.0.0'
@@ -26,10 +24,6 @@ subprojects {
   checkstyle {
     toolVersion = "${checkstyleVersion}"
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
-  }
-
-  tasks.register('stage') {
-    dependsOn('clean', 'build')
   }
 
   test {
