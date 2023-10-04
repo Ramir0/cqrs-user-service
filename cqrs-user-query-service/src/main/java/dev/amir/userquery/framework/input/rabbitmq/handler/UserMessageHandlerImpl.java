@@ -19,7 +19,7 @@ public class UserMessageHandlerImpl implements UserMessageHandler {
     public void handle(SaveUserMessage message) {
         log.info("Handling message with ID: {}.", message.id());
         User user = userMessageMapper.convert(message);
-        userCommandInputPort.createUser(user);
+        userCommandInputPort.saveUser(user);
         log.info("Message with ID {} handled successfully.", message.id());
     }
 }

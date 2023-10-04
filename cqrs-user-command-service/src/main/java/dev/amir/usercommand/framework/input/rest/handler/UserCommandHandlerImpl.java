@@ -7,8 +7,10 @@ import dev.amir.usercommand.framework.input.rest.command.DeleteUserCommand;
 import dev.amir.usercommand.framework.input.rest.command.UpdateUserCommand;
 import dev.amir.usercommand.framework.input.rest.mapper.UserCommandMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class UserCommandHandlerImpl implements UserCommandHandler {
@@ -17,7 +19,11 @@ public class UserCommandHandlerImpl implements UserCommandHandler {
 
     @Override
     public String handle(CreateUserCommand createUserCommand) {
-        return userInputPort.createUser(commandMapper.convert(createUserCommand));
+        User user = commandMapper.convert(createUserCommand);
+        String userId = userInputPort.createUser(user);
+
+        log.info("User with ID: {} created", userId);
+        return userId;
     }
 
     @Override
@@ -25,10 +31,13 @@ public class UserCommandHandlerImpl implements UserCommandHandler {
         User user = commandMapper.convert(updateUserCommand);
         user.setId(userId);
         userInputPort.updateUser(user);
+        log.info("User  with ID: {} Updated", userId);
     }
 
     @Override
     public boolean handle(DeleteUserCommand command, String userId) {
-        return userInputPort.deleteUser(userId);
+        boolean deleted = userInputPort.deleteUser(userId);
+        log.info("verifying deletion of user with ID {} ", userId);
+        return deleted;
     }
 }
