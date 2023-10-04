@@ -36,6 +36,13 @@ subprojects {
 
   test {
     useJUnitPlatform()
+    filter.includePatterns = ['*Test']
+    filter.excludePatterns = ['*It']
+  }
+
+  tasks.register('integrationTest', Test) {
+    useJUnitPlatform()
+    filter.includePatterns = ['*It']
   }
 }
 
