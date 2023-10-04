@@ -26,6 +26,10 @@ subprojects {
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
   }
 
+  tasks.register('stage') {
+    dependsOn 'bootJar'
+  }
+
   test {
     useJUnitPlatform()
   }
