@@ -28,31 +28,18 @@ jobs:
       - name: Build
         run: ./gradlew build -x test
 
+      - name: Publish Checkstyle report
+        uses: Juuxel/publish-checkstyle-report@v1
+        if: ${{ failure() || success() }}
+        with:
+          reports: |
+            **/build/reports/checkstyle/*.xml
+
       - name: Unit Tests
         run: ./gradlew test
 
       - name: Integration Tests
         run: ./gradlew integrationTest
-
-      - name: Checkstyle User Command Test Report
-        uses: jwgmeligmeyling/checkstyle-github-action@master
-        with:
-          path: '**/cqrs-user-command-service/build/reports/checkstyle/test.xml'
-
-      - name: Checkstyle User Command Main Report
-        uses: jwgmeligmeyling/checkstyle-github-action@master
-        with:
-          path: '**/cqrs-user-command-service/build/reports/checkstyle/main.xml'
-
-      - name: Checkstyle User Query Test Report
-        uses: jwgmeligmeyling/checkstyle-github-action@master
-        with:
-          path: '**/cqrs-user-query-service/build/reports/checkstyle/test.xml'
-
-      - name: Checkstyle User Query Main Report
-        uses: jwgmeligmeyling/checkstyle-github-action@master
-        with:
-          path: '**/cqrs-user-query-service/build/reports/checkstyle/main.xml'
 
       - name: Command Service Code Coverage Report
         run: .\gradlew 'cqrs-user-command-service:jacocoTestReport'
