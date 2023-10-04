@@ -37,22 +37,22 @@ jobs:
       - name: Checkstyle User Command Test Report
         uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          path: cqrs-user-command-service/build/reports/checkstyle/test.xml
+          path: '**/cqrs-user-command-service/build/reports/checkstyle/test.xml'
 
       - name: Checkstyle User Command Main Report
         uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          path: cqrs-user-command-service/build/reports/checkstyle/main.xml
+          path: '**/cqrs-user-command-service/build/reports/checkstyle/main.xml'
 
       - name: Checkstyle User Query Test Report
         uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          path: cqrs-user-query-service/build/reports/checkstyle/test.xml
+          path: '**/cqrs-user-query-service/build/reports/checkstyle/test.xml'
 
       - name: Checkstyle User Query Main Report
         uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          path: cqrs-user-query-service/build/reports/checkstyle/main.xml
+          path: '**/cqrs-user-query-service/build/reports/checkstyle/main.xml'
 
       - name: Command Service Code Coverage Report
         run: .\gradlew 'cqrs-user-command-service:jacocoTestReport'
