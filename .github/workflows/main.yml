@@ -19,7 +19,7 @@ jobs:
       - name: Grant execute permission for Gradlew
         run: chmod +x gradlew
 
-      - name: Setup
+      - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
@@ -44,10 +44,23 @@ jobs:
       pull-requests: write
       checks: write
     steps:
-      - name: Unit Tests
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Grant execute permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Run Unit Tests
         run: ./gradlew test
 
-      - name: Integration Tests
+      - name: Run Integration Tests
         run: ./gradlew integrationTest
 
       - name: Publish Test Results
@@ -59,13 +72,13 @@ jobs:
             **/cqrs-user-command-service/build/test-results/**/*.trx
             **/cqrs-user-command-service/build/test-results/**/*.json
 
-      - name: Command Service Code Coverage Report
+      - name: Generate Command Service Code Coverage Report
         run: ./gradlew 'cqrs-user-command-service:jacocoTestReport'
 
-      - name: Query Service Code Coverage Report
+      - name: Generate Query Service Code Coverage Report
         run: ./gradlew 'cqrs-user-query-service:jacocoTestReport'
 
-      - name: Add coverage to PR
+      - name: Add Code Coverage Results to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
         with:
