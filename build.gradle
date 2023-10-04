@@ -11,6 +11,7 @@ subprojects {
   apply plugin: 'org.springframework.boot'
   apply plugin: 'io.spring.dependency-management'
   apply plugin: 'checkstyle'
+  apply plugin: 'jacoco'
 
   java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -24,6 +25,13 @@ subprojects {
   checkstyle {
     toolVersion = "${checkstyleVersion}"
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    ignoreFailures = false
+    maxWarnings = checkstyleMaxWarn.toInteger()
+    maxErrors = checkstyleMaxErr.toInteger()
+  }
+
+  jacoco {
+    toolVersion = "${jacocoVersion}"
   }
 
   test {
