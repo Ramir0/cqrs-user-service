@@ -19,26 +19,26 @@ public class UserUseCases implements UserInputPort {
 
     @Override
     public String createUser(User user) {
-        log.info("Verifying if the 'id' field is empty for user creation.");
+        log.info("Verifying if the 'id' field is empty for user creation");
         if (StringUtils.hasText(user.getId())) {
             throw new IllegalArgumentException("Invalid User, id field must be empty");
         }
 
         User savedUser = userOutputPort.save(user);
-        log.info("User successfully created and saved with ID: {}", savedUser.getId());
+        log.info("User with ID: {} successfully created", savedUser.getId());
         userMessageOutputPort.sendMessage(savedUser);
         return savedUser.getId();
     }
 
     @Override
     public void updateUser(User user) {
-        log.info("Verifying if the 'id' field exists for user update.");
+        log.info("Verifying if the 'id' field exists for user update");
         if (!StringUtils.hasText(user.getId())) {
             throw new IllegalArgumentException("Invalid User, id field must exist");
         }
 
         User savedUser = userOutputPort.save(user);
-        log.info("User successfully updated with ID: {}", savedUser.getId());
+        log.info("User with ID: {} successfully updated", savedUser.getId());
         userMessageOutputPort.sendMessage(savedUser);
     }
 
@@ -48,7 +48,7 @@ public class UserUseCases implements UserInputPort {
         if (!StringUtils.hasText(userId)) {
             throw new IllegalArgumentException("Invalid User, id field must exist");
         }
-        log.info("User successfully deleted with ID: {}", userId);
+        log.info("User with ID: {} successfully deleted", userId);
         return userOutputPort.delete(userId);
     }
 }
