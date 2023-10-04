@@ -37,36 +37,36 @@ jobs:
       - name: Checkstyle User Command Test Report
         uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          path: ${{ github.workspace }}cqrs-user-command-service/build/reports/checkstyle/test.xml
+          path: cqrs-user-command-service/build/reports/checkstyle/test.xml
 
       - name: Checkstyle User Command Main Report
         uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          path: ${{ github.workspace }}cqrs-user-command-service/build/reports/checkstyle/main.xml
+          path: cqrs-user-command-service/build/reports/checkstyle/main.xml
 
       - name: Checkstyle User Query Test Report
         uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          path: ${{ github.workspace }}cqrs-user-query-service/build/reports/checkstyle/test.xml
+          path: cqrs-user-query-service/build/reports/checkstyle/test.xml
 
       - name: Checkstyle User Query Main Report
         uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          path: ${{ github.workspace }}cqrs-user-query-service/build/reports/checkstyle/main.xml
+          path: cqrs-user-query-service/build/reports/checkstyle/main.xml
 
       - name: Command Service Code Coverage Report
-        run: .\gradlew :cqrs-user-command-service:jacocoTestReport
+        run: .\gradlew 'cqrs-user-command-service:jacocoTestReport'
 
       - name: Query Service Code Coverage Report
-        run: .\gradlew :cqrs-user-query-service:jacocoTestReport
+        run: .\gradlew 'cqrs-user-query-service:jacocoTestReport'
 
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
         with:
           paths: |
-            ${{ github.workspace }}cqrs-user-command-service/build/reports/jacoco/test/jacocoTestReport.xml,
-            ${{ github.workspace }}cqrs-user-query-service/build/reports/jacoco/test/jacocoTestReport.xml
+            ${{ github.workspace }}/cqrs-user-command-service/build/reports/jacoco/test/jacocoTestReport.xml,
+            ${{ github.workspace }}/cqrs-user-query-service/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
