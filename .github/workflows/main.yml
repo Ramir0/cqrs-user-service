@@ -34,14 +34,25 @@ jobs:
       - name: Integration Tests
         run: ./gradlew integrationTest
 
-      - name: Checkstyle Report
+      - name: Checkstyle User Command Test Report
         uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          paths: |
-            ${{ github.workspace }}cqrs-user-command-service/build/reports/checkstyle/test.xml,
-            ${{ github.workspace }}cqrs-user-command-service/build/reports/checkstyle/main.xml,
-            ${{ github.workspace }}cqrs-user-query-service/build/reports/checkstyle/test.xml,
-            ${{ github.workspace }}cqrs-user-query-service/build/reports/checkstyle/main.xml
+          path: ${{ github.workspace }}cqrs-user-command-service/build/reports/checkstyle/test.xml
+
+      - name: Checkstyle User Command Main Report
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        with:
+          path: ${{ github.workspace }}cqrs-user-command-service/build/reports/checkstyle/main.xml
+
+      - name: Checkstyle User Query Test Report
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        with:
+          path: ${{ github.workspace }}cqrs-user-query-service/build/reports/checkstyle/test.xml
+
+      - name: Checkstyle User Query Main Report
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        with:
+          path: ${{ github.workspace }}cqrs-user-query-service/build/reports/checkstyle/main.xml
 
       - name: Command Service Code Coverage Report
         run: .\gradlew :cqrs-user-command-service:jacocoTestReport
