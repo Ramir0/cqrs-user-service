@@ -3,10 +3,10 @@ package dev.amir.userquery.application.usecase;
 import dev.amir.userquery.application.port.input.UserInputPort;
 import dev.amir.userquery.application.port.output.UserOutputPort;
 import dev.amir.userquery.domain.entity.User;
+import dev.amir.userquery.domain.exception.UserNotFoundException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
-import dev.amir.userquery.domain.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,8 @@ public class UserUseCases implements UserInputPort {
 
         Optional<User> user = userOutputPort.getById(userId);
         log.info("User with ID {} was found: {}", userId, user.isPresent());
-        if(user.isEmpty()){
+
+        if (user.isEmpty()) {
             throw new UserNotFoundException(userId);
         }
         return user;
