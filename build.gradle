@@ -1,6 +1,7 @@
 plugins {
   id 'org.springframework.boot' version "${springBootPluginVersion}" apply false
   id 'io.spring.dependency-management' version "${springDependencyManagementPluginVersion}" apply false
+  id "org.unbroken-dome.test-sets" version "${unbrokenDomeVersion}"
 }
 
 subprojects {
@@ -12,6 +13,7 @@ subprojects {
   apply plugin: 'io.spring.dependency-management'
   apply plugin: 'checkstyle'
   apply plugin: 'jacoco'
+  apply plugin: "org.unbroken-dome.test-sets"
 
   java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -42,15 +44,17 @@ subprojects {
     }
   }
 
-  test {
-    useJUnitPlatform()
-    filter.includePatterns = ['*Test']
-    filter.excludePatterns = ['*It']
+  testSets {
+    unitTest
+    integrationTest
   }
 
-  tasks.register('integrationTest', Test) {
+  test {
     useJUnitPlatform()
-    filter.includePatterns = ['*It']
+  }
+
+  integrationTest {
+    useJUnitPlatform()
   }
 }
 
