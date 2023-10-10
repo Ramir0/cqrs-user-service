@@ -18,19 +18,19 @@ import static org.mockito.Mockito.when;
 class UserCommandUseCasesTest {
 
     @Mock
-    private UserOutputPort userOutputPort;
+    private UserOutputPort userOutputPortMock;
 
     @InjectMocks
     private UserCommandUseCases useCases;
 
     @Test
-    void saveUser() {
+    void test_saveUser() {
         User inputUser = new User();
         User expected = new User();
-        when(userOutputPort.save(any(User.class))).thenReturn(expected);
+        when(userOutputPortMock.save(any(User.class))).thenReturn(expected);
         User actual = useCases.saveUser(expected);
 
         assertEquals(expected, actual);
-        verify(userOutputPort).save(eq(inputUser));
+        verify(userOutputPortMock).save(eq(inputUser));
     }
 }
