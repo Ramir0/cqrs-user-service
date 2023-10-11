@@ -30,20 +30,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserCommandTest {
     @MockBean
-    UserOutputPort userOutputPort;
+    UserOutputPort userOutputPortMock;
     @MockBean
-    UserMessageOutputPort userMessageOutputPort;
+    UserMessageOutputPort userMessageOutputPortMock;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void createUserTest() throws Exception {
+    void test_createUserTest() throws Exception {
         User mockUser = new User();
         String expectedUuid = UUID.randomUUID().toString();
         mockUser.setId(expectedUuid);
-        when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
-        doNothing().when(userMessageOutputPort).sendMessage(any());
+        when(userOutputPortMock.save(any(User.class))).thenReturn(mockUser);
+        doNothing().when(userMessageOutputPortMock).sendMessage(any());
 
         File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
@@ -56,14 +56,14 @@ public class UserCommandTest {
         String newUserId = response.getResponse().getContentAsString();
         assertEquals(expectedUuid, newUserId);
 
-        verify(userOutputPort).save(any(User.class));
-        verify(userMessageOutputPort).sendMessage(any(User.class));
+        verify(userOutputPortMock).save(any(User.class));
+        verify(userMessageOutputPortMock).sendMessage(any(User.class));
     }
 
     @Test
-    public void deleteUserTest() throws Exception {
+    public void test_deleteUserTest() throws Exception {
         String expectedUuid = UUID.randomUUID().toString();
-        when(userOutputPort.delete(any(String.class))).thenReturn(true);
+        when(userOutputPortMock.delete(any(String.class))).thenReturn(true);
 
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
                         .delete("/user/{id}", expectedUuid))
@@ -73,16 +73,16 @@ public class UserCommandTest {
         String result = response.getResponse().getContentAsString();
         assertEquals("true", result);
 
-        verify(userOutputPort).delete(eq(expectedUuid));
+        verify(userOutputPortMock).delete(eq(expectedUuid));
     }
 
     @Test
-    void updateUserTest() throws Exception {
+    void test_updateUserTest() throws Exception {
         User mockUser = new User();
         String expectedUuid = UUID.randomUUID().toString();
         mockUser.setId(expectedUuid);
-        when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
-        doNothing().when(userMessageOutputPort).sendMessage(any());
+        when(userOutputPortMock.save(any(User.class))).thenReturn(mockUser);
+        doNothing().when(userMessageOutputPortMock).sendMessage(any());
 
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders
@@ -91,7 +91,7 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(userOutputPort).save(any(User.class));
-        verify(userMessageOutputPort).sendMessage(any(User.class));
+        verify(userOutputPortMock).save(any(User.class));
+        verify(userMessageOutputPortMock).sendMessage(any(User.class));
     }
 }

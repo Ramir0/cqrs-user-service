@@ -27,13 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserQueryTest {
 
     @MockBean
-    UserOutputPort userOutputPort;
+    UserOutputPort userOutputPortMock;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void getAllUsersTest() throws Exception {
+    void test_getAllUsersTest() throws Exception {
 
         List<User> mockUsers = Arrays.asList(
                 new User() {{
@@ -46,7 +46,7 @@ public class UserQueryTest {
                 }}
         );
 
-        when(userOutputPort.getAll()).thenReturn(mockUsers);
+        when(userOutputPortMock.getAll()).thenReturn(mockUsers);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/user").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -55,16 +55,16 @@ public class UserQueryTest {
                 .andExpect(jsonPath("$.users[0].id").value("1"))
                 .andExpect(jsonPath("$.users[1].id").value("2"));
 
-        verify(userOutputPort).getAll();
+        verify(userOutputPortMock).getAll();
     }
 
     @Test
-    public void getUsersByIdTest() throws Exception {
+    public void test_getUsersByIdTest() throws Exception {
         User mockUser = new User();
         String expectedUuid = UUID.randomUUID().toString();
         mockUser.setName("kevin");
         mockUser.setId(expectedUuid);
-        when(userOutputPort.getById(any(String.class))).thenReturn(Optional.of(mockUser));
+        when(userOutputPortMock.getById(any(String.class))).thenReturn(Optional.of(mockUser));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/user/{userId}", expectedUuid)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -72,6 +72,6 @@ public class UserQueryTest {
                 .andExpect(jsonPath("$.user.id").value(expectedUuid))
                 .andExpect(status().isOk());
 
-        verify(userOutputPort).getById(eq(expectedUuid));
+        verify(userOutputPortMock).getById(eq(expectedUuid));
     }
 }
