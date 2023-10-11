@@ -1,19 +1,19 @@
 package dev.amir.usercommand.framework.input.rest.mapper;
 
 import dev.amir.usercommand.domain.entity.User;
-import dev.amir.usercommand.framework.input.rest.command.CreateUserCommand;
-import dev.amir.usercommand.framework.input.rest.command.UpdateUserCommand;
+import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
+import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface UserCommandMapper {
+public interface UserRequestMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "active", source = "isActive")
-    User convert(CreateUserCommand command);
+    User convert(CreateUserRequest request);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "active", source = "isActive")
-    User convert(UpdateUserCommand command);
+    User convert(UpdateUserRequest request);
 }

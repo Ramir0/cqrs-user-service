@@ -49,7 +49,11 @@ public class RetryExecutorImpl implements RetryExecutor {
 
     private void logRetryCount(RetryContext retryContext) {
         if (retryContext.getRetryCount() > 0) {
-            log.warn("Retry count: [{}] Error message: [{}]", retryContext.getRetryCount(), retryContext.getLastThrowable().getMessage());
+            log.warn(
+                    "Retry count: [{}] Error message: [{}]",
+                    retryContext.getRetryCount(),
+                    retryContext.getLastThrowable().getMessage()
+            );
         }
     }
 }

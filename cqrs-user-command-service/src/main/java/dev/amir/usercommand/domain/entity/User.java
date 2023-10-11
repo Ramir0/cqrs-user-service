@@ -1,14 +1,17 @@
 package dev.amir.usercommand.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import dev.amir.usercommand.domain.valueobject.UserId;
+import javax.validation.Valid;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class User {
-    private String id;
+    @Valid
+    private UserId id;
     private String name;
     private String lastname;
     private String email;

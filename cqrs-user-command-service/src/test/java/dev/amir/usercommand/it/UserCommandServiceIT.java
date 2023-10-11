@@ -3,6 +3,7 @@ package dev.amir.usercommand.it;
 import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.UserId;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -37,22 +39,19 @@ public class UserCommandServiceIT {
     @Test
     void createUserTest() throws Exception {
         User mockUser = new User();
-        String expectedUUID = UUID.randomUUID().toString();
+        UserId expectedUUID = new UserId();
         mockUser.setId(expectedUUID);
         when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPort).sendMessage(any());
 
         String body = new String(getClass().getResourceAsStream("/responses/create-users-response.json").readAllBytes(), StandardCharsets.UTF_8);
 
-        MvcResult response = mockMvc.perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                         .post("/user")
                         .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn();
-
-        String newUserId = response.getResponse().getContentAsString();
-        assertEquals(expectedUUID, newUserId);
+                .andExpect(jsonPath("$.id").value(expectedUUID.toString()));
 
         verify(userOutputPort).save(any(User.class));
         verify(userMessageOutputPort).sendMessage(any(User.class));
@@ -60,8 +59,8 @@ public class UserCommandServiceIT {
 
     @Test
     public void deleteUserTest() throws Exception {
-        String expectedUUID = UUID.randomUUID().toString();
-        when(userOutputPort.delete(any(String.class))).thenReturn(true);
+        UserId expectedUUID = new UserId();
+        when(userOutputPort.delete(expectedUUID)).thenReturn(true);
 
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
                         .delete("/user/{id}", expectedUUID))
@@ -77,7 +76,7 @@ public class UserCommandServiceIT {
     @Test
     void updateUserTest() throws Exception {
         User mockUser = new User();
-        String expectedUUID = UUID.randomUUID().toString();
+        UserId expectedUUID = new UserId(UUID.randomUUID());
         mockUser.setId(expectedUUID);
         when(userOutputPort.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPort).sendMessage(any());
