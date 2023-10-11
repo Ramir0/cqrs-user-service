@@ -78,7 +78,7 @@ public class UserQueryServiceIt {
     }
 
     @Test
-    public void test_HandleUnknownException() throws Exception {
+    public void test_HandleUnknownExceptionForGetAllUsers() throws Exception {
         when(userOutputPortMock.getAll()).thenThrow(InternalError.class);
 
         mockMvc.perform(get("/user")
@@ -90,7 +90,7 @@ public class UserQueryServiceIt {
     }
 
     @Test
-    public void test_HandleUserNotFoundException() throws Exception {
+    public void test_HandleUserNotFoundExceptionForGetUserById() throws Exception {
         String expectedUuid = UUID.randomUUID().toString();
         UserNotFoundException ex = new UserNotFoundException(expectedUuid);
 
