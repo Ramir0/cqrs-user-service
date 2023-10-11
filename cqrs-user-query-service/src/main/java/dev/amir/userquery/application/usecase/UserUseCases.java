@@ -3,6 +3,7 @@ package dev.amir.userquery.application.usecase;
 import dev.amir.userquery.application.port.input.UserInputPort;
 import dev.amir.userquery.application.port.output.UserOutputPort;
 import dev.amir.userquery.domain.entity.User;
+import dev.amir.userquery.domain.exception.UserNotFoundException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -32,13 +33,13 @@ public class UserUseCases implements UserInputPort {
     @Override
     public Optional<User> getUserById(String userId) {
         log.info("Getting user");
-        try {
-            Optional<User> user = userOutputPort.getById(userId);
-            log.info("User with ID {} was found: {}", userId, user.isPresent());
-            return user;
-        } catch (Exception e) {
-            log.error("Error while getting user", e);
-            return Optional.empty();
+
+        Optional<User> user = userOutputPort.getById(userId);
+        log.info("User with ID {} was found: {}", userId, user.isPresent());
+
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(userId);
         }
+        return user;
     }
 }
