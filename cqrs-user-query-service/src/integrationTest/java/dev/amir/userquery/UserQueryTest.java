@@ -1,5 +1,4 @@
-package dev.amir.userquery.it;
-
+package dev.amir.userquery;
 import dev.amir.userquery.application.port.output.UserOutputPort;
 import dev.amir.userquery.domain.entity.User;
 import dev.amir.userquery.domain.exception.UserNotFoundException;
@@ -27,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserQueryServiceIt {
+public class UserQueryTest {
 
     @MockBean
     UserOutputPort userOutputPortMock;
