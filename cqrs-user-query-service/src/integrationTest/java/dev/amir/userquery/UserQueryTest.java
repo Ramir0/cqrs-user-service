@@ -97,7 +97,7 @@ public class UserQueryTest {
 
         when(userOutputPortMock.getById(any(String.class))).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/user/{userId")
+        mockMvc.perform(get("/user/{userId}", expectedUuid)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
