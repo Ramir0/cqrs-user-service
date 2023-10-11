@@ -35,7 +35,7 @@ public class UserHandlerImpl implements UserHandler {
         UserId userId = new UserId(userIdParam);
         user.setId(userId);
         userInputPort.updateUser(user);
-        log.info("User  with ID: {} Updated", userId);
+        log.info("User with ID: {} Updated", userId);
     }
 
     @Override
