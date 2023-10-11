@@ -42,8 +42,8 @@ public class UserCommandTest {
     @Test
     void test_createUserTest() throws Exception {
         User mockUser = new User();
-        UserId expectedUUID = new UserId();
-        mockUser.setId(expectedUUID);
+        UserId expectedUuid = new UserId();
+        mockUser.setId(expectedUuid);
         when(userOutputPortMock.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPortMock).sendMessage(any());
 
@@ -53,7 +53,7 @@ public class UserCommandTest {
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(expectedUUID.toString()));
+                .andExpect(jsonPath("$.id").value(expectedUuid.toString()));
 
         verify(userOutputPortMock).save(any(User.class));
         verify(userMessageOutputPortMock).sendMessage(any(User.class));
@@ -61,31 +61,31 @@ public class UserCommandTest {
 
     @Test
     public void test_deleteUserTest() throws Exception {
-        UserId expectedUUID = new UserId();
-        when(userOutputPortMock.delete(expectedUUID)).thenReturn(true);
+        UserId expectedUuid = new UserId();
+        when(userOutputPortMock.delete(expectedUuid)).thenReturn(true);
 
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/user/{id}", expectedUUID))
+                        .delete("/user/{id}", expectedUuid))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String result = response.getResponse().getContentAsString();
         assertEquals("true", result);
 
-        verify(userOutputPortMock).delete(eq(expectedUUID));
+        verify(userOutputPortMock).delete(eq(expectedUuid));
     }
 
     @Test
     void test_updateUserTest() throws Exception {
         User mockUser = new User();
-        UserId expectedUUID = new UserId(UUID.randomUUID());
-        mockUser.setId(expectedUUID);
+        UserId expectedUuid = new UserId(UUID.randomUUID());
+        mockUser.setId(expectedUuid);
         when(userOutputPortMock.save(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPortMock).sendMessage(any());
 
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/user/{id}", expectedUUID)
+                        .put("/user/{id}", expectedUuid)
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
