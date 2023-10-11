@@ -8,8 +8,8 @@ import dev.amir.usercommand.application.retry.RetryFunctionMatcher;
 import dev.amir.usercommand.application.usecase.UserUseCases;
 import dev.amir.usercommand.application.validation.Validator;
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.exception.UserValidationException;
 import dev.amir.usercommand.domain.valueobject.UserId;
-import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -78,9 +78,9 @@ class UserInputPortTest {
         user.setLastname("Aranibar");
         user.setEmail("amir@test.com");
         user.setActive(true);
-        doThrow(ConstraintViolationException.class).when(validatorMock).validate(any());
+        doThrow(UserValidationException.class).when(validatorMock).validate(any());
 
-        assertThrows(ConstraintViolationException.class, () -> userUseCases.createUser(user));
+        assertThrows(UserValidationException.class, () -> userUseCases.createUser(user));
 
         verify(validatorMock).validate(any(User.class));
         verify(userOutputPortMock, never()).save(any(User.class));
@@ -113,9 +113,9 @@ class UserInputPortTest {
         user.setLastname("Smith");
         user.setEmail("jsmith@test.com");
         user.setActive(true);
-        doThrow(ConstraintViolationException.class).when(validatorMock).validate(any());
+        doThrow(UserValidationException.class).when(validatorMock).validate(any());
 
-        assertThrows(ConstraintViolationException.class, () -> userUseCases.updateUser(user));
+        assertThrows(UserValidationException.class, () -> userUseCases.updateUser(user));
         verify(validatorMock).validate(any(User.class));
         verify(userOutputPortMock, never()).save(any(User.class));
     }
@@ -136,9 +136,9 @@ class UserInputPortTest {
 
     @Test
     void test_DeleteUser_ShouldThrowException() {
-        doThrow(ConstraintViolationException.class).when(validatorMock).validate(any());
+        doThrow(UserValidationException.class).when(validatorMock).validate(any());
 
-        assertThrows(ConstraintViolationException.class, () -> userUseCases.deleteUser(null));
+        assertThrows(UserValidationException.class, () -> userUseCases.deleteUser(null));
         verify(validatorMock).validate(any(UserId.class));
         verify(userOutputPortMock, never()).delete(any());
     }
