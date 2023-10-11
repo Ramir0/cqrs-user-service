@@ -1,4 +1,5 @@
 package dev.amir.userquery;
+
 import dev.amir.userquery.application.port.output.UserOutputPort;
 import dev.amir.userquery.domain.entity.User;
 import dev.amir.userquery.domain.exception.UserNotFoundException;
@@ -30,6 +31,7 @@ public class UserQueryTest {
 
     @MockBean
     UserOutputPort userOutputPortMock;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -101,6 +103,6 @@ public class UserQueryTest {
                 .andExpect(content().string("User not found"));
 
         assertEquals("User with id:" + expectedUuid + " Not found", ex.getMessage());
-        verify(userOutputPortMock).getById(any(String.class));
+        verify(userOutputPortMock).getById(eq(expectedUuid));
     }
 }
