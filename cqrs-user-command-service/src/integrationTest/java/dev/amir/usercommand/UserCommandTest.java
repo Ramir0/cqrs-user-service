@@ -1,0 +1,96 @@
+package dev.amir.usercommand;
+
+import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
+import dev.amir.usercommand.application.port.output.UserOutputPort;
+import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.UserId;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+import org.assertj.core.util.Files;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.ResourceUtils;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class UserCommandTest {
+    @MockBean
+    UserOutputPort userOutputPortMock;
+    @MockBean
+    UserMessageOutputPort userMessageOutputPortMock;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void test_createUserTest() throws Exception {
+        User mockUser = new User();
+        UserId expectedUUID = new UserId();
+        mockUser.setId(expectedUUID);
+        when(userOutputPortMock.save(any(User.class))).thenReturn(mockUser);
+        doNothing().when(userMessageOutputPortMock).sendMessage(any());
+
+        File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/user")
+                        .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(expectedUUID.toString()));
+
+        verify(userOutputPortMock).save(any(User.class));
+        verify(userMessageOutputPortMock).sendMessage(any(User.class));
+    }
+
+    @Test
+    public void test_deleteUserTest() throws Exception {
+        UserId expectedUUID = new UserId();
+        when(userOutputPortMock.delete(expectedUUID)).thenReturn(true);
+
+        MvcResult response = mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/user/{id}", expectedUUID))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String result = response.getResponse().getContentAsString();
+        assertEquals("true", result);
+
+        verify(userOutputPortMock).delete(eq(expectedUUID));
+    }
+
+    @Test
+    void test_updateUserTest() throws Exception {
+        User mockUser = new User();
+        UserId expectedUUID = new UserId(UUID.randomUUID());
+        mockUser.setId(expectedUUID);
+        when(userOutputPortMock.save(any(User.class))).thenReturn(mockUser);
+        doNothing().when(userMessageOutputPortMock).sendMessage(any());
+
+        File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/user/{id}", expectedUUID)
+                        .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(userOutputPortMock).save(any(User.class));
+        verify(userMessageOutputPortMock).sendMessage(any(User.class));
+    }
+}

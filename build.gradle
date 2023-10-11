@@ -1,6 +1,7 @@
 plugins {
   id 'org.springframework.boot' version "${springBootPluginVersion}" apply false
   id 'io.spring.dependency-management' version "${springDependencyManagementPluginVersion}" apply false
+  id "org.unbroken-dome.test-sets" version "${unbrokenDomeVersion}"
 }
 
 subprojects {
@@ -11,6 +12,8 @@ subprojects {
   apply plugin: 'org.springframework.boot'
   apply plugin: 'io.spring.dependency-management'
   apply plugin: 'checkstyle'
+  apply plugin: 'jacoco'
+  apply plugin: "org.unbroken-dome.test-sets"
 
   java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -24,9 +27,33 @@ subprojects {
   checkstyle {
     toolVersion = "${checkstyleVersion}"
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    ignoreFailures = false
+    maxWarnings = checkstyleMaxWarn.toInteger()
+    maxErrors = checkstyleMaxErr.toInteger()
+  }
+
+  jacoco {
+    toolVersion = "${jacocoVersion}"
+  }
+
+  jacocoTestReport {
+    description = "Generate Jacoco coverage reports for the test build."
+    reports {
+      html.required.set(true)
+      xml.required.set(true)
+    }
+  }
+
+  testSets {
+    unitTest
+    integrationTest
   }
 
   test {
+    useJUnitPlatform()
+  }
+
+  integrationTest {
     useJUnitPlatform()
   }
 }

@@ -9,8 +9,10 @@ import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserUseCases implements UserInputPort {
@@ -22,24 +24,31 @@ public class UserUseCases implements UserInputPort {
 
     @Override
     public UserId createUser(User user) {
+        log.info("Verifying if the 'id' field is empty for user creation");
         user.setId(new UserId());
         validator.validate(user);
         User savedUser = retryExecutor.execute(() -> userOutputPort.save(user));
+        log.info("User with ID: {} successfully created", savedUser.getId());
         retryExecutor.asyncExecute(() -> userMessageOutputPort.sendMessage(savedUser));
         return savedUser.getId();
     }
 
     @Override
     public void updateUser(User user) {
+        log.info("Verifying if the 'id' field exists for user update");
         validator.validate(user);
         User savedUser = userOutputPort.save(user);
+        log.info("User with ID: {} successfully updated", savedUser.getId());
         userMessageOutputPort.sendMessage(savedUser);
     }
 
     @Override
     public boolean deleteUser(UUID userIdParam) {
+        log.info("Attempting to delete user with ID: {}", userIdParam);
         UserId userId = new UserId(userIdParam);
         validator.validate(userId);
-        return userOutputPort.delete(userId);
+        boolean isUserDeleted = userOutputPort.delete(userId);
+        log.info("User with ID: {} deleted: {}", userId, isUserDeleted);
+        return isUserDeleted;
     }
 }

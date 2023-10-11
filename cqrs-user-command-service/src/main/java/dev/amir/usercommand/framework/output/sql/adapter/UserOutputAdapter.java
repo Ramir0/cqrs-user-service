@@ -20,9 +20,8 @@ public class UserOutputAdapter implements UserOutputPort {
 
     @Override
     public User save(User user) {
-        log.info("Saving user...");
-        var userJpa = jpaMapper.convert(user);
-        User savedUser = jpaMapper.convert(jpaRepository.save(userJpa));
+        log.info("Saving user");
+        User savedUser = jpaMapper.convert(jpaRepository.save(jpaMapper.convert(user)));
 
         log.info("User with ID: {} and name: {} has been successfully saved", savedUser.getId(), savedUser.getName());
         return savedUser;
@@ -37,7 +36,7 @@ public class UserOutputAdapter implements UserOutputPort {
             log.info("Deleting user");
             return true;
         } else {
-            log.warn("User not found, deletion skipped.");
+            log.warn("User not found, deletion skipped");
             return false;
         }
     }
