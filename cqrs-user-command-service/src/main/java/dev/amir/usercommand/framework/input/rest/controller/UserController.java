@@ -1,9 +1,12 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
-import dev.amir.usercommand.framework.input.rest.command.CreateUserCommand;
-import dev.amir.usercommand.framework.input.rest.command.DeleteUserCommand;
-import dev.amir.usercommand.framework.input.rest.command.UpdateUserCommand;
-import dev.amir.usercommand.framework.input.rest.handler.UserCommandHandler;
+import dev.amir.usercommand.framework.input.rest.handler.UserHandler;
+import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
+import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
+import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
+import dev.amir.usercommand.framework.input.rest.response.CreateUserResponse;
+import java.util.UUID;
+import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,35 +24,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final UserCommandHandler commandHandler;
+    private final UserHandler userHandler;
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody CreateUserCommand command) {
-        log.info("Received request to create a user.");
-        String newUserId = commandHandler.handle(command);
+    public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest request) {
+        log.info("Received request to create a user");
+        CreateUserResponse response = userHandler.handle(request);
 
-        log.info("User with ID {} has been successfully created", newUserId);
-        return ResponseEntity.ok(newUserId);
+        log.info("User with ID {} has been successfully created", response);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable String id, @RequestBody UpdateUserCommand command) {
+    public ResponseEntity<Void> updateUser(@NotNull @PathVariable UUID id, @RequestBody UpdateUserRequest request) {
         log.info("Received request to update");
 
         try {
-            commandHandler.handle(command, id);
+            userHandler.handle(request, id);
             log.info("User with ID {} has been successfully update", id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            log.error("Error updating user with ID {}: {}", id, e);
+            log.error("Error updating user with ID {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUser(@PathVariable String id) {
+    public ResponseEntity<Boolean> deleteUser(@NotNull @PathVariable UUID id) {
         log.info("Received request to delete user");
-        boolean isUserDeleted = commandHandler.handle(new DeleteUserCommand(), id);
+        boolean isUserDeleted = userHandler.handle(new DeleteUserRequest(), id);
 
         if (isUserDeleted) {
             log.info("User with ID {} has been successfully deleted", id);

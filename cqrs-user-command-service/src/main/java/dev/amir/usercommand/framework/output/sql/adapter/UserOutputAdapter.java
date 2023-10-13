@@ -2,10 +2,9 @@ package dev.amir.usercommand.framework.output.sql.adapter;
 
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
-import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
+import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.framework.output.sql.mapper.UserJpaMapper;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -29,11 +28,11 @@ public class UserOutputAdapter implements UserOutputPort {
     }
 
     @Override
-    public boolean delete(String userId) {
-        Optional<UserJpa> userToDelete = jpaRepository.findById(userId);
+    public boolean delete(UserId userId) {
+        boolean isUserPresent = jpaRepository.existsById(userId.toString());
 
-        if (userToDelete.isPresent()) {
-            jpaRepository.deleteById(userId);
+        if (isUserPresent) {
+            jpaRepository.deleteById(userId.toString());
             log.info("Deleting user");
             return true;
         } else {

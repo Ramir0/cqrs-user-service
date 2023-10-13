@@ -3,11 +3,14 @@ package dev.amir.usercommand.application.usecase;
 import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
+import dev.amir.usercommand.application.retry.RetryExecutor;
+import dev.amir.usercommand.application.validation.Validator;
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.UserId;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -16,39 +19,36 @@ public class UserUseCases implements UserInputPort {
 
     private final UserOutputPort userOutputPort;
     private final UserMessageOutputPort userMessageOutputPort;
+    private final RetryExecutor retryExecutor;
+    private final Validator validator;
 
     @Override
-    public String createUser(User user) {
+    public UserId createUser(User user) {
         log.info("Verifying if the 'id' field is empty for user creation");
-        if (StringUtils.hasText(user.getId())) {
-            throw new IllegalArgumentException("Invalid User, id field must be empty");
-        }
-
-        User savedUser = userOutputPort.save(user);
+        user.setId(new UserId());
+        validator.validate(user);
+        User savedUser = retryExecutor.execute(() -> userOutputPort.save(user));
         log.info("User with ID: {} successfully created", savedUser.getId());
-        userMessageOutputPort.sendMessage(savedUser);
+        retryExecutor.asyncExecute(() -> userMessageOutputPort.sendMessage(savedUser));
         return savedUser.getId();
     }
 
     @Override
     public void updateUser(User user) {
         log.info("Verifying if the 'id' field exists for user update");
-        if (!StringUtils.hasText(user.getId())) {
-            throw new IllegalArgumentException("Invalid User, id field must exist");
-        }
-
+        validator.validate(user);
         User savedUser = userOutputPort.save(user);
         log.info("User with ID: {} successfully updated", savedUser.getId());
         userMessageOutputPort.sendMessage(savedUser);
     }
 
     @Override
-    public boolean deleteUser(String userId) {
-        log.info("Attempting to delete user with ID: {}", userId);
-        if (!StringUtils.hasText(userId)) {
-            throw new IllegalArgumentException("Invalid User, id field must exist");
-        }
-        log.info("User with ID: {} successfully deleted", userId);
-        return userOutputPort.delete(userId);
+    public boolean deleteUser(UUID userIdParam) {
+        log.info("Attempting to delete user with ID: {}", userIdParam);
+        UserId userId = new UserId(userIdParam);
+        validator.validate(userId);
+        boolean isUserDeleted = userOutputPort.delete(userId);
+        log.info("User with ID: {} deleted: {}", userId, isUserDeleted);
+        return isUserDeleted;
     }
 }

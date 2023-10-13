@@ -16,6 +16,11 @@ spring:
     open-in-view: false
   flyway:
     enabled: true
+  retry:
+    max-attempts: 4
+    initial-interval: 1000
+    multiplier: 2
+    max-interval: 30000
   rabbitmq:
     host: localhost
     port: 5672

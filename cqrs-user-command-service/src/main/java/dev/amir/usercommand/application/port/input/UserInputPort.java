@@ -1,11 +1,14 @@
 package dev.amir.usercommand.application.port.input;
 
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.UserId;
+import java.util.UUID;
+
 
 public interface UserInputPort {
-    String createUser(User user);
+    UserId createUser(User user);
 
     void updateUser(User user);
 
-    boolean deleteUser(String userId);
+    boolean deleteUser(UUID userId);
 }
