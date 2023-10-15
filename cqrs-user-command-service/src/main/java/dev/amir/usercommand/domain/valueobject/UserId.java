@@ -1,16 +1,14 @@
 package dev.amir.usercommand.domain.valueobject;
 
+import dev.amir.usercommand.domain.exception.UserValidationException;
+import java.util.Objects;
 import java.util.UUID;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.springframework.validation.annotation.Validated;
 
-@Validated
 @Getter
 @EqualsAndHashCode
 public class UserId {
-    @NotNull
     private final UUID value;
 
     public UserId() {
@@ -18,10 +16,20 @@ public class UserId {
     }
 
     public UserId(String valueAsString) {
-        this.value = UUID.fromString(valueAsString);
+        try {
+            this.value = UUID.fromString(valueAsString);
+        } catch (Exception exception) {
+            throw new UserValidationException(
+                    "Invalid value, UserId cannot be initialized: " + valueAsString,
+                    exception
+            );
+        }
     }
 
     public UserId(UUID value) {
+        if (Objects.isNull(value)) {
+            throw new UserValidationException("Invalid value, UserId cannot be null");
+        }
         this.value = value;
     }
 

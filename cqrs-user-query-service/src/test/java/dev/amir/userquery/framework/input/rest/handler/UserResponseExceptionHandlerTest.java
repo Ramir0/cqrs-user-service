@@ -18,7 +18,7 @@ class UserResponseExceptionHandlerTest {
     }
 
     @Test
-    public void test_HandleUnknownExceptionForGetAllUsers() {
+    public void test_HandleUnknownException_ForGetAllUsers() {
         Exception ex = new Exception();
         ResponseEntity<String> response = handler.handleUnknownException(ex);
 
@@ -27,7 +27,7 @@ class UserResponseExceptionHandlerTest {
     }
 
     @Test
-    public void test_HandleUserNotFoundExceptionForGetUsersById() {
+    public void test_HandleUserNotFoundException_ForGetUsersById() {
         String expectedUuid = UUID.randomUUID().toString();
         UserNotFoundException ex = new UserNotFoundException(expectedUuid);
         ResponseEntity<String> response = handler.handleUserNotFoundException(ex);
