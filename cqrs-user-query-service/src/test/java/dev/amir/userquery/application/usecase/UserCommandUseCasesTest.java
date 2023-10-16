@@ -24,7 +24,7 @@ class UserCommandUseCasesTest {
     private UserCommandUseCases useCases;
 
     @Test
-    void test_saveUser() {
+    void test_SaveUser() {
         User inputUser = new User();
         User expected = new User();
         when(userOutputPortMock.save(any(User.class))).thenReturn(expected);
