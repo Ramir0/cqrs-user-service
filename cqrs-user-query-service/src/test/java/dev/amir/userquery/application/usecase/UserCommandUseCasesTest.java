@@ -21,14 +21,15 @@ class UserCommandUseCasesTest {
     private UserOutputPort userOutputPortMock;
 
     @InjectMocks
-    private UserCommandUseCases useCases;
+    private UserCommandUseCases underTest;
 
     @Test
     void test_SaveUser() {
         User inputUser = new User();
         User expected = new User();
         when(userOutputPortMock.save(any(User.class))).thenReturn(expected);
-        User actual = useCases.saveUser(expected);
+        
+        User actual = underTest.saveUser(expected);
 
         assertEquals(expected, actual);
         verify(userOutputPortMock).save(eq(inputUser));
