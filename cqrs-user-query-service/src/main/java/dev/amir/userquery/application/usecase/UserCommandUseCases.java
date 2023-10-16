@@ -15,9 +15,9 @@ public class UserCommandUseCases implements UserCommandInputPort {
 
     @Override
     public User saveUser(User user) {
-        log.info("Saving User.. ");
+        log.info("Saving User");
         User savedUser = userOutputPort.save(user);
-        log.info("User Saved with ID: {}", savedUser.getId());
+        log.info("User with ID {} has been saved successfully", savedUser.getId());
         return savedUser;
     }
 }
