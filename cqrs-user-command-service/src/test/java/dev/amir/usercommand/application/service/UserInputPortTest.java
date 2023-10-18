@@ -96,13 +96,13 @@ class UserInputPortTest {
         user.setActive(true);
         doNothing().when(validatorMock).validate(any());
 
-        when(userOutputPortMock.save(any(User.class))).thenReturn(user);
+        when(userOutputPortMock.update(any(User.class))).thenReturn(user);
         doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
         userUseCases.updateUser(user);
 
         verify(validatorMock).validate(any(User.class));
-        verify(userOutputPortMock).save(any(User.class));
+        verify(userOutputPortMock).update(any(User.class));
         verify(userMessageOutputPortMock).sendMessage(any(User.class));
     }
 
