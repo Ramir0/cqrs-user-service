@@ -1,7 +1,6 @@
 package dev.amir.userquery.framework.input.rest.handler;
 
 import dev.amir.userquery.application.port.input.UserInputPort;
-import dev.amir.userquery.domain.entity.User;
 import dev.amir.userquery.framework.input.rest.query.GetAllUsersQuery;
 import dev.amir.userquery.framework.input.rest.query.GetUserByIdQuery;
 import dev.amir.userquery.framework.input.rest.response.GetAllUsersResponse;
@@ -18,14 +17,13 @@ public class UserQueryHandlerImpl implements UserQueryHandler {
 
     @Override
     public GetAllUsersResponse handle(GetAllUsersQuery query) {
-        log.info("Handling all users query");
+        log.info("Handling get all users");
         return new GetAllUsersResponse(userInputPort.getAllUsers());
     }
 
     @Override
     public GetUserByIdResponse handle(GetUserByIdQuery query) {
-        log.info("Handling user by ID: {}", query.getUserId());
-        User user = userInputPort.getUserById(query.getUserId());
-        return new GetUserByIdResponse(user);
+        log.info("Handling get user by ID: {}", query.userId());
+        return new GetUserByIdResponse(userInputPort.getUserById(query.userId()));
     }
 }
