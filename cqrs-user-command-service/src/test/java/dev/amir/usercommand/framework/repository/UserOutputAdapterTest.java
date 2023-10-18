@@ -27,7 +27,7 @@ class UserOutputAdapterTest {
     private UserOutputAdapter userRepository;
 
     @Test
-    void test_save_WithValidData() {
+    void test_Save_WithValidData() {
         User user = new User();
         user.setName("Amir");
         UserJpa userJpa = new UserJpa();
