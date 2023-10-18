@@ -4,7 +4,6 @@ import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.application.retry.RetryExecutor;
-import dev.amir.usercommand.application.validation.Validator;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import java.util.UUID;
@@ -20,13 +19,11 @@ public class UserUseCases implements UserInputPort {
     private final UserOutputPort userOutputPort;
     private final UserMessageOutputPort userMessageOutputPort;
     private final RetryExecutor retryExecutor;
-    private final Validator validator;
 
     @Override
     public UserId createUser(User user) {
         log.info("Verifying if the 'id' field is empty for user creation");
         user.setId(new UserId());
-        validator.validate(user);
         User savedUser = retryExecutor.execute(() -> userOutputPort.save(user));
         log.info("User with ID: {} successfully created", savedUser.getId());
         retryExecutor.asyncExecute(() -> userMessageOutputPort.sendMessage(savedUser));
@@ -37,7 +34,7 @@ public class UserUseCases implements UserInputPort {
     public void updateUser(User user) {
         log.info("Verifying if the 'id' field exists for user update");
         validator.validate(user);
-        User savedUser = userOutputPort.update(user);
+        User savedUser = userOutputPort.save(user);
         log.info("User with ID: {} successfully updated", savedUser.getId());
         userMessageOutputPort.sendMessage(savedUser);
     }
@@ -46,7 +43,6 @@ public class UserUseCases implements UserInputPort {
     public boolean deleteUser(UUID userIdParam) {
         log.info("Attempting to delete user with ID: {}", userIdParam);
         UserId userId = new UserId(userIdParam);
-        validator.validate(userId);
         boolean isUserDeleted = userOutputPort.delete(userId);
         log.info("User with ID: {} deleted: {}", userId, isUserDeleted);
         return isUserDeleted;

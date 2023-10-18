@@ -43,7 +43,7 @@ public class UserCommandTest {
     private MockMvc mockMvc;
 
     @Test
-    void test_createUserTest() throws Exception {
+    void test_CreateUserTest() throws Exception {
         User mockUser = new User();
         UserId expectedUuid = new UserId();
         mockUser.setId(expectedUuid);
@@ -63,7 +63,7 @@ public class UserCommandTest {
     }
 
     @Test
-    public void test_deleteUserTest() throws Exception {
+    public void test_DeleteUserTest() throws Exception {
         UserId expectedUuid = new UserId();
         when(userOutputPortMock.delete(expectedUuid)).thenReturn(true);
 
@@ -79,7 +79,7 @@ public class UserCommandTest {
     }
 
     @Test
-    void test_updateUserTest() throws Exception {
+    void test_UpdateUserTest() throws Exception {
         User mockUser = new User();
         UserId expectedUuid = new UserId(UUID.randomUUID());
         mockUser.setId(expectedUuid);

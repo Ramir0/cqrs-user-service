@@ -1,10 +1,12 @@
-package dev.amir.userquery.framework.output.entity;
+package dev.amir.userquery.framework.output.nosql.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-@Data
+@Getter
+@Setter
 @Document(collection = "users")
 public class UserMongo {
     @MongoId

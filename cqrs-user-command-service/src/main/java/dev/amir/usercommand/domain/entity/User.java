@@ -1,7 +1,6 @@
 package dev.amir.usercommand.domain.entity;
 
 import dev.amir.usercommand.domain.valueobject.UserId;
-import javax.validation.Valid;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class User {
-    @Valid
     private UserId id;
     private String name;
     private String lastname;
