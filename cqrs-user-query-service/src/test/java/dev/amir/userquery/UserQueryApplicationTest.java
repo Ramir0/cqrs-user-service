@@ -1,9 +1,11 @@
 package dev.amir.userquery;
 
+import java.lang.reflect.InvocationTargetException;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.springframework.boot.SpringApplication;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mockStatic;
@@ -23,5 +25,11 @@ class UserQueryApplicationTest {
                     () -> SpringApplication.run(eq(UserQueryApplication.class), eq(arg1))
             );
         }
+    }
+
+    @Test
+    void test_NoArgsConstructor() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        UserQueryApplication app = UserQueryApplication.class.getDeclaredConstructor().newInstance();
+        assertNotNull(app);
     }
 }
