@@ -28,7 +28,11 @@ class UserQueryApplicationTest {
     }
 
     @Test
-    void test_NoArgsConstructor() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    void test_NoArgsConstructor() throws
+            NoSuchMethodException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException {
         UserQueryApplication app = UserQueryApplication.class.getDeclaredConstructor().newInstance();
         assertNotNull(app);
     }
