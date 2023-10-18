@@ -37,7 +37,7 @@ public class UserUseCases implements UserInputPort {
     public void updateUser(User user) {
         log.info("Verifying if the 'id' field exists for user update");
         validator.validate(user);
-        User savedUser = userOutputPort.save(user);
+        User savedUser = userOutputPort.update(user);
         log.info("User with ID: {} successfully updated", savedUser.getId());
         userMessageOutputPort.sendMessage(savedUser);
     }
