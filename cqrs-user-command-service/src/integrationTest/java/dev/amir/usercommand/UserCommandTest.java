@@ -3,6 +3,7 @@ package dev.amir.usercommand;
 import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -80,7 +83,7 @@ public class UserCommandTest {
         User mockUser = new User();
         UserId expectedUuid = new UserId(UUID.randomUUID());
         mockUser.setId(expectedUuid);
-        when(userOutputPortMock.save(any(User.class))).thenReturn(mockUser);
+        when(userOutputPortMock.update(any(User.class))).thenReturn(mockUser);
         doNothing().when(userMessageOutputPortMock).sendMessage(any());
 
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
@@ -90,7 +93,36 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(userOutputPortMock).save(any(User.class));
+        verify(userOutputPortMock).update(any(User.class));
         verify(userMessageOutputPortMock).sendMessage(any(User.class));
+    }
+
+    @Test
+    public void test_HandleUnknownExceptionForCreateUser() throws Exception {
+        when(userOutputPortMock.save(any(User.class))).thenThrow(InternalError.class);
+
+        mockMvc.perform(post("/user")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().string("Internal error"));
+    }
+
+    @Test
+    public void test_HandleUserNotFoundExceptionForUpdateUser() throws Exception {
+        UUID expectedUuid = UUID.randomUUID();
+        UserNotFoundException ex = new UserNotFoundException(expectedUuid);
+
+        when(userOutputPortMock.update(any(User.class))).thenThrow(new UserNotFoundException(expectedUuid));
+
+        File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/user/{userId}", expectedUuid)
+                        .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("User not found"));
+
+        assertEquals("User with id: " + expectedUuid + " Not found", ex.getMessage());
+        verify(userOutputPortMock).update(any(User.class));
     }
 }
