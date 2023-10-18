@@ -1,10 +1,10 @@
-package dev.amir.userquery.framework.output.adapter;
+package dev.amir.userquery.framework.output.nosql.adapter;
 
 import dev.amir.userquery.application.port.output.UserOutputPort;
 import dev.amir.userquery.domain.entity.User;
-import dev.amir.userquery.framework.output.entity.UserMongo;
-import dev.amir.userquery.framework.output.mapper.UserMongoMapper;
-import dev.amir.userquery.framework.output.repository.UserMongoRepository;
+import dev.amir.userquery.framework.output.nosql.entity.UserMongo;
+import dev.amir.userquery.framework.output.nosql.mapper.UserMongoMapper;
+import dev.amir.userquery.framework.output.nosql.repository.UserMongoRepository;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,10 +35,9 @@ public class UserOutputAdapter implements UserOutputPort {
     }
 
     @Override
-    public User save(User user) {
+    public void save(User user) {
         log.info("Saving user with ID {} in the database", user.getId());
         UserMongo savedUser = userMongoRepository.save(userMongoMapper.convert(user));
         log.info("User with ID {} saved in the database", savedUser.getId());
-        return userMongoMapper.convert(savedUser);
     }
 }

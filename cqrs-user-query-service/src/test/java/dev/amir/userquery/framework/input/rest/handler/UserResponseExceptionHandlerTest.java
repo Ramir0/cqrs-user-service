@@ -10,17 +10,17 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserResponseExceptionHandlerTest {
-    private UserResponseExceptionHandler handler;
+    private UserResponseExceptionHandler underTest;
 
     @BeforeEach
     public void setUp() {
-        handler = new UserResponseExceptionHandler();
+        underTest = new UserResponseExceptionHandler();
     }
 
     @Test
     public void test_HandleUnknownException_ForGetAllUsers() {
         Exception ex = new Exception();
-        ResponseEntity<String> response = handler.handleUnknownException(ex);
+        ResponseEntity<String> response = underTest.handleUnknownException(ex);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("Internal error", response.getBody());
@@ -30,7 +30,7 @@ class UserResponseExceptionHandlerTest {
     public void test_HandleUserNotFoundException_ForGetUsersById() {
         String expectedUuid = UUID.randomUUID().toString();
         UserNotFoundException ex = new UserNotFoundException(expectedUuid);
-        ResponseEntity<String> response = handler.handleUserNotFoundException(ex);
+        ResponseEntity<String> response = underTest.handleUserNotFoundException(ex);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("User not found", response.getBody());

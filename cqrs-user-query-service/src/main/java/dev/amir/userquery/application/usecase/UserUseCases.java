@@ -37,6 +37,7 @@ public class UserUseCases implements UserInputPort {
             throw new UserNotFoundException(userId);
         }
 
+        log.info("User with ID {} was retrieved successfully", userId);
         return user.get();
     }
 }

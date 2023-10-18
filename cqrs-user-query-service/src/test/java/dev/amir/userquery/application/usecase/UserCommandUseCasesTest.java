@@ -8,11 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserCommandUseCasesTest {
@@ -25,13 +24,11 @@ class UserCommandUseCasesTest {
 
     @Test
     void test_SaveUser() {
-        User inputUser = new User();
         User expected = new User();
-        when(userOutputPortMock.save(any(User.class))).thenReturn(expected);
+        doNothing().when(userOutputPortMock).save(any(User.class));
         
-        User actual = underTest.saveUser(expected);
+        underTest.saveUser(expected);
 
-        assertEquals(expected, actual);
-        verify(userOutputPortMock).save(eq(inputUser));
+        verify(userOutputPortMock).save(eq(expected));
     }
 }

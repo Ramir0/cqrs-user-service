@@ -9,5 +9,5 @@ public interface UserOutputPort {
 
     Optional<User> getById(String userId);
 
-    User save(User user);
+    void save(User user);
 }
