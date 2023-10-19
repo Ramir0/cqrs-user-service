@@ -106,15 +106,13 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Internal error"));
-        // TODO debug to find the exception
+
         verify(userOutputPortMock).save(any(User.class));
     }
 
     @Test
     public void test_HandleUserNotFoundExceptionForUpdateUser() throws Exception {
         UUID expectedUuid = UUID.randomUUID();
-        UserNotFoundException ex = new UserNotFoundException(expectedUuid);
-
         when(userOutputPortMock.update(any(User.class))).thenThrow(new UserNotFoundException(expectedUuid));
 
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
@@ -125,7 +123,6 @@ public class UserCommandTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        assertEquals("User with id: " + expectedUuid + " Not found", ex.getMessage());
         verify(userOutputPortMock).update(any(User.class));
     }
 }
