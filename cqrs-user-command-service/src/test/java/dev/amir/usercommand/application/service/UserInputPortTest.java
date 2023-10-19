@@ -76,8 +76,8 @@ class UserInputPortTest {
 
         userUseCases.updateUser(user);
 
-        verify(userOutputPortMock).update(any(User.class));
-        verify(userMessageOutputPortMock).sendMessage(any(User.class));
+        verify(userOutputPortMock).update(eq(user));
+        verify(userMessageOutputPortMock).sendMessage(eq(user));
     }
 
     @Test

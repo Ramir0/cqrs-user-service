@@ -26,7 +26,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -101,10 +100,14 @@ public class UserCommandTest {
     public void test_HandleUnknownExceptionForCreateUser() throws Exception {
         when(userOutputPortMock.save(any(User.class))).thenThrow(InternalError.class);
 
-        mockMvc.perform(post("/user")
+        File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
+        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+                        .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Internal error"));
+        // TODO debug to find the exception
+        verify(userOutputPortMock).save(any(User.class));
     }
 
     @Test
