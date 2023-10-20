@@ -9,7 +9,6 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,15 +37,9 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(@NotNull @PathVariable UUID id, @RequestBody UpdateUserRequest request) {
         log.info("Received request to update");
-
-        try {
-            userHandler.handle(request, id);
-            log.info("User with ID {} has been successfully update", id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            log.error("Error updating user with ID {}", id, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        userHandler.handle(request, id);
+        log.info("User with ID {} has been successfully update", id);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

@@ -6,5 +6,7 @@ import dev.amir.usercommand.domain.valueobject.UserId;
 public interface UserOutputPort {
     User save(User user);
 
+    User update(User user);
+
     boolean delete(UserId userId);
 }
