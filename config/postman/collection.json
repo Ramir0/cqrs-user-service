@@ -32,7 +32,7 @@
 						}
 					}
 				},
-				"url": "{{user-command-host}}/user"
+				"url": "{{user-command-host}}/users"
 			},
 			"response": []
 		},
@@ -50,7 +50,7 @@
 						}
 					}
 				},
-				"url": "{{user-command-host}}/user/{{user-id}}"
+				"url": "{{user-command-host}}/users/{{user-id}}"
 			},
 			"response": []
 		},
@@ -70,7 +70,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "{{user-command-host}}/user/{{user-id}}"
+				"url": "{{user-command-host}}/users/{{user-id}}"
 			},
 			"response": []
 		},
@@ -79,7 +79,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{user-query-host}}/user/{{user-id}}"
+				"url": "{{user-query-host}}/users/{{user-id}}"
 			},
 			"response": []
 		},
@@ -100,7 +100,7 @@
 						}
 					}
 				},
-				"url": "{{user-query-host}}/user"
+				"url": "{{user-query-host}}/users"
 			},
 			"response": []
 		}

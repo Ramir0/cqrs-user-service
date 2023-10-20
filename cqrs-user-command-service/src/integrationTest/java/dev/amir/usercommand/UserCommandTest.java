@@ -49,7 +49,7 @@ public class UserCommandTest {
 
         File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/user")
+                        .post("/users")
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -65,7 +65,7 @@ public class UserCommandTest {
         when(userOutputPortMock.delete(expectedUuid)).thenReturn(true);
 
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/user/{id}", expectedUuid))
+                        .delete("/users/{id}", expectedUuid))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -85,7 +85,7 @@ public class UserCommandTest {
 
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/user/{id}", expectedUuid)
+                        .put("/users/{id}", expectedUuid)
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
