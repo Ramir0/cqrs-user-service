@@ -101,7 +101,7 @@ public class UserCommandTest {
         when(userOutputPortMock.save(any(User.class))).thenThrow(InternalError.class);
 
         File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
@@ -117,7 +117,7 @@ public class UserCommandTest {
 
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/user/{userId}", expectedUuid)
+        mockMvc.perform(MockMvcRequestBuilders.put("/users/{userId}", expectedUuid)
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
