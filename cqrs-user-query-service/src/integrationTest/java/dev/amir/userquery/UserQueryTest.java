@@ -51,7 +51,7 @@ public class UserQueryTest {
 
         when(userOutputPortMock.getAll()).thenReturn(mockUsers);
 
-        mockMvc.perform(get("/user").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/users").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.users[0].name").value("kevin"))
                 .andExpect(jsonPath("$.users[1].name").value("john"))
@@ -69,7 +69,7 @@ public class UserQueryTest {
         mockUser.setId(expectedUuid);
         when(userOutputPortMock.getById(any(String.class))).thenReturn(Optional.of(mockUser));
 
-        mockMvc.perform(get("/user/{userId}", expectedUuid)
+        mockMvc.perform(get("/users/{userId}", expectedUuid)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.user.name").value("kevin"))
                 .andExpect(jsonPath("$.user.id").value(expectedUuid))
@@ -82,7 +82,7 @@ public class UserQueryTest {
     public void test_HandleUnknownException_ForGetAllUsers() throws Exception {
         when(userOutputPortMock.getAll()).thenThrow(InternalError.class);
 
-        mockMvc.perform(get("/user")
+        mockMvc.perform(get("/users")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Internal error"));
@@ -97,7 +97,7 @@ public class UserQueryTest {
 
         when(userOutputPortMock.getById(any(String.class))).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/user/{userId}", expectedUuid)
+        mockMvc.perform(get("/users/{userId}", expectedUuid)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
