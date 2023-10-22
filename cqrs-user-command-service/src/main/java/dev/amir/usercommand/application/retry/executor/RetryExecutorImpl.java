@@ -1,8 +1,11 @@
-package dev.amir.usercommand.application.retry;
+package dev.amir.usercommand.application.retry.executor;
 
+import dev.amir.usercommand.application.retry.action.RetryAction;
+import dev.amir.usercommand.application.retry.action.RetryActionCallback;
+import dev.amir.usercommand.application.retry.function.RetryFunction;
+import dev.amir.usercommand.application.retry.function.RetryFunctionCallback;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.retry.RetryContext;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -17,10 +20,9 @@ public class RetryExecutorImpl implements RetryExecutor {
     @Override
     public <T> T execute(RetryFunction<T> callback) {
         try {
-            return retryTemplate.execute(retryContext -> {
-                logRetryCount(retryContext);
-                return callback.execute();
-            });
+            return retryTemplate.execute(
+                    new RetryFunctionCallback<T, Exception>(callback)
+            );
         } catch (Exception exception) {
             log.error("Maximum attempts on retry function", exception);
         }
@@ -31,11 +33,9 @@ public class RetryExecutorImpl implements RetryExecutor {
     @Override
     public void execute(RetryAction callback) {
         try {
-            retryTemplate.execute(retryContext -> {
-                logRetryCount(retryContext);
-                callback.execute();
-                return Void.TYPE;
-            });
+            retryTemplate.execute(
+                    new RetryActionCallback<Exception>(callback)
+            );
         } catch (Exception exception) {
             log.error("Maximum attempts on retry action", exception);
         }
@@ -45,15 +45,5 @@ public class RetryExecutorImpl implements RetryExecutor {
     @Async
     public void asyncExecute(RetryAction callback) {
         execute(callback);
-    }
-
-    private void logRetryCount(RetryContext retryContext) {
-        if (retryContext.getRetryCount() > 0) {
-            log.warn(
-                    "Retry count: [{}] Error message: [{}]",
-                    retryContext.getRetryCount(),
-                    retryContext.getLastThrowable().getMessage()
-            );
-        }
     }
 }

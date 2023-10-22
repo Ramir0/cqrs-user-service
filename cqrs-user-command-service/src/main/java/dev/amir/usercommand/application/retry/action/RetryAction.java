@@ -1,4 +1,4 @@
-package dev.amir.usercommand.application.retry;
+package dev.amir.usercommand.application.retry.action;
 
 @FunctionalInterface
 public interface RetryAction {

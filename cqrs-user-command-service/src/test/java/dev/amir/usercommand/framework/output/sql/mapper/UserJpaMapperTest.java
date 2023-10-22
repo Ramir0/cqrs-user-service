@@ -1,0 +1,110 @@
+package dev.amir.usercommand.framework.output.sql.mapper;
+
+import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+@ExtendWith(SpringExtension.class)
+class UserJpaMapperTest {
+
+    private UserJpaMapper underTest;
+
+    @BeforeEach
+    void setUp() {
+        underTest = Mappers.getMapper(UserJpaMapper.class);
+    }
+
+    @Test
+    void test_Convert_FromUser_ToUserJpa() {
+        User expected = new User();
+        expected.setId(new UserId());
+        expected.setName("Name");
+        expected.setLastname("Lastname");
+        expected.setEmail("email@test.com");
+        expected.setActive(true);
+
+        UserJpa actual = underTest.convert(expected);
+
+        assertNotNull(actual);
+        assertEquals(expected.getId().getValue(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getLastname(), actual.getLastname());
+        assertEquals(expected.getEmail(), actual.getEmail());
+        assertEquals(expected.isActive(), actual.isActive());
+    }
+
+    @Test
+    void test_Convert_WhenUser_ReturnsNull() {
+        UserJpa actual = underTest.convert((User) null);
+
+        assertNull(actual);
+    }
+
+    @Test
+    void test_Convert_FromUserJpa_ToUser() {
+        UserJpa expected = new UserJpa();
+        expected.setId(UUID.randomUUID());
+        expected.setName("Name");
+        expected.setLastname("Lastname");
+        expected.setEmail("email.test.com");
+        expected.setActive(true);
+
+        User actual = underTest.convert(expected);
+
+        assertNotNull(actual);
+        assertEquals(expected.getId(), actual.getId().getValue());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getLastname(), actual.getLastname());
+        assertEquals(expected.getEmail(), actual.getEmail());
+        assertEquals(expected.isActive(), actual.isActive());
+    }
+
+    @Test
+    void test_Convert_WhenUserJpa_ReturnsNull() {
+        User actual = underTest.convert((UserJpa) null);
+
+        assertNull(actual);
+    }
+
+    @Test
+    void test_UserIdToUuid() {
+        UserId expected = new UserId();
+
+        UUID actual = underTest.userIdToUuid(expected);
+
+        assertEquals(expected.getValue(), actual);
+    }
+
+    @Test
+    void test_UuidToUserId() {
+        UUID expected = UUID.randomUUID();
+
+        UserId actual = underTest.uuidToUserId(expected);
+
+        assertEquals(expected, actual.getValue());
+    }
+
+    @Test
+    void test_UserIdToUuid_WhenUserIdIsNull_ReturnsNull() {
+        UUID actual = underTest.userIdToUuid(null);
+
+        assertNull(actual);
+    }
+
+    @Test
+    void test_UuidToUserId_WhenUuidIsNull_ReturnsNull() {
+        UserId actual = underTest.uuidToUserId(null);
+
+        assertNull(actual);
+    }
+}
