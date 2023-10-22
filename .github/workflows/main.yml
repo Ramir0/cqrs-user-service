@@ -86,9 +86,15 @@ jobs:
             ${{ github.workspace }}/cqrs-user-command-service/build/reports/jacoco/test/jacocoTestReport.xml,
             ${{ github.workspace }}/cqrs-user-query-service/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 40
-          min-coverage-changed-files: 60
+          min-coverage-overall: 100
+          min-coverage-changed-files: 100
           title: '### :lobster: Coverage Report'
           pass-emoji: ':green_circle:'
           fail-emoji: ':red_circle:'
           update-comment: true
+      - name: Fail PR if overall coverage is less than 100%
+        if: ${{ steps.jacoco.outputs.coverage-overall < 100.0 }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed('Overall coverage is less than 100%!')
