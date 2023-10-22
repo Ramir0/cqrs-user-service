@@ -16,7 +16,8 @@ dependencies {
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+  testImplementation "org.mapstruct:mapstruct:${mapstructVersion}"
+  testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
   testImplementation 'com.h2database:h2'
 
   integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'

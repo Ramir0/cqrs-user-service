@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.output.rabbitmq.configuration;
 
+import lombok.NoArgsConstructor;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+@NoArgsConstructor
 @Configuration
 @Profile("!test")
 public class RabbitMqConfiguration {
