@@ -24,7 +24,7 @@ class RetryExecutorTest {
     private RetryExecutorImpl underTest;
 
     @Test
-    void test_Execute_WithReturnType() {
+    void test_Execute_ReturnsCallbackResponse() {
         Integer expected = 100;
         RetryFunction<Integer> callback = () -> expected;
         when(retryTemplateMock.execute(any())).thenReturn(expected);
@@ -36,7 +36,7 @@ class RetryExecutorTest {
     }
 
     @Test
-    void test_Execute_WithReturnType_ReturnsNull() {
+    void test_Execute_WhenCallbackThrowsException_ReturnsNull() {
         RetryFunction<Integer> callback = () -> 100;
         when(retryTemplateMock.execute(any())).thenThrow(NullPointerException.class);
 
@@ -58,7 +58,7 @@ class RetryExecutorTest {
     }
 
     @Test
-    void test_Execute_ReturnsNull() {
+    void test_Execute_WhenCallbackThrowsException_DoesNothing() {
         RetryAction callback = () -> {
         };
         when(retryTemplateMock.execute(any())).thenThrow(NullPointerException.class);

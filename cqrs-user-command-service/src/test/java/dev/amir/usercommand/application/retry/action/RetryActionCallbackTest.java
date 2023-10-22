@@ -26,7 +26,7 @@ class RetryActionCallbackTest {
     }
 
     @Test
-    void test_DoWithRetry_SecondTry() {
+    void test_DoWithRetry_WhenRetryCountIsGreaterThanZero_LogsWarnWithThrowable() {
         RetryAction action = () -> {
         };
         RetryContext contextMock = mock(RetryContext.class);
