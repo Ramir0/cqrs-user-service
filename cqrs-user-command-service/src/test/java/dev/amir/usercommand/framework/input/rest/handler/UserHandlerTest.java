@@ -35,7 +35,7 @@ class UserHandlerTest {
     private UserHandlerImpl underTest;
 
     @Test
-    void test_Handle_CreateUserRequest() {
+    void test_Handle_WhenInputIsCreateUserRequest() {
         UserId userId = new UserId();
         CreateUserRequest request = new CreateUserRequest(
                 "Name",
@@ -56,7 +56,7 @@ class UserHandlerTest {
     }
 
     @Test
-    void test_Handle_UpdateUserRequest() {
+    void test_Handle_WhenInputIsUpdateUserRequest() {
         UUID userId = UUID.randomUUID();
         UpdateUserRequest request = new UpdateUserRequest(
                 "Name",
@@ -75,7 +75,7 @@ class UserHandlerTest {
     }
 
     @Test
-    void test_Handle_DeleteUserRequest() {
+    void test_Handle_WhenInputIsDeleteUserRequest() {
         UUID userId = UUID.randomUUID();
         DeleteUserRequest request = new DeleteUserRequest();
         when(userInputPortMock.deleteUser(any(UUID.class))).thenReturn(true);
