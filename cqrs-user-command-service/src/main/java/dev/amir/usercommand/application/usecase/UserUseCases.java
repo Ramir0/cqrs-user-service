@@ -39,11 +39,10 @@ public class UserUseCases implements UserInputPort {
     }
 
     @Override
-    public boolean deleteUser(UUID userIdParam) {
+    public void deleteUser(UUID userIdParam) {
         log.info("Attempting to delete user with ID: {}", userIdParam);
         UserId userId = new UserId(userIdParam);
-        boolean isUserDeleted = userOutputPort.delete(userId);
-        log.info("User with ID: {} deleted: {}", userId, isUserDeleted);
-        return isUserDeleted;
+        userOutputPort.delete(userId);
+        log.info("User with ID: {} deleted", userId);
     }
 }

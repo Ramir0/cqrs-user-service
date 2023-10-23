@@ -11,5 +11,5 @@ public interface UserHandler {
 
     void handle(UpdateUserRequest request, UUID userId);
 
-    boolean handle(DeleteUserRequest request, UUID userId);
+    void handle(DeleteUserRequest request, UUID userId);
 }

@@ -8,5 +8,5 @@ public interface UserOutputPort {
 
     User update(User user);
 
-    boolean delete(UserId userId);
+    void delete(UserId userId);
 }

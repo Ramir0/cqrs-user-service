@@ -64,15 +64,12 @@ public class UserCommandTest {
     @Test
     public void test_DeleteUserTest() throws Exception {
         UserId expectedUuid = new UserId();
-        when(userOutputPortMock.delete(expectedUuid)).thenReturn(true);
 
-        MvcResult response = mockMvc.perform(MockMvcRequestBuilders
+        doNothing().when(userOutputPortMock).delete(expectedUuid);
+
+        mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/{id}", expectedUuid))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String result = response.getResponse().getContentAsString();
-        assertEquals("true", result);
+                .andExpect(status().isNoContent());
 
         verify(userOutputPortMock).delete(eq(expectedUuid));
     }
