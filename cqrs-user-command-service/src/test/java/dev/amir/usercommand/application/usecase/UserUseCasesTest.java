@@ -1,15 +1,17 @@
-package dev.amir.usercommand.application.service;
+package dev.amir.usercommand.application.usecase;
 
 import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
-import dev.amir.usercommand.application.retry.RetryAction;
-import dev.amir.usercommand.application.retry.RetryExecutor;
 import dev.amir.usercommand.application.retry.RetryFunctionMatcher;
-import dev.amir.usercommand.application.usecase.UserUseCases;
+import dev.amir.usercommand.application.retry.action.RetryAction;
+import dev.amir.usercommand.application.retry.executor.RetryExecutor;
+import dev.amir.usercommand.application.retry.function.RetryFunction;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,13 +21,18 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-class UserInputPortTest {
+class UserUseCasesTest {
+
+    @Captor
+    ArgumentCaptor<RetryFunction<User>> retryFunctionCaptor;
+    @Captor
+    ArgumentCaptor<RetryAction> retryActionCaptor;
+
     @Mock
     private UserOutputPort userOutputPortMock;
     @Mock
@@ -33,7 +40,7 @@ class UserInputPortTest {
     @Mock
     private RetryExecutor retryExecutorMock;
     @InjectMocks
-    private UserUseCases userUseCases;
+    private UserUseCases underTest;
 
     @Test
     void test_CreateUser() {
@@ -47,18 +54,27 @@ class UserInputPortTest {
 
         User userResponse = new User();
         userResponse.setId(new UserId());
+
         when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
         doNothing().when(retryExecutorMock).asyncExecute(any(RetryAction.class));
+        when(userOutputPortMock.save(any(User.class))).thenReturn(userResponse);
+        doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
         // When
-        UserId newUserId = userUseCases.createUser(user);
+        UserId newUserId = underTest.createUser(user);
 
         // Then
         assertNotNull(newUserId);
-        verify(userOutputPortMock, never()).save(any(User.class));
-        verify(userMessageOutputPortMock, never()).sendMessage(any(User.class));
-        verify(retryExecutorMock).execute(argThat(retryMatcher));
-        verify(retryExecutorMock).asyncExecute(any(RetryAction.class));
+
+        verify(retryExecutorMock).execute(retryFunctionCaptor.capture());
+        RetryFunction<User> retryFunction = retryFunctionCaptor.getValue();
+        retryFunction.execute();
+        verify(userOutputPortMock).save(eq(user));
+
+        verify(retryExecutorMock).asyncExecute(retryActionCaptor.capture());
+        RetryAction retryAction = retryActionCaptor.getValue();
+        retryAction.execute();
+        verify(userMessageOutputPortMock).sendMessage(eq(userResponse));
     }
 
     @Test
@@ -73,7 +89,7 @@ class UserInputPortTest {
         when(userOutputPortMock.update(any(User.class))).thenReturn(user);
         doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
-        userUseCases.updateUser(user);
+        underTest.updateUser(user);
 
         verify(userOutputPortMock).update(eq(user));
         verify(userMessageOutputPortMock).sendMessage(eq(user));
@@ -85,7 +101,7 @@ class UserInputPortTest {
 
         doNothing().when(userOutputPortMock).delete(any());
 
-        userUseCases.deleteUser(userId.getValue());
+        underTest.deleteUser(userId.getValue());;
 
         verify(userOutputPortMock).delete(eq(userId));
     }
