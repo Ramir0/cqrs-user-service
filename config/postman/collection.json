@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3106af8c-30b9-40a1-9143-d1fb725aee9e",
+		"_postman_id": "605391ae-a77f-4abf-aac9-b6ee62744cf2",
 		"name": "UserService",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "124234"
@@ -13,8 +13,10 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"const userId = responseBody;\r",
-							"pm.environment.set(\"user-id\", userId);"
+							"if (responseCode.code == 200) {\r",
+							"    const body = JSON.parse(responseBody);\r",
+							"    pm.environment.set(\"user-id\", body.id);\r",
+							"}"
 						],
 						"type": "text/javascript"
 					}
@@ -61,7 +63,9 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.environment.set(\"user-id\", \"00000000-0000-0000-0000-000000000000\");"
+							"if (responseCode.code == 204) {\r",
+							"    pm.environment.set(\"user-id\", \"00000000-0000-0000-0000-000000000000\");    \r",
+							"}"
 						],
 						"type": "text/javascript"
 					}
