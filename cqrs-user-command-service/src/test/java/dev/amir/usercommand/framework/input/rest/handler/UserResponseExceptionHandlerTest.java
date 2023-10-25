@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,5 +36,20 @@ class UserResponseExceptionHandlerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertEquals("User not found", response.getBody());
+    }
+
+    @Test
+    void test_handleBadRequestException() {
+        MethodArgumentTypeMismatchException ex = new MethodArgumentTypeMismatchException(
+                "userId",
+                Long.class,
+                "abc",
+                null,
+                null
+        );
+        ResponseEntity<String> response = underTest.handleBadRequestException(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Bad request", response.getBody());
     }
 }

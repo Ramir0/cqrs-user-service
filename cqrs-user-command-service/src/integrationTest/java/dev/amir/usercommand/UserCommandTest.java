@@ -5,6 +5,7 @@ import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -16,14 +17,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.ResourceUtils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -37,7 +37,8 @@ public class UserCommandTest {
     UserOutputPort userOutputPortMock;
     @MockBean
     UserMessageOutputPort userMessageOutputPortMock;
-
+    @MockBean
+    UserJpaRepository jpaRepositoryMock;
     @Autowired
     private MockMvc mockMvc;
 
@@ -121,5 +122,29 @@ public class UserCommandTest {
                 .andExpect(content().string("User not found"));
 
         verify(userOutputPortMock).update(any(User.class));
+    }
+
+    @Test
+    public void test_HandleUserNotFoundExceptionForDeleteUser() throws Exception {
+        UUID expectedUuid = UUID.randomUUID();
+        UserId userId = new UserId(expectedUuid);
+
+        doThrow(UserNotFoundException.class).when(userOutputPortMock).delete(any(UserId.class));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", userId))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("User not found"));
+
+        verify(userOutputPortMock).delete(eq(userId));
+    }
+
+    @Test
+    public void test_HandleBadRequestExceptionForDeleteUser() throws Exception {
+        int wrongUuid = 123;
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/users/{id}", wrongUuid))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Bad request"));
     }
 }
