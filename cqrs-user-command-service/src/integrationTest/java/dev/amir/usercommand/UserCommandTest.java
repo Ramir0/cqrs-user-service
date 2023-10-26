@@ -66,7 +66,7 @@ public class UserCommandTest {
     public void test_DeleteUserTest() throws Exception {
         UserId expectedUuid = new UserId();
 
-        doNothing().when(userOutputPortMock).delete(expectedUuid);
+        doNothing().when(userOutputPortMock).delete(any(UserId.class));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/{id}", expectedUuid))

@@ -99,9 +99,9 @@ class UserUseCasesTest {
     void test_DeleteUser() {
         UserId userId = new UserId();
 
-        doNothing().when(userOutputPortMock).delete(any());
+        doNothing().when(userOutputPortMock).delete(any(UserId.class));
 
-        underTest.deleteUser(userId.getValue());;
+        underTest.deleteUser(userId.getValue());
 
         verify(userOutputPortMock).delete(eq(userId));
     }
