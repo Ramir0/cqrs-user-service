@@ -33,16 +33,16 @@ public class UserUseCases implements UserInputPort {
     @Override
     public void updateUser(User user) {
         log.info("Verifying if the 'id' field exists for user update");
-        User savedUser = userOutputPort.update(user);
+        User savedUser = retryExecutor.execute(() -> userOutputPort.update(user));
         log.info("User with ID: {} successfully updated", savedUser.getId());
-        userMessageOutputPort.sendMessage(savedUser);
+        retryExecutor.asyncExecute(() -> userMessageOutputPort.sendMessage(savedUser)) ;
     }
 
     @Override
     public void deleteUser(UUID userIdParam) {
         log.info("Attempting to delete user with ID: {}", userIdParam);
         UserId userId = new UserId(userIdParam);
-        userOutputPort.delete(userId);
+        retryExecutor.execute(() -> userOutputPort.delete(userId));
         log.info("User with ID: {} deleted", userId);
     }
 }
