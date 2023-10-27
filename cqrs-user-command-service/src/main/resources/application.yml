@@ -5,14 +5,16 @@ spring:
   application:
     name: user-command-service
   datasource:
-    url: jdbc:mysql://localhost:3306/user-db
-    username: user-db
-    password: user-db
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:sqlserver://localhost:1433;databaseName=user-db;encrypt=true;trustServerCertificate=true;
+    username: sa
+    password: Str#ng_Passw#rd
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      connectionTimeout: 5000
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.SQLServerDialect
     open-in-view: false
   flyway:
     enabled: true
