@@ -59,7 +59,7 @@ class UserOutputAdapterTest {
     }
 
     @Test
-    void test_Update_WhenUserExist_ThrowsException() {
+    void test_Update_WhenUserDoesNotExist_ThrowsException() {
         UserId newUserId = new UserId();
         User newUser = new User();
         newUser.setId(newUserId);
@@ -106,24 +106,27 @@ class UserOutputAdapterTest {
     @Test
     void test_Delete() {
         UserId userId = new UserId();
+
         when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
         doNothing().when(jpaRepositoryMock).deleteById(any(UUID.class));
 
-        boolean actual = underTest.delete(userId);
+        underTest.delete(userId);
 
-        assertTrue(actual);
         verify(jpaRepositoryMock).existsById(eq(userId.getValue()));
         verify(jpaRepositoryMock).deleteById(eq(userId.getValue()));
     }
 
     @Test
-    void test_Delete_WhenUserDoesNotExist_ReturnsFalse() {
+    void test_Delete_WhenUserDoesNotExist_ThrowsException() {
         UserId userId = new UserId();
+
         when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
 
-        boolean actual = underTest.delete(userId);
+        assertThrows(
+                UserNotFoundException.class,
+                () -> underTest.delete(userId)
+        );
 
-        assertFalse(actual);
         verify(jpaRepositoryMock).existsById(eq(userId.getValue()));
         verify(jpaRepositoryMock, never()).deleteById(any());
     }

@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
@@ -100,11 +99,10 @@ class UserUseCasesTest {
     void test_DeleteUser() {
         UserId userId = new UserId();
 
-        when(userOutputPortMock.delete(any())).thenReturn(true);
+        doNothing().when(userOutputPortMock).delete(any(UserId.class));
 
-        boolean isUserDeleted = underTest.deleteUser(userId.getValue());
+        underTest.deleteUser(userId.getValue());
 
-        assertTrue(isUserDeleted);
         verify(userOutputPortMock).delete(eq(userId));
     }
 }

@@ -43,16 +43,10 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUser(@NotNull @PathVariable UUID id) {
+    public ResponseEntity<Void> deleteUser(@NotNull @PathVariable UUID id) {
         log.info("Received request to delete user");
-        boolean isUserDeleted = userHandler.handle(new DeleteUserRequest(), id);
-
-        if (isUserDeleted) {
-            log.info("User with ID {} has been successfully deleted", id);
-        } else {
-            log.warn("An unexpected error occurred while deleting the user");
-        }
-
-        return ResponseEntity.ok(isUserDeleted);
+        userHandler.handle(new DeleteUserRequest(), id);
+        log.info("User with ID {} has been successfully deleted", id);
+        return ResponseEntity.noContent().build();
     }
 }

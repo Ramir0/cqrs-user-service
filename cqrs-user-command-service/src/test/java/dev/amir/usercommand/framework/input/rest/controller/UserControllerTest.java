@@ -15,10 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -71,26 +69,12 @@ class UserControllerTest {
     @Test
     void test_DeleteUser() {
         UUID userId = UUID.randomUUID();
-        when(userHandlerMock.handle(any(DeleteUserRequest.class), any(UUID.class))).thenReturn(true);
 
-        ResponseEntity<Boolean> actual = underTest.deleteUser(userId);
+        doNothing().when(userHandlerMock).handle(any(DeleteUserRequest.class), any(UUID.class));
 
-        assertEquals(HttpStatus.OK, actual.getStatusCode());
-        assertNotNull(actual.getBody());
-        assertTrue(actual.getBody());
-        verify(userHandlerMock).handle(any(DeleteUserRequest.class), eq(userId));
-    }
+        ResponseEntity<Void> actual = underTest.deleteUser(userId);
 
-    @Test
-    void test_DeleteUser_WhenUserIsNotDeleted() {
-        UUID userId = UUID.randomUUID();
-        when(userHandlerMock.handle(any(DeleteUserRequest.class), any(UUID.class))).thenReturn(false);
-
-        ResponseEntity<Boolean> actual = underTest.deleteUser(userId);
-
-        assertEquals(HttpStatus.OK, actual.getStatusCode());
-        assertNotNull(actual.getBody());
-        assertFalse(actual.getBody());
+        assertEquals(HttpStatus.NO_CONTENT, actual.getStatusCode());
         verify(userHandlerMock).handle(any(DeleteUserRequest.class), eq(userId));
     }
 }

@@ -39,9 +39,8 @@ public class UserHandlerImpl implements UserHandler {
     }
 
     @Override
-    public boolean handle(DeleteUserRequest request, UUID userId) {
-        boolean deleted = userInputPort.deleteUser(userId);
+    public void handle(DeleteUserRequest request, UUID userId) {
+        userInputPort.deleteUser(userId);
         log.info("verifying deletion of user with ID {} ", userId);
-        return deleted;
     }
 }

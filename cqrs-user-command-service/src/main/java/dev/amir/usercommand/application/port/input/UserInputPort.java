@@ -10,5 +10,5 @@ public interface UserInputPort {
 
     void updateUser(User user);
 
-    boolean deleteUser(UUID userId);
+    void deleteUser(UUID userId);
 }

@@ -78,11 +78,11 @@ class UserHandlerTest {
     void test_Handle_WhenInputIsDeleteUserRequest() {
         UUID userId = UUID.randomUUID();
         DeleteUserRequest request = new DeleteUserRequest();
-        when(userInputPortMock.deleteUser(any(UUID.class))).thenReturn(true);
 
-        boolean actual = underTest.handle(request, userId);
+        doNothing().when(userInputPortMock).deleteUser(any(UUID.class));
 
-        assertTrue(actual);
+        underTest.handle(request, userId);
+
         verify(userInputPortMock).deleteUser(eq(userId));
     }
 }
