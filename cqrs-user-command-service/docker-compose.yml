@@ -2,13 +2,17 @@ version: '3.9'
 
 services:
   user-db:
-    image: mysql:8
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: azure-sql-edge
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: user-db
-      MYSQL_USER: user-db
-      MYSQL_PASSWORD: user-db
-    volumes:
-      - ./.data:/var/lib/mysql
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: "Str#ng_Passw#rd"
+      MSSQL_DB_NAME: "user-db"
     ports:
-      - 3306:3306
+      - "1433:1433"
+    volumes:
+      - ./.data/data:/var/opt/mssql/data
+      - ./.data/log:/var/opt/mssql/log
+      - ./.data/secrets:/var/opt/mssql/secrets
+      - ./docker-config:/usr/src/app
+    command: ["/bin/sh", "-c", "./usr/src/app/init-db.sh"]
