@@ -1,0 +1,8 @@
+# Auto-normalize line endings for text files
+* text=auto
+
+# For Windows users, normalize line endings for specific files
+*.txt text eol=crlf
+
+# For Unix users, keep line endings as-is
+*.sh text eol=lf

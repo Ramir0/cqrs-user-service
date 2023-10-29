@@ -3,7 +3,7 @@ version: '3.9'
 services:
   user-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: azure-sql-edge
+    container_name: sqlserver-2022
     environment:
       ACCEPT_EULA: Y
       MSSQL_SA_PASSWORD: "Str#ng_Passw#rd"
@@ -15,4 +15,4 @@ services:
       - ./.data/log:/var/opt/mssql/log
       - ./.data/secrets:/var/opt/mssql/secrets
       - ./docker-config:/usr/src/app
-    command: ["/bin/sh", "-c", "./usr/src/app/init-db.sh"]
+    command: bash "/usr/src/app/init-db.sh"
