@@ -35,7 +35,7 @@ public class UserUseCases implements UserInputPort {
         log.info("Verifying if the 'id' field exists for user update");
         User savedUser = retryExecutor.execute(() -> userOutputPort.update(user));
         log.info("User with ID: {} successfully updated", savedUser.getId());
-        retryExecutor.asyncExecute(() -> userMessageOutputPort.sendMessage(savedUser)) ;
+        retryExecutor.asyncExecute(() -> userMessageOutputPort.sendMessage(savedUser));
     }
 
     @Override
