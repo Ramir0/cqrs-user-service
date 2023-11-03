@@ -2,6 +2,7 @@ package dev.amir.usercommand.framework.output.sql.mapper;
 
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +32,7 @@ class UserJpaMapperTest {
         expected.setName("Name");
         expected.setLastname("Lastname");
         expected.setEmail("email@test.com");
-        expected.setActive(true);
+        expected.setStatus(UserStatus.ACTIVE);
 
         UserJpa actual = underTest.convert(expected);
 
@@ -40,7 +41,7 @@ class UserJpaMapperTest {
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
-        assertEquals(expected.isActive(), actual.isActive());
+        assertEquals(expected.getStatus(), actual.getStatus());
     }
 
     @Test
@@ -57,7 +58,7 @@ class UserJpaMapperTest {
         expected.setName("Name");
         expected.setLastname("Lastname");
         expected.setEmail("email.test.com");
-        expected.setActive(true);
+        expected.setStatus(UserStatus.ACTIVE);
 
         User actual = underTest.convert(expected);
 
@@ -66,7 +67,7 @@ class UserJpaMapperTest {
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
-        assertEquals(expected.isActive(), actual.isActive());
+        assertEquals(expected.getStatus(), actual.getStatus());
     }
 
     @Test

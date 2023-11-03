@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.input.rest.handler.UserHandler;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
@@ -37,7 +38,7 @@ class UserControllerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                true
+                UserStatus.ACTIVE
         );
         CreateUserResponse response = new CreateUserResponse(UUID.randomUUID().toString());
         when(userHandlerMock.handle(any(CreateUserRequest.class))).thenReturn(response);
@@ -55,7 +56,7 @@ class UserControllerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                true
+                UserStatus.ACTIVE
         );
         doNothing().when(userHandlerMock).handle(any(UpdateUserRequest.class), any(UUID.class));
 

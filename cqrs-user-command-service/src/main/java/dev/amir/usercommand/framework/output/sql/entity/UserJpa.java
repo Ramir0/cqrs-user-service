@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.entity;
 
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +26,6 @@ public class UserJpa {
     private String lastname;
     @Column
     private String email;
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column
+    private UserStatus status;
 }

@@ -1,5 +1,6 @@
 package dev.amir.userquery.framework.output.nosql.entity;
 
+import dev.amir.userquery.domain.valueobject.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,5 +15,5 @@ public class UserMongo {
     private String name;
     private String lastname;
     private String email;
-    private boolean isActive;
+    private UserStatus status;
 }

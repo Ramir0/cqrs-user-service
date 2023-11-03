@@ -1,6 +1,7 @@
 package dev.amir.userquery.framework.input.rabbitmq.mapper;
 
 import dev.amir.userquery.domain.entity.User;
+import dev.amir.userquery.domain.valueobject.UserStatus;
 import dev.amir.userquery.framework.input.rabbitmq.message.SaveUserMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class UserMessageMapperTest {
                 "Name",
                 "Lastname",
                 "Email",
-                true
+                UserStatus.ACTIVE
         );
 
         User actual = underTest.convert(message);
@@ -40,7 +41,7 @@ class UserMessageMapperTest {
         assertEquals(message.name(), actual.getName());
         assertEquals(message.lastname(), actual.getLastname());
         assertEquals(message.email(), actual.getEmail());
-        assertEquals(message.active(), actual.isActive());
+        assertEquals(message.status(), actual.getStatus());
     }
 
     @Test
@@ -60,7 +61,6 @@ class UserMessageMapperTest {
         assertEquals(message.name(), actual.getName());
         assertEquals(message.lastname(), actual.getLastname());
         assertEquals(message.email(), actual.getEmail());
-        assertFalse(actual.isActive());
     }
 
     @Test

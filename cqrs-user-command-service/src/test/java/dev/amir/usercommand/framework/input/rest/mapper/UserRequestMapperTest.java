@@ -1,6 +1,7 @@
 package dev.amir.usercommand.framework.input.rest.mapper;
 
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ class UserRequestMapperTest {
                 "Name",
                 "Lastname",
                 "Email",
-                true
+                UserStatus.ACTIVE
         );
 
         User actual = underTest.convert(expected);
@@ -37,7 +38,7 @@ class UserRequestMapperTest {
         assertEquals(expected.name(), actual.getName());
         assertEquals(expected.lastname(), actual.getLastname());
         assertEquals(expected.email(), actual.getEmail());
-        assertEquals(expected.isActive(), actual.isActive());
+        assertEquals(expected.status(), actual.getStatus());
     }
 
     @Test
@@ -54,7 +55,7 @@ class UserRequestMapperTest {
         assertEquals(expected.name(), actual.getName());
         assertEquals(expected.lastname(), actual.getLastname());
         assertEquals(expected.email(), actual.getEmail());
-        assertFalse(actual.isActive());
+        assertNull(actual.getStatus());
     }
 
     @Test
@@ -70,7 +71,7 @@ class UserRequestMapperTest {
                 "Name",
                 "Lastname",
                 "Email",
-                true
+                UserStatus.ACTIVE
         );
 
         User actual = underTest.convert(expected);
@@ -78,7 +79,7 @@ class UserRequestMapperTest {
         assertEquals(expected.name(), actual.getName());
         assertEquals(expected.lastname(), actual.getLastname());
         assertEquals(expected.email(), actual.getEmail());
-        assertEquals(expected.isActive(), actual.isActive());
+        assertEquals(expected.status(), actual.getStatus());
     }
 
     @Test
@@ -95,7 +96,7 @@ class UserRequestMapperTest {
         assertEquals(expected.name(), actual.getName());
         assertEquals(expected.lastname(), actual.getLastname());
         assertEquals(expected.email(), actual.getEmail());
-        assertFalse(actual.isActive());
+        assertNull(actual.getStatus());
     }
 
     @Test

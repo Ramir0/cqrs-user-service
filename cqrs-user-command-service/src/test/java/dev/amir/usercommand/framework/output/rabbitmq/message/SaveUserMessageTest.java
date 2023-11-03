@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.output.rabbitmq.message;
 
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -13,20 +14,20 @@ class SaveUserMessageTest {
         String name = "Name";
         String lastname = "Lastname";
         String email = "Email";
-        boolean isActive = true;
+        UserStatus status = UserStatus.ACTIVE;
 
         SaveUserMessage actual = new SaveUserMessage(
                 userId,
                 name,
                 lastname,
                 email,
-                isActive
+                status
         );
 
         assertEquals(userId, actual.id());
         assertEquals(name, actual.name());
         assertEquals(lastname, actual.lastname());
         assertEquals(email, actual.email());
-        assertEquals(isActive, actual.active());
+        assertEquals(status, actual.status());
     }
 }

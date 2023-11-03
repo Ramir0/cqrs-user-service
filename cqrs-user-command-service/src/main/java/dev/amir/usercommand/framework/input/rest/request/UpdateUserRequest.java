@@ -1,4 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
-public record UpdateUserRequest(String name, String lastname, String email, Boolean isActive) {
+import dev.amir.usercommand.domain.valueobject.UserStatus;
+
+public record UpdateUserRequest(String name, String lastname, String email, UserStatus status) {
 }
