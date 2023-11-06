@@ -87,23 +87,43 @@ class UserUseCasesTest {
         user.setEmail("jsmith@test.com");
         user.setStatus(UserStatus.ACTIVE);
 
+        RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
+
+        User userResponse = new User();
+        userResponse.setId(new UserId());
+
+        when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
+        doNothing().when(retryExecutorMock).asyncExecute(any(RetryAction.class));
         when(userOutputPortMock.update(any(User.class))).thenReturn(user);
         doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
         underTest.updateUser(user);
 
+        verify(retryExecutorMock).execute(retryFunctionCaptor.capture());
+        RetryFunction<User> retryFunction = retryFunctionCaptor.getValue();
+        retryFunction.execute();
         verify(userOutputPortMock).update(eq(user));
-        verify(userMessageOutputPortMock).sendMessage(eq(user));
+
+        verify(retryExecutorMock).asyncExecute(retryActionCaptor.capture());
+        RetryAction retryAction = retryActionCaptor.getValue();
+        retryAction.execute();
+        verify(userMessageOutputPortMock).sendMessage(eq(userResponse));
     }
 
     @Test
     void test_DeleteUser() {
-        UserId userId = new UserId();
+        User userResponse = new User();
+        userResponse.setId(new UserId());
 
+        doNothing().when(retryExecutorMock).execute(any(RetryAction.class));
         doNothing().when(userOutputPortMock).delete(any(UserId.class));
 
+        UserId userId = new UserId();
         underTest.deleteUser(userId.getValue());
 
+        verify(retryExecutorMock).execute(retryActionCaptor.capture());
+        RetryAction retryFunction = retryActionCaptor.getValue();
+        retryFunction.execute();
         verify(userOutputPortMock).delete(eq(userId));
     }
 }
