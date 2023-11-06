@@ -38,7 +38,7 @@ class RetryExecutorTest {
 
     @Test
     void test_Execute_WhenCallbackThrowsUserException() {
-        RetryFunction<Integer> callback = () -> 100; // review lamda
+        RetryFunction<Integer> callback = () -> 100;
         when(retryTemplateMock.execute(any())).thenThrow(new UserException("Something went wrong"));
 
         assertThrows(UserException.class, () -> underTest.execute(callback));
