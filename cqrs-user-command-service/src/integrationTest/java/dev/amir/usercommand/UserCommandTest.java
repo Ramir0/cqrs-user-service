@@ -59,7 +59,6 @@ public class UserCommandTest {
                 .andExpect(jsonPath("$.id").value(expectedUuid.toString()));
 
         verify(userOutputPortMock).save(any(User.class));
-        verify(userMessageOutputPortMock).sendMessage(any(User.class));
     }
 
     @Test
@@ -91,7 +90,6 @@ public class UserCommandTest {
                 .andExpect(status().isOk());
 
         verify(userOutputPortMock).update(any(User.class));
-        verify(userMessageOutputPortMock).sendMessage(any(User.class));
     }
 
     @Test

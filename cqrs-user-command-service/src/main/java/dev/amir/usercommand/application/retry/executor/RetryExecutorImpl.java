@@ -4,6 +4,7 @@ import dev.amir.usercommand.application.retry.action.RetryAction;
 import dev.amir.usercommand.application.retry.action.RetryActionCallback;
 import dev.amir.usercommand.application.retry.function.RetryFunction;
 import dev.amir.usercommand.application.retry.function.RetryFunctionCallback;
+import dev.amir.usercommand.domain.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.support.RetryTemplate;
@@ -23,11 +24,11 @@ public class RetryExecutorImpl implements RetryExecutor {
             return retryTemplate.execute(
                     new RetryFunctionCallback<T, Exception>(callback)
             );
+        } catch (UserException exception) {
+            throw exception;
         } catch (Exception exception) {
-            log.error("Maximum attempts on retry function", exception);
+            throw new RuntimeException("Maximum attempts on retry function", exception);
         }
-
-        return null;
     }
 
     @Override
@@ -36,8 +37,10 @@ public class RetryExecutorImpl implements RetryExecutor {
             retryTemplate.execute(
                     new RetryActionCallback<Exception>(callback)
             );
+        } catch (UserException exception) {
+            throw exception;
         } catch (Exception exception) {
-            log.error("Maximum attempts on retry action", exception);
+            throw new RuntimeException("Maximum attempts on retry action", exception);
         }
     }
 
