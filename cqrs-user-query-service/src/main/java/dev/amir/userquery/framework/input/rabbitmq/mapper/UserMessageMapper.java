@@ -9,6 +9,5 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMessageMapper {
 
-    @Mapping(target = "status", source = "status")
     User convert(SaveUserMessage message);
 }

@@ -10,7 +10,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -45,13 +44,13 @@ class UserMessageMapperTest {
     }
 
     @Test
-    void test_Convert_WhenActiveFieldIsNotPresent_SetFalseByDefault() {
+    void test_Convert_WhenStatusFieldIsNotPresent_SetInactiveByDefault() {
         SaveUserMessage message = new SaveUserMessage(
                 "Id",
                 "Name",
                 "Lastname",
                 "Email",
-                null
+                UserStatus.INACTIVE
         );
 
         User actual = underTest.convert(message);
@@ -61,6 +60,7 @@ class UserMessageMapperTest {
         assertEquals(message.name(), actual.getName());
         assertEquals(message.lastname(), actual.getLastname());
         assertEquals(message.email(), actual.getEmail());
+        assertEquals("INACTIVE", actual.getStatus().name());
     }
 
     @Test
