@@ -86,7 +86,7 @@ class UserUseCasesTest {
         user.setLastname("Smith");
         user.setEmail("jsmith@test.com");
         user.setStatus(UserStatus.ACTIVE);
-;
+
         RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
 
         User userResponse = new User();
