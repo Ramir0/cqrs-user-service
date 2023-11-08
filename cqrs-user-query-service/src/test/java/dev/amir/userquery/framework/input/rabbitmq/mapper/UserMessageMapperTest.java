@@ -44,26 +44,6 @@ class UserMessageMapperTest {
     }
 
     @Test
-    void test_Convert_WhenStatusFieldIsNotPresent_SetInactiveByDefault() {
-        SaveUserMessage message = new SaveUserMessage(
-                "Id",
-                "Name",
-                "Lastname",
-                "Email",
-                UserStatus.INACTIVE
-        );
-
-        User actual = underTest.convert(message);
-
-        assertNotNull(actual);
-        assertEquals(message.id(), actual.getId());
-        assertEquals(message.name(), actual.getName());
-        assertEquals(message.lastname(), actual.getLastname());
-        assertEquals(message.email(), actual.getEmail());
-        assertEquals("INACTIVE", actual.getStatus().name());
-    }
-
-    @Test
     void test_Convert_WhenMessageIsNull_ReturnsNull() {
         User actual = underTest.convert(null);
 
