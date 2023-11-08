@@ -2,6 +2,7 @@ package dev.amir.usercommand.framework.output.rabbitmq.mapper;
 
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.output.rabbitmq.message.SaveUserMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class UserMessageMapperTest {
         user.setName("Name");
         user.setLastname("Lastname");
         user.setEmail("Email");
-        user.setActive(true);
+        user.setStatus(UserStatus.ACTIVE);
 
         SaveUserMessage actual = underTest.convert(user);
 
@@ -39,7 +40,7 @@ class UserMessageMapperTest {
         assertEquals(user.getName(), actual.name());
         assertEquals(user.getLastname(), actual.lastname());
         assertEquals(user.getEmail(), actual.email());
-        assertEquals(user.isActive(), actual.active());
+        assertEquals(user.getStatus(), actual.status());
     }
 
     @Test

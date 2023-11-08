@@ -1,5 +1,6 @@
 package dev.amir.userquery.framework.input.rabbitmq.listener;
 
+import dev.amir.userquery.domain.valueobject.UserStatus;
 import dev.amir.userquery.framework.input.rabbitmq.handler.UserMessageHandler;
 import dev.amir.userquery.framework.input.rabbitmq.message.SaveUserMessage;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ class UserListenerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                true
+                UserStatus.ACTIVE
         );
         doNothing().when(userMessageHandlerMock).handle(any(SaveUserMessage.class));
 

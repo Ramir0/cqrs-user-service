@@ -10,10 +10,8 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserRequestMapper {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "active", source = "isActive")
     User convert(CreateUserRequest request);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "active", source = "isActive")
     User convert(UpdateUserRequest request);
 }

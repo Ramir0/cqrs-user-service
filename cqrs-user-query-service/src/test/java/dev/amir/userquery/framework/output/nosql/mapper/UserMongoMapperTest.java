@@ -1,6 +1,7 @@
 package dev.amir.userquery.framework.output.nosql.mapper;
 
 import dev.amir.userquery.domain.entity.User;
+import dev.amir.userquery.domain.valueobject.UserStatus;
 import dev.amir.userquery.framework.output.nosql.entity.UserMongo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ class UserMongoMapperTest {
         expected.setName("Name");
         expected.setLastname("Lastname");
         expected.setEmail("Email");
-        expected.setActive(true);
+        expected.setStatus(UserStatus.ACTIVE);
 
         UserMongo actual = underTest.convert(expected);
 
@@ -38,7 +39,7 @@ class UserMongoMapperTest {
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
-        assertEquals(expected.isActive(), actual.isActive());
+        assertEquals(expected.getStatus(), actual.getStatus());
     }
 
     @Test
@@ -48,7 +49,7 @@ class UserMongoMapperTest {
         expected.setName("Name");
         expected.setLastname("Lastname");
         expected.setEmail("Email");
-        expected.setActive(true);
+        expected.setStatus(UserStatus.ACTIVE);
 
         User actual = underTest.convert(expected);
 
@@ -57,7 +58,7 @@ class UserMongoMapperTest {
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
-        assertEquals(expected.isActive(), actual.isActive());
+        assertEquals(expected.getStatus(), actual.getStatus());
     }
 
     @Test

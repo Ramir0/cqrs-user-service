@@ -1,6 +1,7 @@
 package dev.amir.usercommand.framework.output.rabbitmq.producer;
 
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.output.rabbitmq.mapper.UserMessageMapper;
 import dev.amir.usercommand.framework.output.rabbitmq.message.SaveUserMessage;
 import java.util.UUID;
@@ -40,7 +41,7 @@ class UserMessageProducerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                true
+                UserStatus.ACTIVE
         );
 
         when(userMessageMapperMock.convert(any(User.class))).thenReturn(message);

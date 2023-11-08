@@ -1,6 +1,7 @@
 package dev.amir.usercommand.domain.entity;
 
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,5 +14,5 @@ public class User {
     private String name;
     private String lastname;
     private String email;
-    private boolean isActive;
+    private UserStatus status;
 }

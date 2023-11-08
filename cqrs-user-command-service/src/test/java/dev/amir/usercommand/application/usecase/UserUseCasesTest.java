@@ -8,6 +8,7 @@ import dev.amir.usercommand.application.retry.executor.RetryExecutor;
 import dev.amir.usercommand.application.retry.function.RetryFunction;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -49,7 +50,7 @@ class UserUseCasesTest {
         user.setName("Amir");
         user.setLastname("Aranibar");
         user.setEmail("amir@test.com");
-        user.setActive(true);
+        user.setStatus(UserStatus.ACTIVE);
         RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
 
         User userResponse = new User();
@@ -84,7 +85,8 @@ class UserUseCasesTest {
         user.setName("John");
         user.setLastname("Smith");
         user.setEmail("jsmith@test.com");
-        user.setActive(true);
+        user.setStatus(UserStatus.ACTIVE);
+
         RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
 
         User userResponse = new User();

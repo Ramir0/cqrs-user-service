@@ -3,6 +3,7 @@ package dev.amir.usercommand.framework.input.rest.handler;
 import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.input.rest.mapper.UserRequestMapper;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
@@ -41,7 +42,7 @@ class UserHandlerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                true
+                UserStatus.ACTIVE
         );
         User user = new User();
         when(requestMapperMock.convert(any(CreateUserRequest.class))).thenReturn(user);
@@ -62,7 +63,7 @@ class UserHandlerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                true
+                UserStatus.ACTIVE
         );
         User user = new User();
         when(requestMapperMock.convert(any(UpdateUserRequest.class))).thenReturn(user);
