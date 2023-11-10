@@ -28,4 +28,15 @@ public class UserJpa {
     private String email;
     @Column
     private UserStatus status;
+    @Column
+    private String username;
+    @Column
+    private Byte gender;
+    // TODO ADD enum class male,famele, noBinari
+    @Column
+    private java.sql.Date birth_date;
+    @Column
+    private java.sql.Timestamp created_at;
+    @Column
+    private java.sql.Timestamp updated_at;
 }
