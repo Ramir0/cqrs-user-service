@@ -1,6 +1,9 @@
 package dev.amir.usercommand.framework.output.sql.entity;
 
+import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,12 +34,11 @@ public class UserJpa {
     @Column
     private String username;
     @Column
-    private Byte gender;
-    // TODO ADD enum class male,famele, noBinari
+    private UserGender userGender;
     @Column
-    private java.sql.Date birth_date;
+    private LocalDate birthDate;
     @Column
-    private java.sql.Timestamp created_at;
+    private LocalDateTime createdAt;
     @Column
-    private java.sql.Timestamp updated_at;
+    private LocalDateTime updatedAt;
 }

@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
+import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +14,10 @@ class CreateUserRequestTest {
         String lastname = "Lastname";
         String email = "Email";
         UserStatus status = UserStatus.ACTIVE;
+        String userName = "UserName";
+        UserGender userGender = UserGender.MALE;
 
-        CreateUserRequest actual = new CreateUserRequest(name, lastname, email, status);
+        CreateUserRequest actual = new CreateUserRequest(name, lastname, email, status, userName, userGender);
 
         assertEquals(name, actual.name());
         assertEquals(lastname, actual.lastname());

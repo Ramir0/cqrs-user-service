@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
+import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.input.rest.handler.UserHandler;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
@@ -16,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -38,7 +38,9 @@ class UserControllerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                UserStatus.ACTIVE
+                UserStatus.ACTIVE,
+                "UserName",
+                UserGender.FEMALE
         );
         CreateUserResponse response = new CreateUserResponse(UUID.randomUUID().toString());
         when(userHandlerMock.handle(any(CreateUserRequest.class))).thenReturn(response);
@@ -56,7 +58,9 @@ class UserControllerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                UserStatus.ACTIVE
+                UserStatus.ACTIVE,
+                "UserName",
+                UserGender.FEMALE
         );
         doNothing().when(userHandlerMock).handle(any(UpdateUserRequest.class), any(UUID.class));
 

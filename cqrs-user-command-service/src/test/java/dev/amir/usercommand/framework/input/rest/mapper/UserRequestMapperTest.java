@@ -1,6 +1,7 @@
 package dev.amir.usercommand.framework.input.rest.mapper;
 
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
@@ -30,7 +31,9 @@ class UserRequestMapperTest {
                 "Name",
                 "Lastname",
                 "Email",
-                UserStatus.ACTIVE
+                UserStatus.ACTIVE,
+                "UserName",
+                UserGender.FEMALE
         );
 
         User actual = underTest.convert(expected);
@@ -47,7 +50,9 @@ class UserRequestMapperTest {
                 "Name",
                 "Lastname",
                 "Email",
-                null
+                null,
+                "UserName",
+                UserGender.FEMALE
         );
 
         User actual = underTest.convert(expected);
@@ -71,7 +76,9 @@ class UserRequestMapperTest {
                 "Name",
                 "Lastname",
                 "Email",
-                UserStatus.ACTIVE
+                UserStatus.ACTIVE,
+                "UserName",
+                UserGender.FEMALE
         );
 
         User actual = underTest.convert(expected);
@@ -88,7 +95,9 @@ class UserRequestMapperTest {
                 "Name",
                 "Lastname",
                 "Email",
-                null
+                null,
+                "UserName",
+                UserGender.FEMALE
         );
 
         User actual = underTest.convert(expected);
