@@ -39,7 +39,7 @@ public class UserController {
         log.info("Received request to update");
         userHandler.handle(request, id);
         log.info("User with ID {} has been successfully update", id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
