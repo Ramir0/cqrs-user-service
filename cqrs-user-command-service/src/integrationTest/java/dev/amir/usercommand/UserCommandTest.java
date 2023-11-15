@@ -55,7 +55,7 @@ public class UserCommandTest {
                         .post("/users")
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(expectedUuid.toString()));
 
         verify(userOutputPortMock).save(any(User.class));
