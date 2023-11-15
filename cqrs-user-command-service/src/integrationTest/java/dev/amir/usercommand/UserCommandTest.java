@@ -87,7 +87,7 @@ public class UserCommandTest {
                         .put("/users/{id}", expectedUuid)
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(userOutputPortMock).update(any(User.class));
     }

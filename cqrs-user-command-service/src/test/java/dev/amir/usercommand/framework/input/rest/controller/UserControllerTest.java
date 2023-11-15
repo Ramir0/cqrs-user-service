@@ -62,7 +62,7 @@ class UserControllerTest {
 
         ResponseEntity<Void> actual = underTest.updateUser(userId, request);
 
-        assertEquals(HttpStatus.OK, actual.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, actual.getStatusCode());
         assertNull(actual.getBody());
         verify(userHandlerMock).handle(eq(request), eq(userId));
     }
