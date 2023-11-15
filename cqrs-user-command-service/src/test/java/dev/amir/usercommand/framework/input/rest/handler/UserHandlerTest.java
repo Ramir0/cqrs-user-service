@@ -2,6 +2,7 @@ package dev.amir.usercommand.framework.input.rest.handler;
 
 import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.input.rest.mapper.UserRequestMapper;
@@ -42,7 +43,9 @@ class UserHandlerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                UserStatus.ACTIVE
+                UserStatus.ACTIVE,
+                "UserName",
+                UserGender.FEMALE
         );
         User user = new User();
         when(requestMapperMock.convert(any(CreateUserRequest.class))).thenReturn(user);
@@ -63,7 +66,9 @@ class UserHandlerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                UserStatus.ACTIVE
+                UserStatus.ACTIVE,
+                "UserName",
+                UserGender.FEMALE
         );
         User user = new User();
         when(requestMapperMock.convert(any(UpdateUserRequest.class))).thenReturn(user);

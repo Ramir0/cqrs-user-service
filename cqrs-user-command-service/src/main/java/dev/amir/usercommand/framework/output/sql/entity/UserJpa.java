@@ -1,6 +1,9 @@
 package dev.amir.usercommand.framework.output.sql.entity;
 
+import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,4 +31,14 @@ public class UserJpa {
     private String email;
     @Column
     private UserStatus status;
+    @Column
+    private String username;
+    @Column
+    private UserGender userGender;
+    @Column
+    private LocalDate birthDate;
+    @Column
+    private LocalDateTime createdAt;
+    @Column
+    private LocalDateTime updatedAt;
 }
