@@ -34,7 +34,7 @@ public class UserJpa {
     @Column
     private String username;
     @Column
-    private UserGender userGender;
+    private UserGender gender;
     @Column
     private LocalDate birthDate;
     @Column

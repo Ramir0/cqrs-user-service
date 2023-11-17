@@ -1,6 +1,5 @@
 package dev.amir.usercommand;
 
-import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
@@ -36,8 +35,6 @@ public class UserCommandTest {
     @MockBean
     UserOutputPort userOutputPortMock;
     @MockBean
-    UserMessageOutputPort userMessageOutputPortMock;
-    @MockBean
     UserJpaRepository jpaRepositoryMock;
     @Autowired
     private MockMvc mockMvc;
@@ -48,7 +45,6 @@ public class UserCommandTest {
         UserId expectedUuid = new UserId();
         mockUser.setId(expectedUuid);
         when(userOutputPortMock.save(any(User.class))).thenReturn(mockUser);
-        doNothing().when(userMessageOutputPortMock).sendMessage(any());
 
         File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders
@@ -80,7 +76,6 @@ public class UserCommandTest {
         UserId expectedUuid = new UserId(UUID.randomUUID());
         mockUser.setId(expectedUuid);
         when(userOutputPortMock.update(any(User.class))).thenReturn(mockUser);
-        doNothing().when(userMessageOutputPortMock).sendMessage(any());
 
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders
