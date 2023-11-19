@@ -1,7 +1,6 @@
 package dev.amir.usercommand.application.usecase;
 
 import dev.amir.usercommand.application.port.input.UserInputPort;
-import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.application.retry.executor.RetryExecutor;
 import dev.amir.usercommand.domain.entity.User;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 public class UserUseCases implements UserInputPort {
 
     private final UserOutputPort userOutputPort;
-    private final UserMessageOutputPort userMessageOutputPort;
     private final RetryExecutor retryExecutor;
 
     @Override
@@ -26,7 +24,6 @@ public class UserUseCases implements UserInputPort {
         user.setId(new UserId());
         User savedUser = retryExecutor.execute(() -> userOutputPort.save(user));
         log.info("User with ID: {} successfully created", savedUser.getId());
-        retryExecutor.asyncExecute(() -> userMessageOutputPort.sendMessage(savedUser));
         return savedUser.getId();
     }
 
@@ -35,7 +32,6 @@ public class UserUseCases implements UserInputPort {
         log.info("Verifying if the 'id' field exists for user update");
         User savedUser = retryExecutor.execute(() -> userOutputPort.update(user));
         log.info("User with ID: {} successfully updated", savedUser.getId());
-        retryExecutor.asyncExecute(() -> userMessageOutputPort.sendMessage(savedUser));
     }
 
     @Override
