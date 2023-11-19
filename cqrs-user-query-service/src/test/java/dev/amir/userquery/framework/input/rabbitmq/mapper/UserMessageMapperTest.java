@@ -1,6 +1,7 @@
 package dev.amir.userquery.framework.input.rabbitmq.mapper;
 
 import dev.amir.userquery.domain.entity.User;
+import dev.amir.userquery.domain.valueobject.UserGender;
 import dev.amir.userquery.domain.valueobject.UserStatus;
 import dev.amir.userquery.framework.input.rabbitmq.message.SaveUserMessage;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,8 @@ class UserMessageMapperTest {
                 "Name",
                 "Lastname",
                 "Email",
-                UserStatus.ACTIVE
+                UserStatus.ACTIVE,
+                UserGender.MALE
         );
 
         User actual = underTest.convert(message);

@@ -2,6 +2,7 @@ package dev.amir.userquery.framework.input.rabbitmq.handler;
 
 import dev.amir.userquery.application.port.input.UserCommandInputPort;
 import dev.amir.userquery.domain.entity.User;
+import dev.amir.userquery.domain.valueobject.UserGender;
 import dev.amir.userquery.domain.valueobject.UserStatus;
 import dev.amir.userquery.framework.input.rabbitmq.mapper.UserMessageMapper;
 import dev.amir.userquery.framework.input.rabbitmq.message.SaveUserMessage;
@@ -34,7 +35,8 @@ class UserMessageHandlerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                UserStatus.ACTIVE
+                UserStatus.ACTIVE,
+                UserGender.MALE
         );
         User user = new User();
         when(userMessageMapperMock.convert(any(SaveUserMessage.class))).thenReturn(user);

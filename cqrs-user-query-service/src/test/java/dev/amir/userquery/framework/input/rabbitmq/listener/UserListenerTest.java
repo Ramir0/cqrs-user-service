@@ -1,5 +1,6 @@
 package dev.amir.userquery.framework.input.rabbitmq.listener;
 
+import dev.amir.userquery.domain.valueobject.UserGender;
 import dev.amir.userquery.domain.valueobject.UserStatus;
 import dev.amir.userquery.framework.input.rabbitmq.handler.UserMessageHandler;
 import dev.amir.userquery.framework.input.rabbitmq.message.SaveUserMessage;
@@ -30,7 +31,8 @@ class UserListenerTest {
                 "Name",
                 "Lastname",
                 "Email",
-                UserStatus.ACTIVE
+                UserStatus.ACTIVE,
+                UserGender.MALE
         );
         doNothing().when(userMessageHandlerMock).handle(any(SaveUserMessage.class));
 

@@ -19,7 +19,7 @@ public class User {
     private String email;
     private UserStatus status;
     private String username;
-    private UserGender userGender;
+    private UserGender gender;
     private LocalDate birthDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
