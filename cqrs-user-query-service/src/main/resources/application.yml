@@ -21,10 +21,3 @@ spring:
       port: 27017
       database: user-mongodb
       uuid-representation: standard
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-    queues:
-      users-queue: q.users

@@ -1,6 +1,5 @@
 package dev.amir.usercommand.application.usecase;
 
-import dev.amir.usercommand.application.port.output.UserMessageOutputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.application.retry.RetryFunctionMatcher;
 import dev.amir.usercommand.application.retry.action.RetryAction;
@@ -37,8 +36,6 @@ class UserUseCasesTest {
     @Mock
     private UserOutputPort userOutputPortMock;
     @Mock
-    private UserMessageOutputPort userMessageOutputPortMock;
-    @Mock
     private RetryExecutor retryExecutorMock;
     @InjectMocks
     private UserUseCases underTest;
@@ -57,9 +54,7 @@ class UserUseCasesTest {
         userResponse.setId(new UserId());
 
         when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
-        doNothing().when(retryExecutorMock).asyncExecute(any(RetryAction.class));
         when(userOutputPortMock.save(any(User.class))).thenReturn(userResponse);
-        doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
         // When
         UserId newUserId = underTest.createUser(user);
@@ -71,11 +66,6 @@ class UserUseCasesTest {
         RetryFunction<User> retryFunction = retryFunctionCaptor.getValue();
         retryFunction.execute();
         verify(userOutputPortMock).save(eq(user));
-
-        verify(retryExecutorMock).asyncExecute(retryActionCaptor.capture());
-        RetryAction retryAction = retryActionCaptor.getValue();
-        retryAction.execute();
-        verify(userMessageOutputPortMock).sendMessage(eq(userResponse));
     }
 
     @Test
@@ -93,9 +83,7 @@ class UserUseCasesTest {
         userResponse.setId(new UserId());
 
         when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
-        doNothing().when(retryExecutorMock).asyncExecute(any(RetryAction.class));
         when(userOutputPortMock.update(any(User.class))).thenReturn(user);
-        doNothing().when(userMessageOutputPortMock).sendMessage(any(User.class));
 
         underTest.updateUser(user);
 
@@ -103,11 +91,6 @@ class UserUseCasesTest {
         RetryFunction<User> retryFunction = retryFunctionCaptor.getValue();
         retryFunction.execute();
         verify(userOutputPortMock).update(eq(user));
-
-        verify(retryExecutorMock).asyncExecute(retryActionCaptor.capture());
-        RetryAction retryAction = retryActionCaptor.getValue();
-        retryAction.execute();
-        verify(userMessageOutputPortMock).sendMessage(eq(userResponse));
     }
 
     @Test
