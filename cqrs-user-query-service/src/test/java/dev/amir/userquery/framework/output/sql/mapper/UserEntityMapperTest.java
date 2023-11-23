@@ -3,8 +3,6 @@ package dev.amir.userquery.framework.output.sql.mapper;
 import dev.amir.userquery.domain.entity.User;
 import dev.amir.userquery.domain.valueobject.UserGender;
 import dev.amir.userquery.domain.valueobject.UserStatus;
-import dev.amir.userquery.framework.output.nosql.entity.UserMongo;
-import dev.amir.userquery.framework.output.nosql.mapper.UserMongoMapper;
 import dev.amir.userquery.framework.output.sql.entity.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
