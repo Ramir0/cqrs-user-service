@@ -1,5 +1,6 @@
 package dev.amir.userquery.domain.entity;
 
+import dev.amir.userquery.domain.valueobject.UserGender;
 import dev.amir.userquery.domain.valueobject.UserStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,5 @@ public class User {
     private String lastname;
     private String email;
     private UserStatus status;
+    private UserGender gender;
 }
