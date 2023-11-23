@@ -1,5 +1,6 @@
 package dev.amir.userquery.framework.output.nosql.entity;
 
+import dev.amir.userquery.domain.valueobject.UserGender;
 import dev.amir.userquery.domain.valueobject.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,4 +17,5 @@ public class UserMongo {
     private String lastname;
     private String email;
     private UserStatus status;
+    private UserGender gender;
 }
