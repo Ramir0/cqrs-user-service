@@ -72,7 +72,6 @@ public class UserOutputAdapterTest {
         when(userRepositoryMock.save(any(UserEntity.class))).thenReturn(userEntity);
         when(userEntityMapperMock.convert(any(User.class))).thenReturn(userEntity);
 
-
         underTest.save(expectedUser);
 
         verify(userRepositoryMock).save(eq(userEntity));
