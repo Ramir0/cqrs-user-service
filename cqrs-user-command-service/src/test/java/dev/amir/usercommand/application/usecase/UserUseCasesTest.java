@@ -7,7 +7,7 @@ import dev.amir.usercommand.application.retry.executor.RetryExecutor;
 import dev.amir.usercommand.application.retry.function.RetryFunction;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
-import dev.amir.usercommand.domain.valueobject.UserStatus;
+import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -23,7 +23,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 @ExtendWith(MockitoExtension.class)
 class UserUseCasesTest {
@@ -43,15 +42,11 @@ class UserUseCasesTest {
     @Test
     void test_CreateUser() {
         // Given
-        User user = new User();
-        user.setName("Amir");
-        user.setLastname("Aranibar");
-        user.setEmail("amir@test.com");
-        user.setStatus(UserStatus.ACTIVE);
         RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
 
         User userResponse = new User();
         userResponse.setId(new UserId());
+        User user = RandomObject.nextObject(User.class);
 
         when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
         when(userOutputPortMock.save(any(User.class))).thenReturn(userResponse);
@@ -70,13 +65,7 @@ class UserUseCasesTest {
 
     @Test
     void test_UpdateUser() {
-        User user = new User();
-        user.setId(new UserId());
-        user.setName("John");
-        user.setLastname("Smith");
-        user.setEmail("jsmith@test.com");
-        user.setStatus(UserStatus.ACTIVE);
-
+        User user = RandomObject.nextObject(User.class);
         RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
 
         User userResponse = new User();

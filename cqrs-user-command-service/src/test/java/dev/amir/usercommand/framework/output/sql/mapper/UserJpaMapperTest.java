@@ -2,8 +2,8 @@ package dev.amir.usercommand.framework.output.sql.mapper;
 
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
-import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
+import dev.amir.usercommand.util.RandomObject;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,12 +27,7 @@ class UserJpaMapperTest {
 
     @Test
     void test_Convert_FromUser_ToUserJpa() {
-        User expected = new User();
-        expected.setId(new UserId());
-        expected.setName("Name");
-        expected.setLastname("Lastname");
-        expected.setEmail("email@test.com");
-        expected.setStatus(UserStatus.ACTIVE);
+        User expected = RandomObject.nextObject(User.class);
 
         UserJpa actual = underTest.convert(expected);
 
@@ -53,12 +48,7 @@ class UserJpaMapperTest {
 
     @Test
     void test_Convert_FromUserJpa_ToUser() {
-        UserJpa expected = new UserJpa();
-        expected.setId(UUID.randomUUID());
-        expected.setName("Name");
-        expected.setLastname("Lastname");
-        expected.setEmail("email.test.com");
-        expected.setStatus(UserStatus.ACTIVE);
+        UserJpa expected = RandomObject.nextObject(UserJpa.class);
 
         User actual = underTest.convert(expected);
 

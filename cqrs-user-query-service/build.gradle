@@ -14,6 +14,7 @@ dependencies {
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation "org.jeasy:easy-random-core:${easyRandomVersion}"
   testImplementation "org.mapstruct:mapstruct:${mapstructVersion}"
   testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
   testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'

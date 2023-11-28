@@ -14,9 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -36,9 +34,7 @@ class UserOutputAdapterTest {
     @Test
     void test_Save() {
         User user = new User();
-        user.setName("Name");
         UserJpa userJpa = new UserJpa();
-        userJpa.setName("Name");
 
         UserId savedUserId = new UserId();
         User savedUser = new User();
@@ -79,15 +75,12 @@ class UserOutputAdapterTest {
     void test_Update() {
         UserId savedUserId = new UserId();
         User user = new User();
-        user.setName("Name");
         user.setId(savedUserId);
         UserJpa userJpa = new UserJpa();
-        userJpa.setName("Name");
 
         User savedUser = new User();
         savedUser.setId(savedUserId);
         UserJpa savedUserJpa = new UserJpa();
-        savedUserJpa.setId(savedUserId.getValue());
 
         when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
         when(jpaMapperMock.convert(eq(user))).thenReturn(userJpa);
@@ -122,10 +115,7 @@ class UserOutputAdapterTest {
 
         when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
 
-        assertThrows(
-                UserNotFoundException.class,
-                () -> underTest.delete(userId)
-        );
+        assertThrows(UserNotFoundException.class, () -> underTest.delete(userId));
 
         verify(jpaRepositoryMock).existsById(eq(userId.getValue()));
         verify(jpaRepositoryMock, never()).deleteById(any());

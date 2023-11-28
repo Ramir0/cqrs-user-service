@@ -1,13 +1,13 @@
 package dev.amir.userquery.framework.output.nosql.mapper;
 
 import dev.amir.userquery.domain.entity.User;
-import dev.amir.userquery.domain.valueobject.UserStatus;
 import dev.amir.userquery.framework.output.nosql.entity.UserMongo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import util.RandomObject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,12 +25,7 @@ class UserMongoMapperTest {
 
     @Test
     void test_Convert_FromUser_ToUserMongo() {
-        User expected = new User();
-        expected.setId("Id");
-        expected.setName("Name");
-        expected.setLastname("Lastname");
-        expected.setEmail("Email");
-        expected.setStatus(UserStatus.ACTIVE);
+        User expected = RandomObject.nextObject(User.class);
 
         UserMongo actual = underTest.convert(expected);
 
@@ -44,12 +39,7 @@ class UserMongoMapperTest {
 
     @Test
     void test_Convert_FromUserMongo_ToUser() {
-        UserMongo expected = new UserMongo();
-        expected.setId("Id");
-        expected.setName("Name");
-        expected.setLastname("Lastname");
-        expected.setEmail("Email");
-        expected.setStatus(UserStatus.ACTIVE);
+        UserMongo expected = RandomObject.nextObject(UserMongo.class);
 
         User actual = underTest.convert(expected);
 

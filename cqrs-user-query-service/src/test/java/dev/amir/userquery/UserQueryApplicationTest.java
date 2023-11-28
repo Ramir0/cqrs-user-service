@@ -17,7 +17,7 @@ class UserQueryApplicationTest {
                     () -> SpringApplication.run(any(Class.class), any(String[].class))
             ).thenReturn(null);
 
-            UserQueryApplication.main(new String[] {arg1});
+            UserQueryApplication.main(new String[]{arg1});
 
             springAppMock.verify(
                     () -> SpringApplication.run(eq(UserQueryApplication.class), eq(arg1))
