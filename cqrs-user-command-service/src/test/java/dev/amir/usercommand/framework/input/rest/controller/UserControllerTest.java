@@ -1,12 +1,11 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
-import dev.amir.usercommand.domain.valueobject.UserGender;
-import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.input.rest.handler.UserHandler;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
 import dev.amir.usercommand.framework.input.rest.response.CreateUserResponse;
+import dev.amir.usercommand.util.RandomObject;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,14 +33,7 @@ class UserControllerTest {
 
     @Test
     void test_CreateUser() {
-        CreateUserRequest request = new CreateUserRequest(
-                "Name",
-                "Lastname",
-                "Email",
-                UserStatus.ACTIVE,
-                "UserName",
-                UserGender.FEMALE
-        );
+        CreateUserRequest request = RandomObject.nextObject(CreateUserRequest.class);
         CreateUserResponse response = new CreateUserResponse(UUID.randomUUID().toString());
         when(userHandlerMock.handle(any(CreateUserRequest.class))).thenReturn(response);
 
@@ -54,14 +46,7 @@ class UserControllerTest {
     @Test
     void test_UpdateUser() {
         UUID userId = UUID.randomUUID();
-        UpdateUserRequest request = new UpdateUserRequest(
-                "Name",
-                "Lastname",
-                "Email",
-                UserStatus.ACTIVE,
-                "UserName",
-                UserGender.FEMALE
-        );
+        UpdateUserRequest request = RandomObject.nextObject(UpdateUserRequest.class);
         doNothing().when(userHandlerMock).handle(any(UpdateUserRequest.class), any(UUID.class));
 
         ResponseEntity<Void> actual = underTest.updateUser(userId, request);
