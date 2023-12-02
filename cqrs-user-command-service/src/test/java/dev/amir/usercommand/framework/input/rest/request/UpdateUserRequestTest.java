@@ -15,16 +15,16 @@ class UpdateUserRequestTest {
         String lastname = RandomObject.nextObject(String.class);
         String email = RandomObject.nextObject(String.class);
         UserStatus status = RandomObject.nextObject(UserStatus.class);
-        String userName = RandomObject.nextObject(String.class);
+        String username = RandomObject.nextObject(String.class);
         UserGender userGender = RandomObject.nextObject(UserGender.class);
 
-        UpdateUserRequest actual = new UpdateUserRequest(name, lastname, email, status, userName, userGender);
+        UpdateUserRequest actual = new UpdateUserRequest(username, name, lastname, email, status, userGender);
 
+        assertEquals(username, actual.username());
         assertEquals(name, actual.name());
         assertEquals(lastname, actual.lastname());
         assertEquals(email, actual.email());
         assertEquals(status, actual.status());
-        assertEquals(userName, actual.username());
         assertEquals(userGender, actual.gender());
     }
 }
