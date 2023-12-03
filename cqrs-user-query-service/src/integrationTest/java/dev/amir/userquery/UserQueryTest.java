@@ -20,6 +20,7 @@ import static dev.amir.userquery.util.DefaultObject.defaultUserId;
 import static dev.amir.userquery.util.DefaultObject.defaultUserId2;
 import static dev.amir.userquery.util.DefaultObject.defaultUserJpa;
 import static dev.amir.userquery.util.DefaultObject.defaultUserJpa2;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -51,6 +52,7 @@ public class UserQueryTest {
 
         mockMvc.perform(get("/users").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.users").value(hasSize(2)))
                 .andExpect(jsonPath("$.users[0].id").value(defaultUserId))
                 .andExpect(jsonPath("$.users[0].name").value(defaultUserJpa.getName()))
                 .andExpect(jsonPath("$.users[0].lastname").value(defaultUserJpa.getLastname()))
