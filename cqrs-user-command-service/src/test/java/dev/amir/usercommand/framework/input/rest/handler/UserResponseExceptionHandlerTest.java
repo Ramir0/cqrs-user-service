@@ -1,12 +1,9 @@
 package dev.amir.usercommand.framework.input.rest.handler;
 
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
-import java.lang.reflect.Parameter;
 import java.util.UUID;
-import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
