@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class UserJpa {
     @Id
     private String id;
     @Column

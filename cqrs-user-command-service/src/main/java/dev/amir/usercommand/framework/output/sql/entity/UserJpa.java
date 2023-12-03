@@ -24,6 +24,8 @@ public class UserJpa {
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
     @Column
+    private String username;
+    @Column
     private String name;
     @Column
     private String lastname;
@@ -31,8 +33,6 @@ public class UserJpa {
     private String email;
     @Column
     private UserStatus status;
-    @Column
-    private String username;
     @Column
     private UserGender gender;
     @Column

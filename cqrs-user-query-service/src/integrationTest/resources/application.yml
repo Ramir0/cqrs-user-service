@@ -1,9 +1,10 @@
 spring:
   profiles:
     default: test
-  mongodb: # Use an in-memory MongoDB for tests
-    embedded:
-      version: 4.0.2
-  rabbitmq:
-    queues:
-      users-queue: q.users  # Test queue
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+  flyway:
+    enabled: false  # Disable Flyway for tests

@@ -8,6 +8,4 @@ public interface UserOutputPort {
     Collection<User> getAll();
 
     Optional<User> getById(String userId);
-
-    void save(User user);
 }
