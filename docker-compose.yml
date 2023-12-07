@@ -14,5 +14,5 @@ services:
       - ./.data/data:/var/opt/mssql/data
       - ./.data/log:/var/opt/mssql/log
       - ./.data/secrets:/var/opt/mssql/secrets
-      - ./docker-config:/usr/src/app
+      - ./config/docker:/usr/src/app
     command: bash "/usr/src/app/init-db.sh"

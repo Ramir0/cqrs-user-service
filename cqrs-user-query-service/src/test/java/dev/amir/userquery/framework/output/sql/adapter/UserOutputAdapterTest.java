@@ -1,9 +1,9 @@
 package dev.amir.userquery.framework.output.sql.adapter;
 
 import dev.amir.userquery.domain.entity.User;
-import dev.amir.userquery.framework.output.sql.entity.UserEntity;
+import dev.amir.userquery.framework.output.sql.entity.UserJpa;
 import dev.amir.userquery.framework.output.sql.mapper.UserEntityMapper;
-import dev.amir.userquery.framework.output.sql.repository.UserRepository;
+import dev.amir.userquery.framework.output.sql.repository.UserJpaRepository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class UserOutputAdapterTest {
 
     @Mock
-    private UserRepository userRepositoryMock;
+    private UserJpaRepository userJpaRepositoryMock;
     @Mock
     private UserEntityMapper userEntityMapperMock;
 
@@ -36,45 +36,32 @@ public class UserOutputAdapterTest {
 
     @Test
     public void test_GetAll() {
-        UserEntity userEntity = new UserEntity();
+        UserJpa userJpa = new UserJpa();
         User expectedUser = new User();
-        when(userRepositoryMock.findAll()).thenReturn(List.of(userEntity));
-        when(userEntityMapperMock.convert(any(UserEntity.class))).thenReturn(expectedUser);
+        when(userJpaRepositoryMock.findAll()).thenReturn(List.of(userJpa));
+        when(userEntityMapperMock.convert(any(UserJpa.class))).thenReturn(expectedUser);
 
         Collection<User> actual = underTest.getAll();
 
         assertNotNull(actual);
         assertFalse(actual.isEmpty());
-        verify(userRepositoryMock).findAll();
-        verify(userEntityMapperMock).convert(eq(userEntity));
+        verify(userJpaRepositoryMock).findAll();
+        verify(userEntityMapperMock).convert(eq(userJpa));
     }
 
     @Test
     public void test_GetById() {
         String userId = UUID.randomUUID().toString();
-        UserEntity userEntity = new UserEntity();
+        UserJpa userJpa = new UserJpa();
         User expectedUser = new User();
-        when(userRepositoryMock.findById(anyString())).thenReturn(Optional.of(userEntity));
-        when(userEntityMapperMock.convert(any(UserEntity.class))).thenReturn(expectedUser);
+        when(userJpaRepositoryMock.findById(anyString())).thenReturn(Optional.of(userJpa));
+        when(userEntityMapperMock.convert(any(UserJpa.class))).thenReturn(expectedUser);
 
         Optional<User> actual = underTest.getById(userId);
 
         assertNotNull(actual);
         assertTrue(actual.isPresent());
-        verify(userRepositoryMock).findById(eq(userId));
-        verify(userEntityMapperMock).convert(eq(userEntity));
-    }
-
-    @Test
-    void test_Save() {
-        UserEntity userEntity = new UserEntity();
-        User expectedUser = new User();
-        when(userRepositoryMock.save(any(UserEntity.class))).thenReturn(userEntity);
-        when(userEntityMapperMock.convert(any(User.class))).thenReturn(userEntity);
-
-        underTest.save(expectedUser);
-
-        verify(userRepositoryMock).save(eq(userEntity));
-        verify(userEntityMapperMock).convert(expectedUser);
+        verify(userJpaRepositoryMock).findById(eq(userId));
+        verify(userEntityMapperMock).convert(eq(userJpa));
     }
 }

@@ -16,11 +16,11 @@ import lombok.Setter;
 public class User {
     private UserId id;
     private RoleId roleId;
+    private String username;
     private String name;
     private String lastname;
     private String email;
     private UserStatus status;
-    private String username;
     private UserGender gender;
     private LocalDate birthDate;
     private LocalDateTime createdAt;

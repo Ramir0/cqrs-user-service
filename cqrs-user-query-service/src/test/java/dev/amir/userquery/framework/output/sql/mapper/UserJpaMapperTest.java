@@ -1,7 +1,7 @@
 package dev.amir.userquery.framework.output.sql.mapper;
 
 import dev.amir.userquery.domain.entity.User;
-import dev.amir.userquery.framework.output.sql.entity.UserEntity;
+import dev.amir.userquery.framework.output.sql.entity.UserJpa;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
-public class UserEntityMapperTest {
+public class UserJpaMapperTest {
 
     private UserEntityMapper underTest;
 
@@ -27,7 +27,7 @@ public class UserEntityMapperTest {
     public void test_Convert_FromUser_ToUserEntity() {
         User expectedUser = RandomObject.nextObject(User.class);
 
-        UserEntity actual = underTest.convert(expectedUser);
+        UserJpa actual = underTest.convert(expectedUser);
 
         assertNotNull(actual);
         assertEquals(expectedUser.getId(), actual.getId());
@@ -40,7 +40,7 @@ public class UserEntityMapperTest {
 
     @Test
     public void test_Convert_FromUserEntity_ToUser() {
-        UserEntity expected = RandomObject.nextObject(UserEntity.class);
+        UserJpa expected = RandomObject.nextObject(UserJpa.class);
 
         User actual = underTest.convert(expected);
 
@@ -55,14 +55,14 @@ public class UserEntityMapperTest {
 
     @Test
     void test_Convert_FromUserNull_ToUserEntityNull() {
-        UserEntity actual = underTest.convert((User) null);
+        UserJpa actual = underTest.convert((User) null);
 
         assertNull(actual);
     }
 
     @Test
     void test_Convert_FromUserEntityNull_ToUserNull() {
-        User actual = underTest.convert((UserEntity) null);
+        User actual = underTest.convert((UserJpa) null);
 
         assertNull(actual);
     }

@@ -22,11 +22,12 @@ class CreateUserRequestTest {
 
         CreateUserRequest actual = new CreateUserRequest(roleId, name, lastname, email, status, userName, userGender);
 
+        assertEquals(roleId, actual.roleId());
+        assertEquals(userName, actual.username());
         assertEquals(name, actual.name());
         assertEquals(lastname, actual.lastname());
         assertEquals(email, actual.email());
         assertEquals(status, actual.status());
-        assertEquals(userName, actual.username());
         assertEquals(userGender, actual.gender());
     }
 }

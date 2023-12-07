@@ -27,6 +27,8 @@ public class UserJpa {
     @Column(name = "role_id")
     private UUID roleId;
     @Column
+    private String username;
+    @Column
     private String name;
     @Column
     private String lastname;
@@ -34,8 +36,6 @@ public class UserJpa {
     private String email;
     @Column
     private UserStatus status;
-    @Column
-    private String username;
     @Column
     private UserGender gender;
     @Column

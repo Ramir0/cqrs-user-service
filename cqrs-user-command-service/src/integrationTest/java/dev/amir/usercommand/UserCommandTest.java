@@ -1,9 +1,7 @@
 package dev.amir.usercommand;
 
-import dev.amir.usercommand.application.port.output.UserOutputPort;
-import dev.amir.usercommand.domain.entity.User;
-import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -19,10 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.ResourceUtils;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -33,18 +32,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserCommandTest {
     @MockBean
-    UserOutputPort userOutputPortMock;
-    @MockBean
-    UserJpaRepository jpaRepositoryMock;
+    private UserJpaRepository jpaRepositoryMock;
     @Autowired
     private MockMvc mockMvc;
 
     @Test
+    public void test_LoadContext() {
+        assertNotNull(jpaRepositoryMock);
+        assertNotNull(mockMvc);
+    }
+
+    @Test
     void test_CreateUserTest() throws Exception {
-        User mockUser = new User();
+        UserJpa mockUser = new UserJpa();
         UserId expectedUuid = new UserId();
-        mockUser.setId(expectedUuid);
-        when(userOutputPortMock.save(any(User.class))).thenReturn(mockUser);
+        mockUser.setId(expectedUuid.getValue());
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(mockUser);
 
         File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders
@@ -54,28 +57,30 @@ public class UserCommandTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(expectedUuid.toString()));
 
-        verify(userOutputPortMock).save(any(User.class));
+        verify(jpaRepositoryMock).save(any(UserJpa.class));
     }
 
     @Test
     public void test_DeleteUserTest() throws Exception {
-        UserId expectedUuid = new UserId();
-
-        doNothing().when(userOutputPortMock).delete(any(UserId.class));
+        UUID expectedUuid = UUID.randomUUID();
+        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
+        doNothing().when(jpaRepositoryMock).deleteById(any(UUID.class));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/{id}", expectedUuid))
                 .andExpect(status().isNoContent());
 
-        verify(userOutputPortMock).delete(eq(expectedUuid));
+        verify(jpaRepositoryMock).existsById(eq(expectedUuid));
+        verify(jpaRepositoryMock).deleteById(eq(expectedUuid));
     }
 
     @Test
     void test_UpdateUserTest() throws Exception {
-        User mockUser = new User();
-        UserId expectedUuid = new UserId(UUID.randomUUID());
+        UserJpa mockUser = new UserJpa();
+        UUID expectedUuid = UUID.randomUUID();
         mockUser.setId(expectedUuid);
-        when(userOutputPortMock.update(any(User.class))).thenReturn(mockUser);
+        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(mockUser);
 
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders
@@ -84,12 +89,13 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(userOutputPortMock).update(any(User.class));
+        verify(jpaRepositoryMock).existsById(eq(expectedUuid));
+        verify(jpaRepositoryMock).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUnknownExceptionForCreateUser() throws Exception {
-        when(userOutputPortMock.save(any(User.class))).thenThrow(InternalError.class);
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenThrow(InternalError.class);
 
         File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
@@ -98,13 +104,13 @@ public class UserCommandTest {
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Internal error"));
 
-        verify(userOutputPortMock).save(any(User.class));
+        verify(jpaRepositoryMock).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUserNotFoundExceptionForUpdateUser() throws Exception {
         UUID expectedUuid = UUID.randomUUID();
-        when(userOutputPortMock.update(any(User.class))).thenThrow(new UserNotFoundException(expectedUuid));
+        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
 
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
 
@@ -114,21 +120,21 @@ public class UserCommandTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(userOutputPortMock).update(any(User.class));
+        verify(jpaRepositoryMock).existsById(eq(expectedUuid));
+        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUserNotFoundExceptionForDeleteUser() throws Exception {
         UUID expectedUuid = UUID.randomUUID();
-        UserId userId = new UserId(expectedUuid);
+        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
 
-        doThrow(UserNotFoundException.class).when(userOutputPortMock).delete(any(UserId.class));
-
-        mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", userId))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", expectedUuid))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(userOutputPortMock).delete(eq(userId));
+        verify(jpaRepositoryMock).existsById(eq(expectedUuid));
+        verify(jpaRepositoryMock, never()).deleteById(eq(expectedUuid));
     }
 
     @Test

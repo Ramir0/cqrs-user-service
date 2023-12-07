@@ -1,112 +1,155 @@
 {
-	"info": {
-		"_postman_id": "605391ae-a77f-4abf-aac9-b6ee62744cf2",
-		"name": "UserService",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "124234"
-	},
-	"item": [
-		{
-			"name": "CreateUser",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"if (responseCode.code == 200) {\r",
-							"    const body = JSON.parse(responseBody);\r",
-							"    pm.environment.set(\"user-id\", body.id);\r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"NewName\",\r\n    \"lastname\": \"NewLastname\",\r\n    \"email\": \"new_email@test.com\",\r\n    \"isActive\": true\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{user-command-host}}/users"
-			},
-			"response": []
-		},
-		{
-			"name": "UpdateUser",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"UpdatedName\",\r\n    \"lastname\": \"UpdatedLastname\",\r\n    \"email\": \"updated_email@test.com\",\r\n    \"isActive\": false\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{user-command-host}}/users/{{user-id}}"
-			},
-			"response": []
-		},
-		{
-			"name": "DeleteUser",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"if (responseCode.code == 204) {\r",
-							"    pm.environment.set(\"user-id\", \"00000000-0000-0000-0000-000000000000\");    \r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": "{{user-command-host}}/users/{{user-id}}"
-			},
-			"response": []
-		},
-		{
-			"name": "GetUserById",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "{{user-query-host}}/users/{{user-id}}"
-			},
-			"response": []
-		},
-		{
-			"name": "GetAllUsers",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{user-query-host}}/users"
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "e96413f7-6d94-4662-9fe8-649dca3017f5",
+    "name": "UserService",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "124234"
+  },
+  "item": [
+    {
+      "name": "CreateUser",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (responseCode.code == 201) {\r",
+              "    const body = JSON.parse(responseBody);\r",
+              "    pm.environment.set(\"user-id\", body.id);\r",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"NewUsername\",\r\n    \"name\": \"NewName\",\r\n    \"lastname\": \"NewLastname\",\r\n    \"email\": \"new_email@test.com\",\r\n    \"status\": \"ACTIVE\",\r\n    \"gender\": \"MALE\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{user-command-host}}/users",
+          "host": [
+            "{{user-command-host}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateUser",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"UpdatedUsername\",\r\n    \"name\": \"UpdatedName\",\r\n    \"lastname\": \"UpdatedLastname\",\r\n    \"email\": \"updated_email@test.com\",\r\n    \"status\": \"INACTIVE\",\r\n    \"gender\": \"NON_BINARY\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{user-command-host}}/users/{{user-id}}",
+          "host": [
+            "{{user-command-host}}"
+          ],
+          "path": [
+            "users",
+            "{{user-id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteUser",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (responseCode.code == 204) {\r",
+              "    pm.environment.set(\"user-id\", \"00000000-0000-0000-0000-000000000000\");    \r",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{user-command-host}}/users/{{user-id}}",
+          "host": [
+            "{{user-command-host}}"
+          ],
+          "path": [
+            "users",
+            "{{user-id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetUserById",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{user-query-host}}/users/{{user-id}}",
+          "host": [
+            "{{user-query-host}}"
+          ],
+          "path": [
+            "users",
+            "{{user-id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllUsers",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{user-query-host}}/users",
+          "host": [
+            "{{user-query-host}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

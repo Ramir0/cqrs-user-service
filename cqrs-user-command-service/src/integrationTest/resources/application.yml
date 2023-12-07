@@ -1,14 +1,11 @@
 spring:
   profiles:
     default: test
-  jpa:
-    open-in-view: false
-  datasource: # Use an in-memory H2 database for tests
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-    platform: h2
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
   flyway:
     enabled: false  # Disable Flyway for tests
   retry:
@@ -16,6 +13,3 @@ spring:
     initial-interval: 1000
     multiplier: 2
     max-interval: 30000
-  rabbitmq:
-    queues:
-      users-queue: q.users  # Test queue

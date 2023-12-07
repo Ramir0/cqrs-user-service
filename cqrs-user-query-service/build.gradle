@@ -1,8 +1,6 @@
 dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-  implementation 'org.springframework.boot:spring-boot-starter-amqp'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
   compileOnly 'org.projectlombok:lombok'
   compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
@@ -17,8 +15,6 @@ dependencies {
   testImplementation "org.jeasy:easy-random-core:${easyRandomVersion}"
   testImplementation "org.mapstruct:mapstruct:${mapstructVersion}"
   testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
-  testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
-  testImplementation 'com.h2database:h2'
 
   integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
