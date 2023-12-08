@@ -19,7 +19,7 @@ class UserResponseExceptionHandlerTest {
     }
 
     @Test
-    void test_handleUnknownException() {
+    void test_handleUnknownException_ReturnsStatusCode500() {
         Exception ex = new Exception();
 
         ResponseEntity<String> response = underTest.handleUnknownException(ex);
@@ -29,7 +29,7 @@ class UserResponseExceptionHandlerTest {
     }
 
     @Test
-    void test_handleUserNotFoundException() {
+    void test_handleUserNotFoundException_ReturnsStatusCode404() {
         UserNotFoundException ex = new UserNotFoundException(UUID.randomUUID());
 
         ResponseEntity<String> response = underTest.handleUserNotFoundException(ex);
@@ -39,7 +39,7 @@ class UserResponseExceptionHandlerTest {
     }
 
     @Test
-    void test_handleBadRequestException() {
+    void test_handleBadRequestException_ReturnsStatusCode400() {
         MethodArgumentTypeMismatchException ex = new MethodArgumentTypeMismatchException(
                 "userId",
                 Long.class,
