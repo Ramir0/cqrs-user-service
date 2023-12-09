@@ -1,6 +1,5 @@
 package dev.amir.usercommand;
 
-import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
 import java.io.File;
@@ -17,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.ResourceUtils;
 
+import static dev.amir.usercommand.util.DefaultObject.defaultUserId;
+import static dev.amir.usercommand.util.DefaultObject.defaultUserJpa;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -44,60 +45,53 @@ public class UserCommandTest {
 
     @Test
     void test_CreateUserTest() throws Exception {
-        UserJpa mockUser = new UserJpa();
-        UserId expectedUuid = new UserId();
-        mockUser.setId(expectedUuid.getValue());
-        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(mockUser);
-
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
         File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/users")
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(expectedUuid.toString()));
+                .andExpect(jsonPath("$.id").value(defaultUserId.toString()));
 
         verify(jpaRepositoryMock).save(any(UserJpa.class));
     }
 
     @Test
     public void test_DeleteUserTest() throws Exception {
-        UUID expectedUuid = UUID.randomUUID();
         when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
         doNothing().when(jpaRepositoryMock).deleteById(any(UUID.class));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/users/{id}", expectedUuid))
+                        .delete("/users/{id}", defaultUserId))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).existsById(eq(expectedUuid));
-        verify(jpaRepositoryMock).deleteById(eq(expectedUuid));
+        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).deleteById(eq(defaultUserId.getValue()));
     }
 
     @Test
     void test_UpdateUserTest() throws Exception {
-        UserJpa mockUser = new UserJpa();
-        UUID expectedUuid = UUID.randomUUID();
-        mockUser.setId(expectedUuid);
         when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
-        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(mockUser);
-
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
+
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/users/{id}", expectedUuid)
+                        .put("/users/{id}", defaultUserId)
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).existsById(eq(expectedUuid));
+        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
         verify(jpaRepositoryMock).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUnknownExceptionForCreateUser() throws Exception {
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenThrow(InternalError.class);
-
         File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
+
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -109,40 +103,36 @@ public class UserCommandTest {
 
     @Test
     public void test_HandleUserNotFoundExceptionForUpdateUser() throws Exception {
-        UUID expectedUuid = UUID.randomUUID();
         when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
-
         File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/users/{userId}", expectedUuid)
+        mockMvc.perform(MockMvcRequestBuilders.put("/users/{userId}", defaultUserId)
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(jpaRepositoryMock).existsById(eq(expectedUuid));
+        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
         verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUserNotFoundExceptionForDeleteUser() throws Exception {
-        UUID expectedUuid = UUID.randomUUID();
         when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", expectedUuid))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", defaultUserId))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(jpaRepositoryMock).existsById(eq(expectedUuid));
-        verify(jpaRepositoryMock, never()).deleteById(eq(expectedUuid));
+        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock, never()).deleteById(eq(defaultUserId.getValue()));
     }
 
     @Test
     public void test_HandleBadRequestExceptionForDeleteUser() throws Exception {
         int wrongUuid = 123;
 
-        mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/users/{id}", wrongUuid))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", wrongUuid))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Bad request"));
     }

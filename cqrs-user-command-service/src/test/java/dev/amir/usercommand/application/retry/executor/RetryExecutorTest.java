@@ -56,7 +56,7 @@ class RetryExecutorTest {
     }
 
     @Test
-    void test_Execute() {
+    void test_Execute_WhenCallbackReturnsVoid_ExecutesVoidCallback() {
         RetryAction callback = () -> {
         };
         when(retryTemplateMock.execute(any())).thenReturn(Void.TYPE);
@@ -88,7 +88,7 @@ class RetryExecutorTest {
     }
 
     @Test
-    void test_AsyncExecute() {
+    void test_AsyncExecute_WhenCallbackReturnsVoid_ExecutesVoidCallback() {
         RetryAction callback = () -> {
         };
         when(retryTemplateMock.execute(any())).thenReturn(Void.TYPE);
