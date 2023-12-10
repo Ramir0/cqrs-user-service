@@ -20,7 +20,7 @@ public class RoleId {
             this.value = UUID.fromString(valueAsString);
         } catch (Exception exception) {
             throw new UserValidationException(
-                    "Invalid value, UserId cannot be initialized: " + valueAsString,
+                    "Invalid value, RoleId cannot be initialized: " + valueAsString,
                     exception
             );
         }
@@ -28,7 +28,7 @@ public class RoleId {
 
     public RoleId(UUID value) {
         if (Objects.isNull(value)) {
-            throw new UserValidationException("Invalid value, UserId cannot be null");
+            throw new UserValidationException("Invalid value, RoleId cannot be null");
         }
         this.value = value;
     }
