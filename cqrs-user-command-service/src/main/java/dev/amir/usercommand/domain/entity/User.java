@@ -1,5 +1,6 @@
 package dev.amir.usercommand.domain.entity;
 
+import dev.amir.usercommand.domain.valueobject.RoleId;
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
     private UserId id;
+    private RoleId roleId;
     private String username;
     private String name;
     private String lastname;

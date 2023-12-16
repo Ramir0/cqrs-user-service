@@ -23,6 +23,9 @@ public class UserJpa {
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(name = "role_id")
+    private UUID roleId;
     @Column
     private String username;
     @Column
