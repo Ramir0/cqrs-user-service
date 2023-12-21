@@ -27,7 +27,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"NewUsername\",\r\n    \"name\": \"NewName\",\r\n    \"lastname\": \"NewLastname\",\r\n    \"email\": \"new_email@test.com\",\r\n    \"status\": \"ACTIVE\",\r\n    \"gender\": \"MALE\"\r\n}",
+          "raw": "{\r\n    \"username\": \"NewUsername\",\r\n    \"password\": \"NewPassword\",\n    \"name\": \"NewName\",\r\n    \"lastname\": \"NewLastname\",\r\n    \"email\": \"new_email@test.com\",\r\n    \"status\": \"ACTIVE\",\r\n    \"gender\": \"MALE\"\r\n}",
           "options": {
             "raw": {
               "language": "json"

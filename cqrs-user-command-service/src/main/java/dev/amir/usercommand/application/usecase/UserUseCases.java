@@ -20,8 +20,9 @@ public class UserUseCases implements UserInputPort {
 
     @Override
     public UserId createUser(User user) {
-        log.info("Verifying if the 'id' field is empty for user creation");
+        log.info("Generating value 'id' value for user creation");
         user.setId(new UserId());
+        log.info("Attempting to create user with 'id': {}", user.getId());
         User savedUser = retryExecutor.execute(() -> userOutputPort.save(user));
         log.info("User with ID: {} successfully created", savedUser.getId());
         return savedUser.getId();
@@ -29,14 +30,14 @@ public class UserUseCases implements UserInputPort {
 
     @Override
     public void updateUser(User user) {
-        log.info("Verifying if the 'id' field exists for user update");
+        log.info("Attempting to update user with 'id': {}", user.getId());
         User savedUser = retryExecutor.execute(() -> userOutputPort.update(user));
         log.info("User with ID: {} successfully updated", savedUser.getId());
     }
 
     @Override
     public void deleteUser(UUID userIdParam) {
-        log.info("Attempting to delete user with ID: {}", userIdParam);
+        log.info("Attempting to delete user with 'id': {}", userIdParam);
         UserId userId = new UserId(userIdParam);
         retryExecutor.execute(() -> userOutputPort.delete(userId));
         log.info("User with ID: {} deleted", userId);

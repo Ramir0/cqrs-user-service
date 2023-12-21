@@ -1,5 +1,6 @@
 {
   "username": "NewUsername",
+  "password": "NewPassword",
   "name": "NewName",
   "lastname": "NewLastname",
   "email": "new_email@test.com",
