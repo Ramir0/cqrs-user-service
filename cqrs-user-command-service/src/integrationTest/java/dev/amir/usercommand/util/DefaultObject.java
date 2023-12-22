@@ -17,6 +17,7 @@ public final class DefaultObject {
             defaultUserId.getValue(),
             defaultRoleId.getValue(),
             defaultUsername,
+            "DefaultPassword",
             "DefaultName",
             "DefaultLastname",
             "default@email.com",

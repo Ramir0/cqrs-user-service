@@ -3,6 +3,7 @@ package dev.amir.usercommand.framework.output.sql.mapper;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.RoleId;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.util.RandomObject;
 import java.util.UUID;
@@ -35,6 +36,7 @@ class UserJpaMapperTest {
         assertNotNull(actual);
         assertEquals(expected.getRoleId().getValue(), actual.getRoleId());
         assertEquals(expected.getId().getValue(), actual.getId());
+        assertEquals(expected.getPassword().getValue(), actual.getPassword());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
@@ -57,6 +59,7 @@ class UserJpaMapperTest {
         assertNotNull(actual);
         assertEquals(expected.getRoleId(), actual.getRoleId().getValue());
         assertEquals(expected.getId(), actual.getId().getValue());
+        assertEquals(expected.getPassword(), actual.getPassword().getValue());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
@@ -107,6 +110,24 @@ class UserJpaMapperTest {
     }
 
     @Test
+    void test_StringToUserPassword() {
+        String expected = RandomObject.nextObject(String.class);
+
+        UserPassword actual = underTest.stringToUserPassword(expected);
+
+        assertEquals(expected, actual.getValue());
+    }
+
+    @Test
+    void test_UserPasswordToString() {
+        UserPassword expected = RandomObject.nextObject(UserPassword.class);
+
+        String actual = underTest.userPasswordToString(expected);
+
+        assertEquals(expected.getValue(), actual);
+    }
+
+    @Test
     void test_UserIdToUuid_WhenUserIdIsNull_ReturnsNull() {
         UUID actual = underTest.userIdToUuid(null);
 
@@ -115,9 +136,9 @@ class UserJpaMapperTest {
 
     @Test
     void test_RoleIdToUuid_WhenRoleIdIsNull_ReturnsNull() {
-        UUID expected = underTest.roleIdToUuid(null);
+        UUID actual = underTest.roleIdToUuid(null);
 
-        assertNull(expected);
+        assertNull(actual);
     }
 
     @Test
@@ -129,8 +150,22 @@ class UserJpaMapperTest {
 
     @Test
     void test_UuidToRoleId_WhenUuidIsNull_ReturnsNull() {
-        RoleId expected = underTest.uuidToRoleId(null);
+        RoleId actual = underTest.uuidToRoleId(null);
 
-        assertNull(expected);
+        assertNull(actual);
+    }
+
+    @Test
+    void test_StringToUserPassword_WhenStringIsNull_ReturnsNull() {
+        UserPassword actual = underTest.stringToUserPassword(null);
+
+        assertNull(actual);
+    }
+
+    @Test
+    void test_UserPasswordToString_WhenUserPasswordIsNull_ReturnsNull() {
+        String actual = underTest.userPasswordToString(null);
+
+        assertNull(actual);
     }
 }

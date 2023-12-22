@@ -29,6 +29,8 @@ public class UserJpa {
     @Column
     private String username;
     @Column
+    private String password;
+    @Column
     private String name;
     @Column
     private String lastname;

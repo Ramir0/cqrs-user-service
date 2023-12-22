@@ -24,6 +24,7 @@ public interface UserRequestMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(source = "roleId", target = "roleId", qualifiedByName = "uuidToRoleId")
+    @Mapping(target = "password", ignore = true)
     User convert(UpdateUserRequest request);
 
     @Named("uuidToRoleId")
