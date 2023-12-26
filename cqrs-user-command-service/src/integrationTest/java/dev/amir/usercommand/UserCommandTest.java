@@ -4,6 +4,7 @@ import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.UUID;
 import org.assertj.core.util.Files;
 import org.junit.jupiter.api.Test;
@@ -73,7 +74,7 @@ public class UserCommandTest {
 
     @Test
     void test_UpdateUserTest() throws Exception {
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(defaultUserJpa));
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
         File responseFile = ResourceUtils.getFile("classpath:requests/update-users-request.json");
 
@@ -83,7 +84,7 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
         verify(jpaRepositoryMock).save(any(UserJpa.class));
     }
 
@@ -103,7 +104,7 @@ public class UserCommandTest {
 
     @Test
     public void test_HandleUserNotFoundExceptionForUpdateUser() throws Exception {
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
         File responseFile = ResourceUtils.getFile("classpath:requests/update-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders.put("/users/{userId}", defaultUserId)
@@ -112,7 +113,7 @@ public class UserCommandTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
         verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
