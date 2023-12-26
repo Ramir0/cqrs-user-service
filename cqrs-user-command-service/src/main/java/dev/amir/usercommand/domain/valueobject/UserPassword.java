@@ -1,15 +1,13 @@
 package dev.amir.usercommand.domain.valueobject;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Getter
-@EqualsAndHashCode
-@RequiredArgsConstructor
-public class UserPassword {
-    private final String value;
-
+public record UserPassword(
+        @NotNull
+        @Size(max = 255)
+        String value
+) {
     @Override
     public String toString() {
         return value;

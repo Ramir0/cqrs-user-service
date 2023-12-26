@@ -4,6 +4,7 @@ import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.UUID;
 import org.assertj.core.util.Files;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,7 @@ public class UserCommandTest {
     @Test
     void test_CreateUserTest() throws Exception {
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
-        File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
+        File responseFile = ResourceUtils.getFile("classpath:requests/create-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/users")
@@ -73,9 +74,9 @@ public class UserCommandTest {
 
     @Test
     void test_UpdateUserTest() throws Exception {
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(defaultUserJpa));
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
-        File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
+        File responseFile = ResourceUtils.getFile("classpath:requests/update-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/users/{id}", defaultUserId)
@@ -83,14 +84,14 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
         verify(jpaRepositoryMock).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUnknownExceptionForCreateUser() throws Exception {
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenThrow(InternalError.class);
-        File responseFile = ResourceUtils.getFile("classpath:responses/create-users-response.json");
+        File responseFile = ResourceUtils.getFile("classpath:requests/create-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
@@ -103,8 +104,8 @@ public class UserCommandTest {
 
     @Test
     public void test_HandleUserNotFoundExceptionForUpdateUser() throws Exception {
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
-        File responseFile = ResourceUtils.getFile("classpath:responses/update-users-response.json");
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
+        File responseFile = ResourceUtils.getFile("classpath:requests/update-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders.put("/users/{userId}", defaultUserId)
                         .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
@@ -112,7 +113,7 @@ public class UserCommandTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
         verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
@@ -129,11 +130,25 @@ public class UserCommandTest {
     }
 
     @Test
-    public void test_HandleBadRequestExceptionForDeleteUser() throws Exception {
+    public void test_HandleBadRequestExceptionForInvalidUserIdFormat() throws Exception {
         int wrongUuid = 123;
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", wrongUuid))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Bad request"));
+                .andExpect(content().string("Request contains invalid data"));
+    }
+
+    @Test
+    public void test_HandleBadRequestExceptionForMissingRequestData() throws Exception {
+        File responseFile = ResourceUtils.getFile("classpath:requests/create-users-missing-data-request.json");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/users")
+                        .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("There is missing data in the Request"));
+
+        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 }

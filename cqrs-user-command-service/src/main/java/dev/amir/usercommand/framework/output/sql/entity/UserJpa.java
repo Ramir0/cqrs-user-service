@@ -1,11 +1,14 @@
 package dev.amir.usercommand.framework.output.sql.entity;
 
 import dev.amir.usercommand.domain.valueobject.UserGender;
+import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
+import dev.amir.usercommand.framework.output.sql.converter.UserPasswordConverter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -28,8 +31,8 @@ public class UserJpa {
     private UUID roleId;
     @Column
     private String username;
-    @Column
-    private String password;
+    @Convert(converter = UserPasswordConverter.class)
+    private UserPassword password;
     @Column
     private String name;
     @Column

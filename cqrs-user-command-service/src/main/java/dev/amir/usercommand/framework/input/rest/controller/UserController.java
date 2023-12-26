@@ -6,6 +6,7 @@ import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
 import dev.amir.usercommand.framework.input.rest.response.CreateUserResponse;
 import java.util.UUID;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class UserController {
     private final UserHandler userHandler;
 
     @PostMapping
-    public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         log.info("Received request to create a user");
         CreateUserResponse response = userHandler.handle(request);
 

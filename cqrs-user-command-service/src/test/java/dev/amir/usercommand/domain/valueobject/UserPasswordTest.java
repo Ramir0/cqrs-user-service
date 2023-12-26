@@ -31,7 +31,7 @@ class UserPasswordTest {
 
         UserPassword password = new UserPassword(expected);
 
-        assertEquals(expected, password.getValue());
+        assertEquals(expected, password.value());
     }
 
     @Test

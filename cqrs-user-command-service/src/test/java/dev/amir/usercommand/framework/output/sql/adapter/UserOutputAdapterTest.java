@@ -6,6 +6,7 @@ import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.mapper.UserJpaMapper;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,7 +60,7 @@ class UserOutputAdapterTest {
         UserId newUserId = new UserId();
         User newUser = new User();
         newUser.setId(newUserId);
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
 
 
         assertThrows(
@@ -67,7 +68,7 @@ class UserOutputAdapterTest {
                 () -> underTest.update(newUser)
         );
 
-        verify(jpaRepositoryMock).existsById(eq(newUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(newUserId.getValue()));
         verify(jpaRepositoryMock, never()).save(any());
     }
 
@@ -82,16 +83,14 @@ class UserOutputAdapterTest {
         savedUser.setId(savedUserId);
         UserJpa savedUserJpa = new UserJpa();
 
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
-        when(jpaMapperMock.convert(eq(user))).thenReturn(userJpa);
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
         when(jpaRepositoryMock.save(userJpa)).thenReturn(savedUserJpa);
         when(jpaMapperMock.convert(eq(savedUserJpa))).thenReturn(savedUser);
 
         User actualSavedUser = underTest.update(user);
 
         assertEquals(savedUser.getId(), actualSavedUser.getId());
-        verify(jpaRepositoryMock).existsById(eq(savedUserId.getValue()));
-        verify(jpaMapperMock).convert(eq(user));
+        verify(jpaRepositoryMock).findById(eq(savedUserId.getValue()));
         verify(jpaRepositoryMock).save(userJpa);
         verify(jpaMapperMock).convert(eq(savedUserJpa));
     }
