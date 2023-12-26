@@ -1,4 +1,4 @@
-package dev.amir.usercommand.application.deserializer;
+package dev.amir.usercommand.application.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

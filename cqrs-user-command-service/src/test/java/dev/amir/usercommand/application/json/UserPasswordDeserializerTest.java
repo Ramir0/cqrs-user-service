@@ -1,4 +1,4 @@
-package dev.amir.usercommand.application.deserializer;
+package dev.amir.usercommand.application.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -39,7 +39,7 @@ class UserPasswordDeserializerTest {
 
         UserPassword userPassword = underTest.deserialize(parserMock, contextMock);
 
-        assertEquals(password, userPassword.getValue());
+        assertEquals(password, userPassword.value());
         verify(parserMock).getValueAsString();
         verify(encoderMock).encode(eq(plainPassword));
     }
