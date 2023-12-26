@@ -6,9 +6,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 class UserResponseExceptionHandlerTest {
     private UserResponseExceptionHandler underTest;
@@ -39,17 +41,20 @@ class UserResponseExceptionHandlerTest {
     }
 
     @Test
-    void test_handleBadRequestException_ReturnsStatusCode400() {
-        MethodArgumentTypeMismatchException ex = new MethodArgumentTypeMismatchException(
-                "userId",
-                Long.class,
-                "abc",
-                null,
-                null
-        );
-        ResponseEntity<String> response = underTest.handleBadRequestException(ex);
+    void test_handleMethodArgumentTypeMismatchException_ReturnsStatusCode400() {
+        MethodArgumentTypeMismatchException ex = mock(MethodArgumentTypeMismatchException.class);
+        ResponseEntity<String> response = underTest.handleMethodArgumentTypeMismatchException(ex);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Bad request", response.getBody());
+        assertEquals("Request contains invalid data", response.getBody());
+    }
+
+    @Test
+    void test_handleBadRequestException_ReturnsStatusCode400() {
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        ResponseEntity<String> response = underTest.handleMethodArgumentNotValidException(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("There is missing data in the Request", response.getBody());
     }
 }
