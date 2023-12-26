@@ -4,10 +4,14 @@ import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import java.util.UUID;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 public record CreateUserRequest(
         UUID roleId,
         String username,
+        @Valid
+        @NotNull
         UserPassword password,
         String name,
         String lastname,
