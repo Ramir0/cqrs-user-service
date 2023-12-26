@@ -36,7 +36,7 @@ class UserJpaMapperTest {
         assertNotNull(actual);
         assertEquals(expected.getRoleId().getValue(), actual.getRoleId());
         assertEquals(expected.getId().getValue(), actual.getId());
-        assertEquals(expected.getPassword().getValue(), actual.getPassword());
+        assertEquals(expected.getPassword().value(), actual.getPassword());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
@@ -59,7 +59,7 @@ class UserJpaMapperTest {
         assertNotNull(actual);
         assertEquals(expected.getRoleId(), actual.getRoleId().getValue());
         assertEquals(expected.getId(), actual.getId().getValue());
-        assertEquals(expected.getPassword(), actual.getPassword().getValue());
+        assertEquals(expected.getPassword(), actual.getPassword().value());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
@@ -115,7 +115,7 @@ class UserJpaMapperTest {
 
         UserPassword actual = underTest.stringToUserPassword(expected);
 
-        assertEquals(expected, actual.getValue());
+        assertEquals(expected, actual.value());
     }
 
     @Test
@@ -124,7 +124,7 @@ class UserJpaMapperTest {
 
         String actual = underTest.userPasswordToString(expected);
 
-        assertEquals(expected.getValue(), actual);
+        assertEquals(expected.value(), actual);
     }
 
     @Test
