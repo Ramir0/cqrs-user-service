@@ -13,7 +13,7 @@ public final class DefaultObject {
     public static final UserId defaultUserId = new UserId("b6a3d07d-0c0d-4d7f-b968-453808256e31");
     public static final RoleId defaultRoleId = new RoleId("9abef656-906f-11ee-b9d1-0242ac120002");
     public static final String defaultUsername = "user123abc";
-    public static final UserPassword defaultPassword = new UserPassword("DefaultPassword");
+    public static final UserPassword defaultPassword = new UserPassword("New.Password123#");
     public static final UserStatus defaultUserStatus = UserStatus.ACTIVE;
     public static final UserJpa defaultUserJpa = new UserJpa(
             defaultUserId.getValue(),

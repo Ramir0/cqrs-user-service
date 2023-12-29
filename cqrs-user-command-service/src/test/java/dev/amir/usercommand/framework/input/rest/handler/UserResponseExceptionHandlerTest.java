@@ -1,6 +1,9 @@
 package dev.amir.usercommand.framework.input.rest.handler;
 
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
+import dev.amir.usercommand.domain.exception.UserPasswordValidationException;
+import dev.amir.usercommand.domain.validator.AttributeErrorType;
+import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +46,7 @@ class UserResponseExceptionHandlerTest {
     @Test
     void test_handleMethodArgumentTypeMismatchException_ReturnsStatusCode400() {
         MethodArgumentTypeMismatchException ex = mock(MethodArgumentTypeMismatchException.class);
+
         ResponseEntity<String> response = underTest.handleMethodArgumentTypeMismatchException(ex);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -50,11 +54,26 @@ class UserResponseExceptionHandlerTest {
     }
 
     @Test
-    void test_handleBadRequestException_ReturnsStatusCode400() {
+    void test_handleMethodArgumentNotValidException_ReturnsStatusCode400() {
         MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+
         ResponseEntity<String> response = underTest.handleMethodArgumentNotValidException(ex);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("There is missing data in the Request", response.getBody());
+    }
+
+    @Test
+    void test_handleUserPasswordValidationException_ReturnsStatusCode400() {
+        Set<AttributeErrorType> errors = Set.of(
+                AttributeErrorType.MAX_LIMIT_EXCEEDED,
+                AttributeErrorType.INVALID_VALUE
+        );
+        UserPasswordValidationException ex = new UserPasswordValidationException(errors);
+
+        ResponseEntity<Set<AttributeErrorType>> response = underTest.handleUserPasswordValidationException(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(errors, response.getBody());
     }
 }

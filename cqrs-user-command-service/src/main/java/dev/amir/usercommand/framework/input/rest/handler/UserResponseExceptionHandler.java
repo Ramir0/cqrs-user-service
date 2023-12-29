@@ -1,6 +1,10 @@
 package dev.amir.usercommand.framework.input.rest.handler;
 
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
+import dev.amir.usercommand.domain.exception.UserPasswordValidationException;
+import dev.amir.usercommand.domain.validator.AttributeErrorType;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +44,19 @@ public class UserResponseExceptionHandler {
         log.error(message, ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(message);
+    }
+
+    @ExceptionHandler(UserPasswordValidationException.class)
+    public ResponseEntity<Set<AttributeErrorType>> handleUserPasswordValidationException(
+            UserPasswordValidationException ex
+    ) {
+        String errorsAsString = ex.getErrors()
+                .stream()
+                .map(AttributeErrorType::name)
+                .collect(Collectors.joining(", "));
+        log.error("Errors in password: [{}]", errorsAsString, ex);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ex.getErrors());
     }
 }
