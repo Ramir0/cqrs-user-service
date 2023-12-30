@@ -5,6 +5,7 @@ import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
+import dev.amir.usercommand.domain.valueobject.UserUsername;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import lombok.Setter;
 public class User {
     private UserId id;
     private RoleId roleId;
-    private String username;
+    private UserUsername username;
     private UserPassword password;
     private String name;
     private String lastname;

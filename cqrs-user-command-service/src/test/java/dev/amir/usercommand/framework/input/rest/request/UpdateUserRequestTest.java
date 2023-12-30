@@ -2,6 +2,7 @@ package dev.amir.usercommand.framework.input.rest.request;
 
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
+import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.util.RandomObject;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -13,17 +14,17 @@ class UpdateUserRequestTest {
     @Test
     void test_AllArgsConstructor() {
         UUID roleId = RandomObject.nextObject(UUID.class);
+        UserUsername username = RandomObject.nextObject(UserUsername.class);
         String name = RandomObject.nextObject(String.class);
         String lastname = RandomObject.nextObject(String.class);
         String email = RandomObject.nextObject(String.class);
         UserStatus status = RandomObject.nextObject(UserStatus.class);
-        String userName = RandomObject.nextObject(String.class);
         UserGender userGender = RandomObject.nextObject(UserGender.class);
 
-        UpdateUserRequest actual = new UpdateUserRequest(roleId, name, lastname, email, status, userName, userGender);
+        UpdateUserRequest actual = new UpdateUserRequest(roleId, username, name, lastname, email, status, userGender);
 
         assertEquals(roleId, actual.roleId());
-        assertEquals(userName, actual.username());
+        assertEquals(username, actual.username());
         assertEquals(name, actual.name());
         assertEquals(lastname, actual.lastname());
         assertEquals(email, actual.email());
