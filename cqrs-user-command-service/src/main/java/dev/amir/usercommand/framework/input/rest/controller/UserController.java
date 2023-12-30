@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@NotNull @PathVariable UUID id, @RequestBody UpdateUserRequest request) {
+    public ResponseEntity<Void> updateUser(@NotNull @PathVariable UUID id, @Valid @RequestBody UpdateUserRequest request) {
         log.info("Received request to update");
         userHandler.handle(request, id);
         log.info("User with ID {} has been successfully update", id);
