@@ -26,9 +26,9 @@ class UserUsernameValidationTest {
 
     @Test
     void test_ValidValue_ReturnsNoConstraintViolation() {
-        UserUsername contact = new UserUsername("NewUser_9000");
+        UserUsername username = new UserUsername("NewUser_9000");
 
-        Set<ConstraintViolation<UserUsername>> violations = validator.validate(contact);
+        Set<ConstraintViolation<UserUsername>> violations = validator.validate(username);
 
         assertTrue(violations.isEmpty());
     }
