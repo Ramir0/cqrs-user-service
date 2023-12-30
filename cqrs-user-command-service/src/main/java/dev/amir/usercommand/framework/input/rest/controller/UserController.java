@@ -28,7 +28,9 @@ public class UserController {
     private final UserHandler userHandler;
 
     @PostMapping
-    public ResponseEntity<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
+    public ResponseEntity<CreateUserResponse> createUser(
+            @Valid @RequestBody CreateUserRequest request
+    ) {
         log.info("Received request to create a user");
         CreateUserResponse response = userHandler.handle(request);
 
@@ -37,7 +39,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@NotNull @PathVariable UUID id, @Valid @RequestBody UpdateUserRequest request) {
+    public ResponseEntity<Void> updateUser(
+            @NotNull @PathVariable UUID id,
+            @Valid @RequestBody UpdateUserRequest request
+    ) {
         log.info("Received request to update");
         userHandler.handle(request, id);
         log.info("User with ID {} has been successfully update", id);
@@ -45,7 +50,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@NotNull @PathVariable UUID id) {
+    public ResponseEntity<Void> deleteUser(
+            @NotNull @PathVariable UUID id
+    ) {
         log.info("Received request to delete user");
         userHandler.handle(new DeleteUserRequest(), id);
         log.info("User with ID {} has been successfully deleted", id);
