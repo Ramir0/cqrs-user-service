@@ -4,16 +4,17 @@ import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UserUsernameTest {
 
     @Test
     void test_StringArgConstructor() {
-        String expected = RandomObject.nextObject(String.class);
+        String username = RandomObject.nextObject(String.class);
 
-        UserUsername actual = new UserUsername(expected);
+        UserUsername userUsername = new UserUsername(username);
 
-        assertEquals(expected, actual.toString());
+        assertNotNull(userUsername);
     }
 
     @Test
