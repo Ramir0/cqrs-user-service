@@ -1,6 +1,8 @@
 package dev.amir.usercommand.application.json.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.cfg.ConstructorDetector;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import dev.amir.usercommand.application.json.UserPasswordDeserializer;
 import dev.amir.usercommand.domain.validator.PasswordValidator;
@@ -13,12 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class JsonConfiguration {
     @Bean
     public ObjectMapper objectMapper(PasswordEncoder passwordEncoder, PasswordValidator passwordValidator) {
-        ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-
         module.addDeserializer(UserPassword.class, new UserPasswordDeserializer(passwordEncoder, passwordValidator));
-        mapper.registerModule(module);
 
-        return mapper;
+        return JsonMapper.builder()
+                .constructorDetector(ConstructorDetector.DEFAULT)
+                .addModule(module)
+                .build();
     }
 }

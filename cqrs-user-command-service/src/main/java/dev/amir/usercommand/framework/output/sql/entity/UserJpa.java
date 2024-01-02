@@ -5,9 +5,11 @@ import dev.amir.usercommand.domain.valueobject.UserLastName;
 import dev.amir.usercommand.domain.valueobject.UserName;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
+import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.framework.output.sql.converter.UserLastNameConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserNameConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserPasswordConverter;
+import dev.amir.usercommand.framework.output.sql.converter.UserUsernameConverter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -33,8 +35,8 @@ public class UserJpa {
     @Type(type = "org.hibernate.type.UUIDCharType")
     @Column(name = "role_id")
     private UUID roleId;
-    @Column
-    private String username;
+    @Convert(converter = UserUsernameConverter.class)
+    private UserUsername username;
     @Convert(converter = UserPasswordConverter.class)
     private UserPassword password;
     @Convert(converter = UserNameConverter.class)
