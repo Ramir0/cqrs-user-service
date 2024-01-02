@@ -1,6 +1,8 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
 import dev.amir.usercommand.domain.valueobject.UserGender;
+import dev.amir.usercommand.domain.valueobject.UserLastName;
+import dev.amir.usercommand.domain.valueobject.UserName;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.util.RandomObject;
 import java.util.UUID;
@@ -13,8 +15,8 @@ class UpdateUserRequestTest {
     @Test
     void test_AllArgsConstructor() {
         UUID roleId = RandomObject.nextObject(UUID.class);
-        String name = RandomObject.nextObject(String.class);
-        String lastname = RandomObject.nextObject(String.class);
+        UserName name = RandomObject.nextObject(UserName.class);
+        UserLastName lastname = RandomObject.nextObject(UserLastName.class);
         String email = RandomObject.nextObject(String.class);
         UserStatus status = RandomObject.nextObject(UserStatus.class);
         String userName = RandomObject.nextObject(String.class);
