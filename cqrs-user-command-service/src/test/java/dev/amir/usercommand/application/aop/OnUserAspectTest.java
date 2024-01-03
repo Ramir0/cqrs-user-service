@@ -20,14 +20,14 @@ class OnUserAspectTest {
     }
 
     @Test
-    void test_SetCreatedAt() {
+    void test_onUserCreation_SetCreatedAt() {
         User user = new User();
         Object[] args = {user};
         JoinPoint joinPointMock = mock(JoinPoint.class);
 
         when(joinPointMock.getArgs()).thenReturn(args);
 
-        underTest.setCreatedAt(joinPointMock);
+        underTest.onUserCreation(joinPointMock);
 
         assertNotNull(user.getCreatedAt());
         assertNull(user.getUpdatedAt());
@@ -35,14 +35,14 @@ class OnUserAspectTest {
     }
 
     @Test
-    void test_SetUpdatedAt() {
+    void test_onUserUpdate_SetUpdatedAt() {
         User user = new User();
         Object[] args = {user};
         JoinPoint joinPointMock = mock(JoinPoint.class);
 
         when(joinPointMock.getArgs()).thenReturn(args);
 
-        underTest.setUpdatedAt(joinPointMock);
+        underTest.onUserUpdate(joinPointMock);
 
         assertNotNull(user.getUpdatedAt());
         assertNull(user.getCreatedAt());

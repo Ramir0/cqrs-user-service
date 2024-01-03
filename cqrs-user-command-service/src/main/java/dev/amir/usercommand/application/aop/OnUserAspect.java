@@ -16,13 +16,13 @@ import org.springframework.stereotype.Component;
 public class OnUserAspect {
 
     @Before("@annotation(dev.amir.usercommand.application.aop.annotation.OnUserCreation)")
-    public void setCreatedAt(JoinPoint joinPoint) {
+    public void onUserCreation(JoinPoint joinPoint) {
         log.info("Set 'CreatedAt' value for new user");
         findUserArg(joinPoint).ifPresent(user -> user.setCreatedAt(LocalDateTime.now()));
     }
 
     @Before("@annotation(dev.amir.usercommand.application.aop.annotation.OnUserUpdate)")
-    public void setUpdatedAt(JoinPoint joinPoint) {
+    public void onUserUpdate(JoinPoint joinPoint) {
         log.info("Set 'UpdatedAt' value for existing user");
         findUserArg(joinPoint).ifPresent(user -> user.setUpdatedAt(LocalDateTime.now()));
     }
