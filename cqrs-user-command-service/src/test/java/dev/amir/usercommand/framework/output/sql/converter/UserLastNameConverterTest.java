@@ -1,7 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
 import dev.amir.usercommand.domain.valueobject.UserLastName;
-import dev.amir.usercommand.domain.valueobject.UserName;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
