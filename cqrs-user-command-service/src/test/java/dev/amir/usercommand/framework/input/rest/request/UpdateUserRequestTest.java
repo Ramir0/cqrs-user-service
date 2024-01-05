@@ -1,12 +1,12 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
+import dev.amir.usercommand.domain.valueobject.RoleId;
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
 import dev.amir.usercommand.domain.valueobject.UserName;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.util.RandomObject;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +15,7 @@ class UpdateUserRequestTest {
 
     @Test
     void test_AllArgsConstructor() {
-        UUID roleId = RandomObject.nextObject(UUID.class);
+        RoleId roleId = RandomObject.nextObject(RoleId.class);
         UserUsername username = RandomObject.nextObject(UserUsername.class);
         UserName name = RandomObject.nextObject(UserName.class);
         UserLastName lastname = RandomObject.nextObject(UserLastName.class);
