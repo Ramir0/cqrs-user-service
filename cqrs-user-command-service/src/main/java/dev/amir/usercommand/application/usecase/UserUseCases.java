@@ -1,5 +1,7 @@
 package dev.amir.usercommand.application.usecase;
 
+import dev.amir.usercommand.application.aop.annotation.OnUserCreation;
+import dev.amir.usercommand.application.aop.annotation.OnUserUpdate;
 import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.application.retry.executor.RetryExecutor;
@@ -18,6 +20,7 @@ public class UserUseCases implements UserInputPort {
     private final UserOutputPort userOutputPort;
     private final RetryExecutor retryExecutor;
 
+    @OnUserCreation
     @Override
     public UserId createUser(User user) {
         log.info("Generating value 'id' value for user creation");
@@ -28,6 +31,7 @@ public class UserUseCases implements UserInputPort {
         return savedUser.getId();
     }
 
+    @OnUserUpdate
     @Override
     public void updateUser(User user) {
         log.info("Attempting to update user with 'id': {}", user.getId());

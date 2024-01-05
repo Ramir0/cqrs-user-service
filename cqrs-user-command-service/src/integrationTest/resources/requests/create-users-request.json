@@ -3,7 +3,5 @@
   "password": "New.Password123#",
   "name": "NewName",
   "lastname": "NewLastname",
-  "email": "new_email@test.com",
-  "status": "ACTIVE",
-  "gender": "MALE"
+  "email": "new_email@test.com"
 }
