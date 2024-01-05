@@ -1,6 +1,7 @@
 package dev.amir.usercommand.util;
 
 import dev.amir.usercommand.domain.valueobject.RoleId;
+import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
@@ -20,6 +21,7 @@ public final class DefaultObject {
     public static final UserStatus defaultUserStatus = UserStatus.ACTIVE;
     public static final UserName defaultUserName = new UserName("UserName");
     public static final UserLastName defaultUserLastName = new UserLastName("UserLastname");
+    public static final UserEmail defaultUserEmail = new UserEmail("user123@example.net");
     public static final UserJpa defaultUserJpa = new UserJpa(
             defaultUserId.getValue(),
             defaultRoleId.getValue(),
@@ -27,7 +29,7 @@ public final class DefaultObject {
             defaultPassword,
             defaultUserName,
             defaultUserLastName,
-            "default@email.com",
+            defaultUserEmail,
             defaultUserStatus,
             UserGender.MALE,
             LocalDate.of(2000, 12, 25),

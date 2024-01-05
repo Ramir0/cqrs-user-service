@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
+import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
 import dev.amir.usercommand.domain.valueobject.UserName;
@@ -19,7 +20,7 @@ class UpdateUserRequestTest {
         UserUsername username = RandomObject.nextObject(UserUsername.class);
         UserName name = RandomObject.nextObject(UserName.class);
         UserLastName lastname = RandomObject.nextObject(UserLastName.class);
-        String email = RandomObject.nextObject(String.class);
+        UserEmail email = RandomObject.nextObject(UserEmail.class);
         UserStatus status = RandomObject.nextObject(UserStatus.class);
         UserGender userGender = RandomObject.nextObject(UserGender.class);
 

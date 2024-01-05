@@ -1,11 +1,13 @@
 package dev.amir.usercommand.framework.output.sql.entity;
 
+import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
 import dev.amir.usercommand.domain.valueobject.UserName;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
+import dev.amir.usercommand.framework.output.sql.converter.UserEmailConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserLastNameConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserNameConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserPasswordConverter;
@@ -43,8 +45,8 @@ public class UserJpa {
     private UserName name;
     @Convert(converter = UserLastNameConverter.class)
     private UserLastName lastname;
-    @Column
-    private String email;
+    @Convert(converter = UserEmailConverter.class)
+    private UserEmail email;
     @Column
     private UserStatus status;
     @Column
