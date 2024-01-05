@@ -2,8 +2,10 @@ package dev.amir.usercommand.framework.input.rest.request;
 
 import dev.amir.usercommand.domain.valueobject.RoleId;
 import dev.amir.usercommand.domain.valueobject.UserEmail;
+import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
 import dev.amir.usercommand.domain.valueobject.UserName;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,8 @@ public record UpdateUserRequest(
         @Valid @NotNull UserUsername username,
         @Valid @NotNull UserName name,
         @Valid @NotNull UserLastName lastname,
-        @Valid @NotNull UserEmail email
+        @Valid @NotNull UserEmail email,
+        UserStatus status,
+        UserGender gender
 ) {
 }
