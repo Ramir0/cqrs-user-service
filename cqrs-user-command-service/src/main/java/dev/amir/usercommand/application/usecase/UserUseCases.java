@@ -6,6 +6,7 @@ import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.application.retry.executor.RetryExecutor;
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,11 @@ public class UserUseCases implements UserInputPort {
     @OnUserCreation
     @Override
     public UserId createUser(User user) {
+        if (userOutputPort.existByEmail(user)) {
+            throw new DuplicateUserException(user.getEmail());
+        } else if (userOutputPort.existsByUsername(user)) {
+            throw new DuplicateUserException(user.getUsername());
+        }
         log.info("Generating value 'id' value for user creation");
         user.setId(new UserId());
         log.info("Attempting to create user with 'id': {}", user.getId());
