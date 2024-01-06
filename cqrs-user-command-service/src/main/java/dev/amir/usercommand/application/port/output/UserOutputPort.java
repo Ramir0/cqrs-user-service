@@ -9,4 +9,8 @@ public interface UserOutputPort {
     User update(User user);
 
     void delete(UserId userId);
+
+    boolean existByEmail(User user);
+
+    boolean existsByUsername(User user);
 }

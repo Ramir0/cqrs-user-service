@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.handler;
 
+import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.exception.UserPasswordValidationException;
 import dev.amir.usercommand.domain.validator.AttributeErrorType;
@@ -58,5 +59,12 @@ public class UserResponseExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ex.getErrors());
+    }
+
+    @ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<String> handleDuplicateUserException(DuplicateUserException ex) {
+        log.error("the data already exists", ex);
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("duplicate data");
     }
 }

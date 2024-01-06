@@ -1,8 +1,10 @@
 package dev.amir.usercommand.framework.input.rest.handler;
 
+import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.exception.UserPasswordValidationException;
 import dev.amir.usercommand.domain.validator.AttributeErrorType;
+import dev.amir.usercommand.domain.valueobject.UserEmail;
 import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,5 +77,15 @@ class UserResponseExceptionHandlerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals(errors, response.getBody());
+    }
+
+    @Test
+    void test_handleDuplicateUserException_ReturnsStatusCode409() {
+        DuplicateUserException ex = new DuplicateUserException(new UserEmail("new_email@test.com"));
+
+        ResponseEntity<String> response = underTest.handleDuplicateUserException(ex);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        assertEquals("duplicate data", response.getBody());
     }
 }
