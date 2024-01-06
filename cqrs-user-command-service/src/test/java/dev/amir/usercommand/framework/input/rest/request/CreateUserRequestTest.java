@@ -1,6 +1,7 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
 import dev.amir.usercommand.domain.valueobject.RoleId;
+import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
 import dev.amir.usercommand.domain.valueobject.UserName;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
@@ -19,7 +20,7 @@ class CreateUserRequestTest {
         UserPassword password = RandomObject.nextObject(UserPassword.class);
         UserName name = RandomObject.nextObject(UserName.class);
         UserLastName lastname = RandomObject.nextObject(UserLastName.class);
-        String email = RandomObject.nextObject(String.class);
+        UserEmail email = RandomObject.nextObject(UserEmail.class);
 
         CreateUserRequest actual = new CreateUserRequest(
                 roleId,

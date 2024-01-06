@@ -1,6 +1,7 @@
 package dev.amir.usercommand.domain.entity;
 
 import dev.amir.usercommand.domain.valueobject.RoleId;
+import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
@@ -24,7 +25,7 @@ public class User {
     private UserPassword password;
     private UserName name;
     private UserLastName lastname;
-    private String email;
+    private UserEmail email;
     private UserStatus status;
     private UserGender gender;
     private LocalDate birthDate;
