@@ -126,49 +126,51 @@ class UserOutputAdapterTest {
 
     @Test
     void test_existByEmail_EmailExists_ReturnsTrue() {
-        UserEmail email = new UserEmail("user_email@test.com");
+        User user = new User();
+        user.setEmail(new UserEmail("user_email@test.com"));
 
         when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(true);
 
-        boolean result = jpaRepositoryMock.existsByEmail(email);
+        boolean result = underTest.existByEmail(user);
 
         assertTrue(result);
-        verify(jpaRepositoryMock).existsByEmail(email);
+        verify(jpaRepositoryMock).existsByEmail(user.getEmail());
     }
 
     @Test
     void test_existByEmail_EmailDoesNotExist_ReturnsFalse() {
-        UserEmail email = new UserEmail("user_email@test.com");
+        User user = new User();
+        user.setEmail(new UserEmail("user_email@test.com"));
 
         when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(false);
 
-        boolean result = jpaRepositoryMock.existsByEmail(email);
+        boolean result = underTest.existByEmail(user);
 
         assertFalse(result);
-        verify(jpaRepositoryMock).existsByEmail(email);
+        verify(jpaRepositoryMock).existsByEmail(user.getEmail());
     }
 
     @Test
     void test_existByUserName_UsernameExists_ReturnsTrue() {
-        UserUsername userUsername = new UserUsername("Username");
-
+        User user = new User();
+        user.setUsername(new UserUsername("Username"));
         when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(true);
 
-        boolean result = jpaRepositoryMock.existsByUsername(userUsername);
+        boolean result = underTest.existsByUsername(user);
 
         assertTrue(result);
-        verify(jpaRepositoryMock).existsByUsername(userUsername);
+        verify(jpaRepositoryMock).existsByUsername(user.getUsername());
     }
 
     @Test
     void test_UsernameDoesNotExist_ReturnsFalse() {
-        UserUsername userUsername = new UserUsername("Username");
-
+        User user = new User();
+        user.setUsername(new UserUsername("Username"));
         when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(false);
 
-        boolean result = jpaRepositoryMock.existsByUsername(userUsername);
+        boolean result = underTest.existsByUsername(user);
 
         assertFalse(result);
-        verify(jpaRepositoryMock).existsByUsername(userUsername);
+        verify(jpaRepositoryMock).existsByUsername(user.getUsername());
     }
 }
