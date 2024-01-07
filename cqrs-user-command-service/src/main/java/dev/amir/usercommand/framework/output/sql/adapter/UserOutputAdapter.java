@@ -48,6 +48,7 @@ public class UserOutputAdapter implements UserOutputPort {
         userJpa.setEmail(user.getEmail());
         userJpa.setStatus(user.getStatus());
         userJpa.setGender(user.getGender());
+        userJpa.setUpdatedAt(user.getUpdatedAt());
 
         jpaRepository.save(userJpa);
         log.info(
