@@ -68,4 +68,16 @@ public class UserOutputAdapter implements UserOutputPort {
         jpaRepository.deleteById(userId.getValue());
         log.info("Deleting user");
     }
+
+    @Override
+    public boolean existByEmail(User user) {
+        log.info("checking if email exists");
+        return jpaRepository.existsByEmail(user.getEmail());
+    }
+
+    @Override
+    public boolean existsByUsername(User user) {
+        log.info("checking if user name exists");
+        return jpaRepository.existsByUsername(user.getUsername());
+    }
 }

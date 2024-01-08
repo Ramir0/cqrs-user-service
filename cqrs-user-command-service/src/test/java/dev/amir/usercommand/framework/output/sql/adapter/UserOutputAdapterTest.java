@@ -2,7 +2,9 @@ package dev.amir.usercommand.framework.output.sql.adapter;
 
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
+import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.mapper.UserJpaMapper;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
@@ -15,7 +17,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -118,5 +122,55 @@ class UserOutputAdapterTest {
 
         verify(jpaRepositoryMock).existsById(eq(userId.getValue()));
         verify(jpaRepositoryMock, never()).deleteById(any());
+    }
+
+    @Test
+    void test_existByEmail_EmailExists_ReturnsTrue() {
+        User user = new User();
+        user.setEmail(new UserEmail("user_email@test.com"));
+
+        when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(true);
+
+        boolean result = underTest.existByEmail(user);
+
+        assertTrue(result);
+        verify(jpaRepositoryMock).existsByEmail(user.getEmail());
+    }
+
+    @Test
+    void test_existByEmail_EmailDoesNotExist_ReturnsFalse() {
+        User user = new User();
+        user.setEmail(new UserEmail("user_email@test.com"));
+
+        when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(false);
+
+        boolean result = underTest.existByEmail(user);
+
+        assertFalse(result);
+        verify(jpaRepositoryMock).existsByEmail(user.getEmail());
+    }
+
+    @Test
+    void test_existByUserName_UsernameExists_ReturnsTrue() {
+        User user = new User();
+        user.setUsername(new UserUsername("Username"));
+        when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(true);
+
+        boolean result = underTest.existsByUsername(user);
+
+        assertTrue(result);
+        verify(jpaRepositoryMock).existsByUsername(user.getUsername());
+    }
+
+    @Test
+    void test_existByUserName_UsernameDoesNotExist_ReturnsFalse() {
+        User user = new User();
+        user.setUsername(new UserUsername("Username"));
+        when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(false);
+
+        boolean result = underTest.existsByUsername(user);
+
+        assertFalse(result);
+        verify(jpaRepositoryMock).existsByUsername(user.getUsername());
     }
 }
