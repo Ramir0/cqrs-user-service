@@ -97,7 +97,7 @@ class UserUseCasesTest {
                 () -> underTest.createUser(user)
         );
 
-        assertEquals("The username : " + user.getUsername() + " already exists", exception.getMessage());
+        assertEquals("User with username : " + user.getUsername() + " already exists", exception.getMessage());
         verify(userOutputPortMock, times(1)).existsByUsername(user);
     }
 
@@ -136,6 +136,4 @@ class UserUseCasesTest {
         retryFunction.execute();
         verify(userOutputPortMock).delete(eq(userId));
     }
-
-
 }

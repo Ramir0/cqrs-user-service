@@ -1,5 +1,7 @@
 package dev.amir.usercommand;
 
+import dev.amir.usercommand.domain.valueobject.UserEmail;
+import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
 import java.io.File;
@@ -47,6 +49,9 @@ public class UserCommandTest {
     @Test
     void test_CreateUserTest() throws Exception {
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
+        when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(false);
+
         File responseFile = ResourceUtils.getFile("classpath:requests/create-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -57,6 +62,9 @@ public class UserCommandTest {
                 .andExpect(jsonPath("$.id").value(defaultUserId.toString()));
 
         verify(jpaRepositoryMock).save(any(UserJpa.class));
+        verify(jpaRepositoryMock).existsByEmail(any(UserEmail.class));
+        verify(jpaRepositoryMock).existsByUsername(any(UserUsername.class));
+
     }
 
     @Test
@@ -91,6 +99,9 @@ public class UserCommandTest {
     @Test
     public void test_HandleUnknownExceptionForCreateUser() throws Exception {
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenThrow(InternalError.class);
+        when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(false);
+
         File responseFile = ResourceUtils.getFile("classpath:requests/create-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
@@ -100,6 +111,8 @@ public class UserCommandTest {
                 .andExpect(content().string("Internal error"));
 
         verify(jpaRepositoryMock).save(any(UserJpa.class));
+        verify(jpaRepositoryMock).existsByEmail(any(UserEmail.class));
+        verify(jpaRepositoryMock).existsByUsername(any(UserUsername.class));
     }
 
     @Test

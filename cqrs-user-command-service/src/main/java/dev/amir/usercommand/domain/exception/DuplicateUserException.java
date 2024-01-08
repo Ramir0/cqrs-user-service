@@ -9,6 +9,6 @@ public class DuplicateUserException extends UserException {
     }
 
     public DuplicateUserException(UserUsername userName) {
-        super("The username : " + userName + " already exists");
+        super("User with username : " + userName + " already exists");
     }
 }

@@ -63,7 +63,7 @@ public class UserResponseExceptionHandler {
 
     @ExceptionHandler(DuplicateUserException.class)
     public ResponseEntity<String> handleDuplicateUserException(DuplicateUserException ex) {
-        log.error("the data already exists", ex);
+        log.error("Data already exists", ex);
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body("duplicate data");
     }
