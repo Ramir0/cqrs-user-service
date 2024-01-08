@@ -163,7 +163,7 @@ class UserOutputAdapterTest {
     }
 
     @Test
-    void test_UsernameDoesNotExist_ReturnsFalse() {
+    void test_existByUserName_UsernameDoesNotExist_ReturnsFalse() {
         User user = new User();
         user.setUsername(new UserUsername("Username"));
         when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(false);
