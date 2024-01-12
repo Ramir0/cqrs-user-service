@@ -1,8 +1,8 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
 import dev.amir.usercommand.domain.valueobject.UserName;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Convert;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Convert;
 
 @Convert
 public class UserNameConverter implements AttributeConverter<UserName, String> {

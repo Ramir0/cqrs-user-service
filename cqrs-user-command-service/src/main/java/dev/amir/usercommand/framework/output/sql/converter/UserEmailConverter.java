@@ -1,7 +1,7 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
 import dev.amir.usercommand.domain.valueobject.UserEmail;
-import javax.persistence.AttributeConverter;
+import jakarta.persistence.AttributeConverter;
 
 public class UserEmailConverter implements AttributeConverter<UserEmail, String> {
 
