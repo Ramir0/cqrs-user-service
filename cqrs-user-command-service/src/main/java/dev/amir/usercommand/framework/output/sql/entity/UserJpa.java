@@ -12,18 +12,18 @@ import dev.amir.usercommand.framework.output.sql.converter.UserLastNameConverter
 import dev.amir.usercommand.framework.output.sql.converter.UserNameConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserPasswordConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserUsernameConverter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
 
 @Data
 @Entity
@@ -32,9 +32,9 @@ import org.hibernate.annotations.Type;
 @AllArgsConstructor
 public class UserJpa {
     @Id
-    @Type(type = "org.hibernate.type.UUIDCharType")
+    @JdbcTypeCode(java.sql.Types.VARCHAR)
     private UUID id;
-    @Type(type = "org.hibernate.type.UUIDCharType")
+    @JdbcTypeCode(java.sql.Types.VARCHAR)
     @Column(name = "role_id")
     private UUID roleId;
     @Convert(converter = UserUsernameConverter.class)

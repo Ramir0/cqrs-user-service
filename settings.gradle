@@ -2,3 +2,4 @@ rootProject.name = 'cqrs-user-service'
 
 include 'cqrs-user-command-service'
 include 'cqrs-user-query-service'
+include 'authorization-server'
