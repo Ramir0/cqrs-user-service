@@ -7,6 +7,7 @@ import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.application.retry.executor.RetryExecutor;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.DuplicateUserException;
+import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,15 @@ public class UserUseCases implements UserInputPort {
         UserId userId = new UserId(userIdParam);
         retryExecutor.execute(() -> userOutputPort.delete(userId));
         log.info("User with ID: {} deleted", userId);
+    }
+
+    @Override
+    public void changeUserPassword(User user) {
+        if (userOutputPort.isUserRemoved(user)) {
+            throw new UserNotFoundException(user.getId().getValue());
+        }
+        log.info("Attempting to change password with 'id': {}", user.getId());
+        User user1 = retryExecutor.execute(() -> userOutputPort.changePassword(user));
+        log.info("User password with ID: {} successfully changed", user1.getId());
     }
 }

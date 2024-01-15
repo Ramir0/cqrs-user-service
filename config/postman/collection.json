@@ -150,6 +150,35 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "UpdatePassword",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"password\": \"new_password\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{user-command-host}}/users/{{user-id}}/password",
+          "host": [
+            "{{user-command-host}}"
+          ],
+          "path": [
+            "users",
+            "{{user-id}}",
+            "password"
+          ]
+        }
+      },
+      "response": []
     }
+
   ]
 }

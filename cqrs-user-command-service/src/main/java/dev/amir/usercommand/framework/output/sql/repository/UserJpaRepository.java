@@ -1,6 +1,8 @@
 package dev.amir.usercommand.framework.output.sql.repository;
 
 import dev.amir.usercommand.domain.valueobject.UserEmail;
+import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import java.util.UUID;
@@ -11,4 +13,6 @@ public interface UserJpaRepository extends CrudRepository<UserJpa, UUID> {
     boolean existsByEmail(UserEmail email);
 
     boolean existsByUsername(UserUsername userName);
+
+    boolean existsByStatusAndId(UserStatus status, UUID userId);
 }

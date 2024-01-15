@@ -4,6 +4,7 @@ import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.framework.input.rest.mapper.UserRequestMapper;
+import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
@@ -42,5 +43,14 @@ public class UserHandlerImpl implements UserHandler {
     public void handle(DeleteUserRequest request, UUID userId) {
         userInputPort.deleteUser(userId);
         log.info("verifying deletion of user with ID {} ", userId);
+    }
+
+    @Override
+    public void handle(ChangePasswordRequest request, UUID userIdParam) {
+        User user = requestMapper.convert(request);
+        UserId userId = new UserId(userIdParam);
+        user.setId(userId);
+        userInputPort.changeUserPassword(user);
+        log.info("Password changed");
     }
 }
