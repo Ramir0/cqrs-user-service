@@ -111,8 +111,8 @@ public class UserCommandTest {
                 .andExpect(status().isNoContent());
 
         verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
-        verify(jpaRepositoryMock).existsByStatusAndId(any(UserStatus.class), eq(defaultUserId.getValue()));
-        verify(jpaRepositoryMock).save(any(UserJpa.class));
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).save(eq(defaultUserJpa));
     }
 
 
@@ -127,8 +127,8 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(jpaRepositoryMock).existsByStatusAndId(any(UserStatus.class), eq(defaultUserId.getValue()));
-        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock, never()).save(eq(defaultUserJpa));
     }
 
     @Test

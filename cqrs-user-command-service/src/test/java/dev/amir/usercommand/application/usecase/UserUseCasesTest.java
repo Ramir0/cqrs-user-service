@@ -172,6 +172,6 @@ class UserUseCasesTest {
         );
 
         assertEquals("User with id: " + user.getId() + " Not found", exception.getMessage());
-        verify(userOutputPortMock, times(1)).isUserRemoved(user);
+        verify(userOutputPortMock).isUserRemoved(user);
     }
 }

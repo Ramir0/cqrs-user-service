@@ -177,27 +177,25 @@ class UserOutputAdapterTest {
     @Test
     void test_isUserRemoved_UserStatus_isRemoved_ReturnsTrue() {
         User user = new User();
-        user.setStatus(UserStatus.REMOVED);
         user.setId(new UserId());
         when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UUID.class))).thenReturn(true);
 
         boolean result = underTest.isUserRemoved(user);
 
         assertTrue(result);
-        verify(jpaRepositoryMock).existsByStatusAndId(user.getStatus(), user.getId().getValue());
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(user.getId().getValue()));
     }
 
     @Test
     void test_isUserRemoved_UserStatus_isNotRemoved_ReturnsFalse() {
         User user = new User();
-        user.setStatus(UserStatus.REMOVED);
         user.setId(new UserId());
         when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UUID.class))).thenReturn(false);
 
         boolean result = underTest.isUserRemoved(user);
 
         assertFalse(result);
-        verify(jpaRepositoryMock).existsByStatusAndId(user.getStatus(), user.getId().getValue());
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(user.getId().getValue()));
     }
 
     @Test
