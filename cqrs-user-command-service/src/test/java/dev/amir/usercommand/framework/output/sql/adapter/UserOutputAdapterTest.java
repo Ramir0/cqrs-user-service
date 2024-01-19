@@ -4,6 +4,7 @@ import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.mapper.UserJpaMapper;
@@ -85,18 +86,17 @@ class UserOutputAdapterTest {
 
         User savedUser = new User();
         savedUser.setId(savedUserId);
-        UserJpa savedUserJpa = new UserJpa();
 
         when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
-        when(jpaRepositoryMock.save(userJpa)).thenReturn(savedUserJpa);
-        when(jpaMapperMock.convert(eq(savedUserJpa))).thenReturn(savedUser);
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(null);
+        when(jpaMapperMock.convert(any(UserJpa.class))).thenReturn(savedUser);
 
         User actualSavedUser = underTest.update(user);
 
         assertEquals(savedUser.getId(), actualSavedUser.getId());
         verify(jpaRepositoryMock).findById(eq(savedUserId.getValue()));
-        verify(jpaRepositoryMock).save(userJpa);
-        verify(jpaMapperMock).convert(eq(savedUserJpa));
+        verify(jpaRepositoryMock).save(eq(userJpa));
+        verify(jpaMapperMock).convert(eq(userJpa));
     }
 
     @Test
@@ -172,5 +172,68 @@ class UserOutputAdapterTest {
 
         assertFalse(result);
         verify(jpaRepositoryMock).existsByUsername(user.getUsername());
+    }
+
+    @Test
+    void test_isUserRemoved_UserStatus_isRemoved_ReturnsTrue() {
+        User user = new User();
+        user.setId(new UserId());
+        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UUID.class))).thenReturn(true);
+
+        boolean result = underTest.isUserRemoved(user);
+
+        assertTrue(result);
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(user.getId().getValue()));
+    }
+
+    @Test
+    void test_isUserRemoved_UserStatus_isNotRemoved_ReturnsFalse() {
+        User user = new User();
+        user.setId(new UserId());
+        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UUID.class))).thenReturn(false);
+
+        boolean result = underTest.isUserRemoved(user);
+
+        assertFalse(result);
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(user.getId().getValue()));
+    }
+
+    @Test
+    void test_ChangePassword() {
+        UserId savedUserId = new UserId();
+        User user = new User();
+        user.setId(savedUserId);
+        UserJpa userJpa = new UserJpa();
+
+        User savedUser = new User();
+        savedUser.setId(savedUserId);
+
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(null);
+        when(jpaMapperMock.convert(any(UserJpa.class))).thenReturn(savedUser);
+
+        User actualSavedUser = underTest.changePassword(user);
+
+        assertEquals(savedUser.getId(), actualSavedUser.getId());
+        verify(jpaRepositoryMock).findById(eq(savedUserId.getValue()));
+        verify(jpaRepositoryMock).save(eq(userJpa));
+        verify(jpaMapperMock).convert(eq(userJpa));
+    }
+
+    @Test
+    void test_ChangePassword_WhenUserDoesNotExist_ThrowsException() {
+        UserId newUserId = new UserId();
+        User newUser = new User();
+        newUser.setId(newUserId);
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+
+        assertThrows(
+                UserNotFoundException.class,
+                () -> underTest.changePassword(newUser)
+        );
+
+        verify(jpaRepositoryMock).findById(eq(newUserId.getValue()));
+        verify(jpaRepositoryMock, never()).save(any());
     }
 }

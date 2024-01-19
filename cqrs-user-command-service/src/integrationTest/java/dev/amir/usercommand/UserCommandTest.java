@@ -1,6 +1,7 @@
 package dev.amir.usercommand;
 
 import dev.amir.usercommand.domain.valueobject.UserEmail;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
@@ -94,6 +95,40 @@ public class UserCommandTest {
 
         verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
         verify(jpaRepositoryMock).save(any(UserJpa.class));
+    }
+
+    @Test
+    void test_ChangePassword() throws Exception {
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(defaultUserJpa));
+        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UUID.class))).thenReturn(false);
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
+        File responseFile = ResourceUtils.getFile("classpath:requests/change-password-user-request.json");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .patch("/users/{id}/password", defaultUserId)
+                        .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).save(eq(defaultUserJpa));
+    }
+
+
+    @Test
+    public void test_HandleUserNotFoundExceptionForChangePassword() throws Exception {
+        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UUID.class))).thenReturn(false);
+        File responseFile = ResourceUtils.getFile("classpath:requests/change-password-user-request.json");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .patch("/users/{id}/password", defaultUserId)
+                        .content(Files.contentOf(responseFile, StandardCharsets.UTF_8))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock, never()).save(eq(defaultUserJpa));
     }
 
     @Test

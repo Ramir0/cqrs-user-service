@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.handler;
 
+import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
@@ -12,4 +13,6 @@ public interface UserHandler {
     void handle(UpdateUserRequest request, UUID userId);
 
     void handle(DeleteUserRequest request, UUID userId);
+
+    void handle(ChangePasswordRequest request, UUID userId);
 }

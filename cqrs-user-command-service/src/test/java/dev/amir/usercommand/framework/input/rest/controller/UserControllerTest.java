@@ -1,6 +1,7 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
 import dev.amir.usercommand.framework.input.rest.handler.UserHandler;
+import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
@@ -66,5 +67,18 @@ class UserControllerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, actual.getStatusCode());
         verify(userHandlerMock).handle(any(DeleteUserRequest.class), eq(userId));
+    }
+
+    @Test
+    void test_ChangePassword() {
+        UUID userId = UUID.randomUUID();
+        ChangePasswordRequest request = RandomObject.nextObject(ChangePasswordRequest.class);
+        doNothing().when(userHandlerMock).handle(any(ChangePasswordRequest.class), any(UUID.class));
+
+        ResponseEntity<Void> actual = underTest.changePassword(userId, request);
+
+        assertEquals(HttpStatus.NO_CONTENT, actual.getStatusCode());
+        assertNull(actual.getBody());
+        verify(userHandlerMock).handle(eq(request), eq(userId));
     }
 }

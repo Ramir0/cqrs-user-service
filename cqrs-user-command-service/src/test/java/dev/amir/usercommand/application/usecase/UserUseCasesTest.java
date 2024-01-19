@@ -7,8 +7,10 @@ import dev.amir.usercommand.application.retry.executor.RetryExecutor;
 import dev.amir.usercommand.application.retry.function.RetryFunction;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.DuplicateUserException;
+import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;
@@ -102,6 +104,42 @@ class UserUseCasesTest {
     }
 
     @Test
+    void test_ChangePassword() {
+        User user = RandomObject.nextObject(User.class);
+        RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
+
+        User userResponse = new User();
+        userResponse.setId(new UserId());
+
+        when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
+        when(userOutputPortMock.changePassword(any(User.class))).thenReturn(user);
+
+        underTest.changeUserPassword(user);
+
+        verify(retryExecutorMock).execute(retryFunctionCaptor.capture());
+        RetryFunction<User> retryFunction = retryFunctionCaptor.getValue();
+        retryFunction.execute();
+        verify(userOutputPortMock).changePassword(eq(user));
+    }
+
+    @Test
+    void test_DeleteUser() {
+        User userResponse = new User();
+        userResponse.setId(new UserId());
+
+        doNothing().when(retryExecutorMock).execute(any(RetryAction.class));
+        doNothing().when(userOutputPortMock).delete(any(UserId.class));
+
+        UserId userId = new UserId();
+        underTest.deleteUser(userId.getValue());
+
+        verify(retryExecutorMock).execute(retryActionCaptor.capture());
+        RetryAction retryFunction = retryActionCaptor.getValue();
+        retryFunction.execute();
+        verify(userOutputPortMock).delete(eq(userId));
+    }
+
+    @Test
     void test_UpdateUser() {
         User user = RandomObject.nextObject(User.class);
         RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
@@ -121,19 +159,19 @@ class UserUseCasesTest {
     }
 
     @Test
-    void test_DeleteUser() {
-        User userResponse = new User();
-        userResponse.setId(new UserId());
+    void test_when_UserIsRemoved_ThrowsException() {
+        User user = new User();
+        user.setId(new UserId());
+        user.setStatus(UserStatus.REMOVED);
 
-        doNothing().when(retryExecutorMock).execute(any(RetryAction.class));
-        doNothing().when(userOutputPortMock).delete(any(UserId.class));
+        when(userOutputPortMock.isUserRemoved(any(User.class))).thenReturn(true);
 
-        UserId userId = new UserId();
-        underTest.deleteUser(userId.getValue());
+        UserNotFoundException exception = assertThrows(
+                UserNotFoundException.class,
+                () -> underTest.changeUserPassword(user)
+        );
 
-        verify(retryExecutorMock).execute(retryActionCaptor.capture());
-        RetryAction retryFunction = retryActionCaptor.getValue();
-        retryFunction.execute();
-        verify(userOutputPortMock).delete(eq(userId));
+        assertEquals("User with id: " + user.getId() + " Not found", exception.getMessage());
+        verify(userOutputPortMock).isUserRemoved(user);
     }
 }
