@@ -10,7 +10,7 @@ import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserId;
-import dev.amir.usercommand.domain.valueobject.UserStatus;
+import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;
@@ -109,17 +109,19 @@ class UserUseCasesTest {
         RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
 
         User userResponse = new User();
-        userResponse.setId(new UserId());
+        UserId userId = new UserId();
+        userResponse.setId(userId);
+        UserPassword password = RandomObject.nextObject(UserPassword.class);
 
         when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
-        when(userOutputPortMock.changePassword(any(User.class))).thenReturn(user);
+        when(userOutputPortMock.changePassword(any(UserId.class), any(UserPassword.class))).thenReturn(user);
 
-        underTest.changeUserPassword(user);
+        underTest.changeUserPassword(userId.getValue(), password);
 
         verify(retryExecutorMock).execute(retryFunctionCaptor.capture());
         RetryFunction<User> retryFunction = retryFunctionCaptor.getValue();
         retryFunction.execute();
-        verify(userOutputPortMock).changePassword(eq(user));
+        verify(userOutputPortMock).changePassword(eq(userId), eq(password));
     }
 
     @Test
@@ -160,18 +162,17 @@ class UserUseCasesTest {
 
     @Test
     void test_when_UserIsRemoved_ThrowsException() {
-        User user = new User();
-        user.setId(new UserId());
-        user.setStatus(UserStatus.REMOVED);
+        UserId userId = new UserId();
+        UserPassword password = RandomObject.nextObject(UserPassword.class);
 
-        when(userOutputPortMock.isUserRemoved(any(User.class))).thenReturn(true);
+        when(userOutputPortMock.isUserRemoved(any(UserId.class))).thenReturn(true);
 
         UserNotFoundException exception = assertThrows(
                 UserNotFoundException.class,
-                () -> underTest.changeUserPassword(user)
+                () -> underTest.changeUserPassword(userId.getValue(), password)
         );
 
-        assertEquals("User with id: " + user.getId() + " Not found", exception.getMessage());
-        verify(userOutputPortMock).isUserRemoved(user);
+        assertEquals("User with ID: " + userId + " Not found", exception.getMessage());
+        verify(userOutputPortMock).isUserRemoved(eq(userId));
     }
 }

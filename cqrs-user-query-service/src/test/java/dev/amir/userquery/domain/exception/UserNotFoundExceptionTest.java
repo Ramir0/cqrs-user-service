@@ -14,7 +14,7 @@ class UserNotFoundExceptionTest {
 
         UserNotFoundException underTest = new UserNotFoundException(userId);
 
-        assertEquals("User with id:" + userId + " Not found", underTest.getMessage());
+        assertEquals("User with ID:" + userId + " Not found", underTest.getMessage());
         assertNull(underTest.getCause());
     }
 }

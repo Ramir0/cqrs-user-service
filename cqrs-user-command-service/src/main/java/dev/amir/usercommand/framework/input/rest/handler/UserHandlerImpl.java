@@ -47,10 +47,7 @@ public class UserHandlerImpl implements UserHandler {
 
     @Override
     public void handle(ChangePasswordRequest request, UUID userIdParam) {
-        User user = requestMapper.convert(request);
-        UserId userId = new UserId(userIdParam);
-        user.setId(userId);
-        userInputPort.changeUserPassword(user);
-        log.info("Password changed");
+        userInputPort.changeUserPassword(userIdParam, request.password());
+        log.info("Password changed for user with ID: {}", userIdParam);
     }
 }
