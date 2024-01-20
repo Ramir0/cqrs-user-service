@@ -15,7 +15,7 @@ public interface UserOutputPort {
 
     boolean existsByUsername(User user);
 
-    User changePassword(UserId userId, UserPassword password);
+    void changePassword(UserId userId, UserPassword password);
 
     boolean isUserRemoved(UserId userId);
 }

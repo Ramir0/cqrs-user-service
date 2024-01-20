@@ -52,7 +52,7 @@ public class UserUseCases implements UserInputPort {
         log.info("Attempting to delete user with ID: {}", userIdParam);
         UserId userId = new UserId(userIdParam);
         retryExecutor.execute(() -> userOutputPort.delete(userId));
-        log.info("User with ID: {} deleted", userId);
+        log.info("User with ID: {} successfully deleted", userId);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class UserUseCases implements UserInputPort {
             throw new UserNotFoundException(userId.getValue());
         }
         log.info("Attempting to change password with ID: {}", userId);
-        User user = retryExecutor.execute(() -> userOutputPort.changePassword(userId, password));
-        log.info("User password with ID: {} successfully changed", user.getId());
+        retryExecutor.execute(() -> userOutputPort.changePassword(userId, password));
+        log.info("User password with ID: {} successfully changed", userId);
     }
 }

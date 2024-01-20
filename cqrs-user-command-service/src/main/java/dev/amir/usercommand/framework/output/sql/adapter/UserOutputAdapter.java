@@ -63,12 +63,19 @@ public class UserOutputAdapter implements UserOutputPort {
 
     @Override
     public void delete(UserId userId) {
-        if (!jpaRepository.existsById(userId.getValue())) {
+        log.info("Deleting user");
+        Optional<UserJpa> existingUser = jpaRepository.findById(userId.getValue());
+
+        if (existingUser.isEmpty()) {
             throw new UserNotFoundException(userId.getValue());
         }
 
-        jpaRepository.deleteById(userId.getValue());
-        log.info("Deleting user");
+        UserJpa userJpa = existingUser.get();
+        userJpa.setUsername(null);
+        userJpa.setEmail(null);
+        userJpa.setStatus(UserStatus.REMOVED);
+
+        jpaRepository.save(userJpa);
     }
 
     @Override
@@ -90,7 +97,7 @@ public class UserOutputAdapter implements UserOutputPort {
     }
 
     @Override
-    public User changePassword(UserId userId, UserPassword password) {
+    public void changePassword(UserId userId, UserPassword password) {
         log.info("Changing password");
         Optional<UserJpa> existingUser = jpaRepository.findById(userId.getValue());
 
@@ -99,12 +106,9 @@ public class UserOutputAdapter implements UserOutputPort {
         }
 
         UserJpa userJpa = existingUser.get();
-
         userJpa.setStatus(UserStatus.PENDING);
         userJpa.setPassword(password);
 
         jpaRepository.save(userJpa);
-
-        return jpaMapper.convert(userJpa);
     }
 }

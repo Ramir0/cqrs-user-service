@@ -25,7 +25,6 @@ import static dev.amir.usercommand.util.DefaultObject.defaultUserJpa;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -70,21 +69,23 @@ public class UserCommandTest {
 
     @Test
     public void test_DeleteUserTest() throws Exception {
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
-        doNothing().when(jpaRepositoryMock).deleteById(any(UUID.class));
+        UserJpa userJpa = new UserJpa();
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(userJpa);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/{id}", defaultUserId))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
-        verify(jpaRepositoryMock).deleteById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).save(eq(userJpa));
     }
 
     @Test
     void test_UpdateUserTest() throws Exception {
-        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(defaultUserJpa));
-        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
+        UserJpa userJpa = new UserJpa();
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(userJpa);
         File responseFile = ResourceUtils.getFile("classpath:requests/update-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -94,7 +95,7 @@ public class UserCommandTest {
                 .andExpect(status().isNoContent());
 
         verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
-        verify(jpaRepositoryMock).save(any(UserJpa.class));
+        verify(jpaRepositoryMock).save(eq(userJpa));
     }
 
     @Test
@@ -128,7 +129,7 @@ public class UserCommandTest {
                 .andExpect(status().isNotFound());
 
         verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId.getValue()));
-        verify(jpaRepositoryMock, never()).save(eq(defaultUserJpa));
+        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
@@ -167,14 +168,14 @@ public class UserCommandTest {
 
     @Test
     public void test_HandleUserNotFoundExceptionForDeleteUser() throws Exception {
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", defaultUserId))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(jpaRepositoryMock).existsById(eq(defaultUserId.getValue()));
-        verify(jpaRepositoryMock, never()).deleteById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
