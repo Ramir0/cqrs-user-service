@@ -1,7 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.mapper;
 
 import dev.amir.usercommand.domain.entity.User;
-import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
 import dev.amir.usercommand.util.RandomObject;
@@ -58,22 +57,6 @@ class UserRequestMapperTest {
     @Test
     void test_Convert_WhenUpdateUserRequestIsNull_ReturnsNull() {
         User actual = underTest.convert((UpdateUserRequest) null);
-
-        assertNull(actual);
-    }
-
-    @Test
-    void test_Convert_FromChangePasswordRequest_ToUser() {
-        ChangePasswordRequest expected = RandomObject.nextObject(ChangePasswordRequest.class);
-
-        User actual = underTest.convert(expected);
-
-        assertEquals(expected.password(), actual.getPassword());
-    }
-
-    @Test
-    void test_Convert_WhenChangePasswordRequestIsNull_ReturnsNull() {
-        User actual = underTest.convert((ChangePasswordRequest) null);
 
         assertNull(actual);
     }

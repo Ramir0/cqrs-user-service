@@ -4,6 +4,7 @@ import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.mapper.UserJpaMapper;
@@ -83,17 +84,14 @@ public class UserOutputAdapter implements UserOutputPort {
     }
 
     @Override
-    public boolean isUserRemoved(User user) {
+    public boolean isUserRemoved(UserId userId) {
         log.info("checking if user status is removed");
-        UserId userId = user.getId();
-
         return jpaRepository.existsByStatusAndId(UserStatus.REMOVED, userId.getValue());
     }
 
     @Override
-    public User changePassword(User user) {
+    public User changePassword(UserId userId, UserPassword password) {
         log.info("Changing password");
-        UserId userId = user.getId();
         Optional<UserJpa> existingUser = jpaRepository.findById(userId.getValue());
 
         if (existingUser.isEmpty()) {
@@ -103,7 +101,7 @@ public class UserOutputAdapter implements UserOutputPort {
         UserJpa userJpa = existingUser.get();
 
         userJpa.setStatus(UserStatus.PENDING);
-        userJpa.setPassword(user.getPassword());
+        userJpa.setPassword(password);
 
         jpaRepository.save(userJpa);
 

@@ -63,8 +63,9 @@ public class UserController {
 
     @PatchMapping("/{id}/password")
     public ResponseEntity<Void> changePassword(
-            @NotNull @PathVariable UUID id, @Valid @RequestBody ChangePasswordRequest request) {
-
+            @NotNull @PathVariable UUID id,
+            @Valid @RequestBody ChangePasswordRequest request
+    ) {
         log.info("Received request to change password");
         userHandler.handle(request, id);
         return ResponseEntity.noContent().build();
