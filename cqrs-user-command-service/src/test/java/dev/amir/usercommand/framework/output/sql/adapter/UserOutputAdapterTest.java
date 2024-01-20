@@ -21,11 +21,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -103,27 +103,34 @@ class UserOutputAdapterTest {
 
     @Test
     void test_Delete() {
+        UserJpa userJpa = new UserJpa();
+        userJpa.setEmail(new UserEmail("user_email@test.com"));
+        userJpa.setUsername(new UserUsername("Username"));
+        userJpa.setStatus(UserStatus.ACTIVE);
         UserId userId = new UserId();
 
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(true);
-        doNothing().when(jpaRepositoryMock).deleteById(any(UUID.class));
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(null);
 
         underTest.delete(userId);
 
-        verify(jpaRepositoryMock).existsById(eq(userId.getValue()));
-        verify(jpaRepositoryMock).deleteById(eq(userId.getValue()));
+        assertNull(userJpa.getEmail());
+        assertNull(userJpa.getUsername());
+        assertEquals(UserStatus.REMOVED, userJpa.getStatus());
+        verify(jpaRepositoryMock).findById(eq(userId.getValue()));
+        verify(jpaRepositoryMock).save(eq(userJpa));
     }
 
     @Test
     void test_Delete_WhenUserDoesNotExist_ThrowsException() {
         UserId userId = new UserId();
 
-        when(jpaRepositoryMock.existsById(any(UUID.class))).thenReturn(false);
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> underTest.delete(userId));
 
-        verify(jpaRepositoryMock).existsById(eq(userId.getValue()));
-        verify(jpaRepositoryMock, never()).deleteById(any());
+        verify(jpaRepositoryMock).findById(eq(userId.getValue()));
+        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
@@ -200,26 +207,21 @@ class UserOutputAdapterTest {
 
     @Test
     void test_ChangePassword() {
-        UserId savedUserId = new UserId();
-        User user = new User();
-        user.setId(savedUserId);
         UserJpa userJpa = new UserJpa();
+        UserPassword oldPassword = RandomObject.nextObject(UserPassword.class);
+        userJpa.setPassword(oldPassword);
 
-        User savedUser = new User();
-        savedUser.setId(savedUserId);
-
+        UserId savedUserId = new UserId();
         UserPassword password = RandomObject.nextObject(UserPassword.class);
 
         when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(null);
-        when(jpaMapperMock.convert(any(UserJpa.class))).thenReturn(savedUser);
 
-        User actualSavedUser = underTest.changePassword(savedUserId, password);
+        underTest.changePassword(savedUserId, password);
 
-        assertEquals(savedUser.getId(), actualSavedUser.getId());
+        assertEquals(password, userJpa.getPassword());
         verify(jpaRepositoryMock).findById(eq(savedUserId.getValue()));
         verify(jpaRepositoryMock).save(eq(userJpa));
-        verify(jpaMapperMock).convert(eq(userJpa));
     }
 
     @Test

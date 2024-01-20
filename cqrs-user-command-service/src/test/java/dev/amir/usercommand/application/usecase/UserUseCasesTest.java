@@ -105,22 +105,19 @@ class UserUseCasesTest {
 
     @Test
     void test_ChangePassword() {
-        User user = RandomObject.nextObject(User.class);
-        RetryFunctionMatcher<User> retryMatcher = new RetryFunctionMatcher<>();
-
         User userResponse = new User();
         UserId userId = new UserId();
         userResponse.setId(userId);
         UserPassword password = RandomObject.nextObject(UserPassword.class);
 
-        when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
-        when(userOutputPortMock.changePassword(any(UserId.class), any(UserPassword.class))).thenReturn(user);
+        doNothing().when(retryExecutorMock).execute(any(RetryAction.class));
+        doNothing().when(userOutputPortMock).changePassword(any(UserId.class), any(UserPassword.class));
 
         underTest.changeUserPassword(userId.getValue(), password);
 
-        verify(retryExecutorMock).execute(retryFunctionCaptor.capture());
-        RetryFunction<User> retryFunction = retryFunctionCaptor.getValue();
-        retryFunction.execute();
+        verify(retryExecutorMock).execute(retryActionCaptor.capture());
+        RetryAction retryAction = retryActionCaptor.getValue();
+        retryAction.execute();
         verify(userOutputPortMock).changePassword(eq(userId), eq(password));
     }
 
@@ -136,8 +133,8 @@ class UserUseCasesTest {
         underTest.deleteUser(userId.getValue());
 
         verify(retryExecutorMock).execute(retryActionCaptor.capture());
-        RetryAction retryFunction = retryActionCaptor.getValue();
-        retryFunction.execute();
+        RetryAction retryAction = retryActionCaptor.getValue();
+        retryAction.execute();
         verify(userOutputPortMock).delete(eq(userId));
     }
 
