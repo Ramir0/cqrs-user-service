@@ -107,4 +107,27 @@ public class UserOutputAdapter implements UserOutputPort {
 
         return jpaMapper.convert(userJpa);
     }
+
+    @Override
+    public void updateProfile(User user) {
+        log.info("Updating User");
+        Optional<UserJpa> existingUser = jpaRepository.findById(user.getId().getValue());
+
+        if (existingUser.isEmpty()) {
+            throw new UserNotFoundException(user.getId().getValue());
+        }
+
+        UserJpa userJpa = existingUser.get();
+
+        userJpa.setName(user.getName());
+        userJpa.setLastname(user.getLastname());
+        userJpa.setGender(user.getGender());
+        userJpa.setBirthDate(user.getBirthDate());
+
+        jpaRepository.save(userJpa);
+        log.info(
+                "User with ID: {} has been successfully updated",
+                user.getId().getValue()
+        );
+    }
 }

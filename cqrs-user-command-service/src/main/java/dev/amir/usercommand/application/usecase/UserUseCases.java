@@ -65,4 +65,11 @@ public class UserUseCases implements UserInputPort {
         User user = retryExecutor.execute(() -> userOutputPort.changePassword(userId, password));
         log.info("User password with ID: {} successfully changed", user.getId());
     }
+
+    @Override
+    public void updateUserProfile(User user) {
+        log.info("Attempting to change password with ID: {}", user.getId()); // TODO cahnge logs
+        retryExecutor.execute(() -> userOutputPort.updateProfile(user));
+        log.info("User password with ID: {} successfully changed", user.getId());
+    }
 }
