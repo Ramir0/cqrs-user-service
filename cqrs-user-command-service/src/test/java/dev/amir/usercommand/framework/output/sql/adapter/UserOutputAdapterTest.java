@@ -237,4 +237,40 @@ class UserOutputAdapterTest {
         verify(jpaRepositoryMock).findById(eq(newUserId.getValue()));
         verify(jpaRepositoryMock, never()).save(any());
     }
+
+    @Test
+    void test_UpdateProfile() {
+        UserId savedUserId = new UserId();
+        User user = new User();
+        user.setId(savedUserId);
+        UserJpa userJpa = new UserJpa();
+
+        User savedUser = new User();
+        savedUser.setId(savedUserId);
+
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
+        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(null);
+
+        underTest.updateProfile(user);
+
+        verify(jpaRepositoryMock).findById(eq(savedUserId.getValue()));
+        verify(jpaRepositoryMock).save(eq(userJpa));
+    }
+
+    @Test
+    void test_UpdateProfile_WhenUserDoesNotExist_ThrowsException() {
+        UserId newUserId = new UserId();
+        User newUser = new User();
+        newUser.setId(newUserId);
+        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+
+        assertThrows(
+                UserNotFoundException.class,
+                () -> underTest.updateProfile(newUser)
+        );
+
+        verify(jpaRepositoryMock).findById(eq(newUserId.getValue()));
+        verify(jpaRepositoryMock, never()).save(any());
+    }
 }

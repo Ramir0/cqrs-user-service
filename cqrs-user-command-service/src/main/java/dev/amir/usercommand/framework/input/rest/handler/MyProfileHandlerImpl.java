@@ -28,7 +28,7 @@ public class MyProfileHandlerImpl implements MyProfileHandler {
     public void handle(UpdateProfileRequest request, UUID userIdParam) {
         User user = userRequestMapper.convert(request);
         user.setId(new UserId(userIdParam));
-        log.info("");
         userInputPort.updateUserProfile(user);
+        log.info("User with ID: {} Updated", userIdParam);
     }
 }

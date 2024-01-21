@@ -2,6 +2,7 @@ package dev.amir.usercommand.framework.input.rest.controller;
 
 import dev.amir.usercommand.framework.input.rest.handler.MyProfileHandler;
 import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
+import dev.amir.usercommand.framework.input.rest.request.UpdateProfileRequest;
 import dev.amir.usercommand.util.RandomObject;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,19 @@ class MyProfileControllerTest {
         doNothing().when(myProfileHandlerMock).handle(any(ChangePasswordRequest.class), any(UUID.class));
 
         ResponseEntity<Void> actual = underTest.changeMyPassword(userId, request);
+
+        assertEquals(HttpStatus.NO_CONTENT, actual.getStatusCode());
+        assertNull(actual.getBody());
+        verify(myProfileHandlerMock).handle(eq(request), eq(userId));
+    }
+
+    @Test
+    void test_UpdateProfile() {
+        UUID userId = UUID.randomUUID();
+        UpdateProfileRequest request = RandomObject.nextObject(UpdateProfileRequest.class);
+        doNothing().when(myProfileHandlerMock).handle(any(UpdateProfileRequest.class), any(UUID.class));
+
+        ResponseEntity<Void> actual = underTest.updateProfile(userId, request);
 
         assertEquals(HttpStatus.NO_CONTENT, actual.getStatusCode());
         assertNull(actual.getBody());
