@@ -126,9 +126,6 @@ class UserUseCasesTest {
 
     @Test
     void test_DeleteUser() {
-        User userResponse = new User();
-        userResponse.setId(new UserId()); //TODO preguntar si esto sirve?
-
         doNothing().when(retryExecutorMock).execute(any(RetryAction.class));
         doNothing().when(userOutputPortMock).delete(any(UserId.class));
 
