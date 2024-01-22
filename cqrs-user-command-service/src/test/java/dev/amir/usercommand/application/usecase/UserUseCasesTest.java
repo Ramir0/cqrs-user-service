@@ -123,9 +123,6 @@ class UserUseCasesTest {
 
     @Test
     void test_DeleteUser() {
-        User userResponse = new User();
-        userResponse.setId(new UserId());
-
         doNothing().when(retryExecutorMock).execute(any(RetryAction.class));
         doNothing().when(userOutputPortMock).delete(any(UserId.class));
 
@@ -171,5 +168,20 @@ class UserUseCasesTest {
 
         assertEquals("User with ID: " + userId + " Not found", exception.getMessage());
         verify(userOutputPortMock).isUserRemoved(eq(userId));
+    }
+
+    @Test
+    void updateUserProfile() {
+        User user = RandomObject.nextObject(User.class);
+
+        doNothing().when(retryExecutorMock).execute(any(RetryAction.class));
+        doNothing().when(userOutputPortMock).updateProfile(any(User.class));
+
+        underTest.updateUserProfile(user);
+
+        verify(retryExecutorMock).execute(retryActionCaptor.capture());
+        RetryAction retryFunction = retryActionCaptor.getValue();
+        retryFunction.execute();
+        verify(userOutputPortMock).updateProfile(eq(user));
     }
 }

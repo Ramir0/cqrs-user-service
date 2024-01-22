@@ -18,4 +18,6 @@ public interface UserOutputPort {
     void changePassword(UserId userId, UserPassword password);
 
     boolean isUserRemoved(UserId userId);
+
+    void updateProfile(User user);
 }
