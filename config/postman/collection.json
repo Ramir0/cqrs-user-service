@@ -186,7 +186,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"name\": \"MyName\",\r\n    \"lastname\": \"MyLastname\",\r\n    \"gender\": \"MyGender\",\r\n    \"birthDate\": \"MyBirthDate\"\r\n}",
+          "raw": "{\r\n    \"name\": \"MyName\",\r\n    \"lastname\": \"MyLastname\",\r\n    \"gender\": \"MyGender\",\r\n    \"birthDate\": \"2010-01-20\"\r\n}",
           "options": {
             "raw": {
               "language": "json"

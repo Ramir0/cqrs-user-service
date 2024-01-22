@@ -245,9 +245,6 @@ class UserOutputAdapterTest {
         user.setId(savedUserId);
         UserJpa userJpa = new UserJpa();
 
-        User savedUser = new User();
-        savedUser.setId(savedUserId);
-
         when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(null);
 
