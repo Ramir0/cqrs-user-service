@@ -23,7 +23,7 @@ public class UserBirthDateTest {
 
         UserBirthDate actual = new UserBirthDate(expected);
 
-        assertEquals(expected, actual.value());
+        assertEquals(expected.toString(), actual.toString());
     }
 
     @Test
