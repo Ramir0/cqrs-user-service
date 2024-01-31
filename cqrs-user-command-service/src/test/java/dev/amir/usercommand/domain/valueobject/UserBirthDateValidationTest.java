@@ -23,7 +23,7 @@ public class UserBirthDateValidationTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"1900-01-01", "2000-05-10", "1998-02-08"})
+    @ValueSource(strings = {"1900-01-01", "2005-08-20", "1990-06-15", "1999-12-31"})
     void test_ValidValue_ReturnsNoConstraintViolation(String value) {
         UserBirthDate birthDate = new UserBirthDate(LocalDate.parse(value));
 
@@ -33,7 +33,7 @@ public class UserBirthDateValidationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"1800-01-01", "2020-05-09", "2016-02-08"})
+    @ValueSource(strings = {"1800-01-01", "2020-05-09", "2016-02-08", "2100-01-01", "1899-12-31"})
     void test_InvalidValue_ReturnsConstraintViolation(String value) {
         UserBirthDate birthDate = new UserBirthDate(LocalDate.parse(value));
 

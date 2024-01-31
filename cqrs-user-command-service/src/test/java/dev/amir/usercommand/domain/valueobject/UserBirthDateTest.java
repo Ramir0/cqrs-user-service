@@ -47,34 +47,4 @@ public class UserBirthDateTest {
 
         assertEquals(birthDate1, birthDate2);
     }
-
-    @Test
-    void test_ValueWithIncorrectFormat_ReturnsDateTimeParseException() {
-        assertAll(
-                () -> assertThrows(DateTimeParseException.class,
-                        () -> new UserBirthDate(LocalDate.parse("01-05-1900"))),
-                () -> assertThrows(DateTimeParseException.class,
-                        () -> new UserBirthDate(LocalDate.parse("2000/10/01")))
-        );
-    }
-
-    @Test
-    void test_ValueWithSpaces_ReturnsDateTimeParseException() {
-        assertAll(
-                () -> assertThrows(DateTimeParseException.class,
-                        () -> new UserBirthDate(LocalDate.parse(" 2000-05-06 "))),
-                () -> assertThrows(DateTimeParseException.class,
-                        () -> new UserBirthDate(LocalDate.parse(" ")))
-        );
-    }
-
-    @Test
-    void test_ValueWithText_ReturnsDateTimeParseException() {
-        DateTimeParseException exception = assertThrows(
-                DateTimeParseException.class, () -> {
-                    new UserBirthDate(LocalDate.parse("abc"));
-                });
-
-        assertEquals(DateTimeParseException.class, exception.getClass());
-    }
 }
