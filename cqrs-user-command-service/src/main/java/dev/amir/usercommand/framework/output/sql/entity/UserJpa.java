@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.entity;
 
+import dev.amir.usercommand.domain.valueobject.UserBirthDate;
 import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
@@ -7,6 +8,7 @@ import dev.amir.usercommand.domain.valueobject.UserName;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
+import dev.amir.usercommand.framework.output.sql.converter.UserBirthDateConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserEmailConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserLastNameConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserNameConverter;
@@ -51,8 +53,8 @@ public class UserJpa {
     private UserStatus status;
     @Column
     private UserGender gender;
-    @Column
-    private LocalDate birthDate;
+    @Convert(converter = UserBirthDateConverter.class)
+    private UserBirthDate birthDate;
     @Column
     private LocalDateTime createdAt;
     @Column

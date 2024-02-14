@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
+import dev.amir.usercommand.domain.valueobject.UserBirthDate;
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
 import dev.amir.usercommand.domain.valueobject.UserName;
@@ -11,5 +12,5 @@ public record UpdateProfileRequest(
         @Valid @NotNull UserName name,
         @Valid @NotNull UserLastName lastname,
         UserGender gender,
-        LocalDate birthDate) {
+        @Valid UserBirthDate birthDate) {
 }

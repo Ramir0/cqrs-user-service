@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
+import dev.amir.usercommand.domain.valueobject.UserBirthDate;
 import dev.amir.usercommand.domain.valueobject.UserGender;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
 import dev.amir.usercommand.domain.valueobject.UserName;
@@ -16,7 +17,7 @@ public class UpdateProfileRequestTest {
         UserName name = RandomObject.nextObject(UserName.class);
         UserLastName lastname = RandomObject.nextObject(UserLastName.class);
         UserGender userGender = RandomObject.nextObject(UserGender.class);
-        LocalDate birthDate = RandomObject.nextObject(LocalDate.class);
+        UserBirthDate birthDate = RandomObject.nextObject(UserBirthDate.class);
 
         UpdateProfileRequest actual = new UpdateProfileRequest(name, lastname, userGender, birthDate);
 
