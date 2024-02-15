@@ -54,7 +54,7 @@ class UserHandlerTest {
 
     @Test
     void test_Handle_WhenInputIsUpdateUserRequest() {
-        UUID userId = UUID.randomUUID();
+        UserId userId = RandomObject.nextObject(UserId.class);
         UpdateUserRequest request = RandomObject.nextObject(UpdateUserRequest.class);
         User user = new User();
         when(requestMapperMock.convert(any(UpdateUserRequest.class))).thenReturn(user);
@@ -68,10 +68,10 @@ class UserHandlerTest {
 
     @Test
     void test_Handle_WhenInputIsDeleteUserRequest() {
-        UUID userId = UUID.randomUUID();
+        UserId userId = RandomObject.nextObject(UserId.class);
         DeleteUserRequest request = RandomObject.nextObject(DeleteUserRequest.class);
 
-        doNothing().when(userInputPortMock).deleteUser(any(UUID.class));
+        doNothing().when(userInputPortMock).deleteUser(any(UserId.class));
 
         underTest.handle(request, userId);
 
@@ -80,10 +80,10 @@ class UserHandlerTest {
 
     @Test
     void test_Handle_WhenInputIsChangePasswordRequest() {
-        UUID userId = UUID.randomUUID();
+        UserId userId = RandomObject.nextObject(UserId.class);
         ChangePasswordRequest request = RandomObject.nextObject(ChangePasswordRequest.class);
 
-        doNothing().when(userInputPortMock).changeUserPassword(any(UUID.class), any(UserPassword.class));
+        doNothing().when(userInputPortMock).changeUserPassword(any(UserId.class), any(UserPassword.class));
 
         underTest.handle(request, userId);
 

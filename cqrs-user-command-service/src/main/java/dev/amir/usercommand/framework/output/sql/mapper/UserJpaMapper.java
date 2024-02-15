@@ -12,23 +12,13 @@ import org.mapstruct.Named;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserJpaMapper {
-    @Mapping(source = "id", target = "id", qualifiedByName = "userIdToUuid")
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "roleId", target = "roleId", qualifiedByName = "roleIdToUuid")
     UserJpa convert(User user);
 
-    @Mapping(source = "id", target = "id", qualifiedByName = "uuidToUserId")
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "roleId", target = "roleId", qualifiedByName = "uuidToRoleId")
     User convert(UserJpa userJpa);
-
-    @Named("userIdToUuid")
-    default UUID userIdToUuid(UserId id) {
-        return id != null ? id.getValue() : null;
-    }
-
-    @Named("uuidToUserId")
-    default UserId uuidToUserId(UUID id) {
-        return id != null ? new UserId(id) : null;
-    }
 
     @Named("roleIdToUuid")
     default UUID roleIdToUuid(RoleId roleId) {

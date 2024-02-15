@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
+import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.framework.input.rest.handler.UserHandler;
 import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
@@ -42,7 +43,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(
-            @NotNull @PathVariable UUID id,
+            @NotNull @PathVariable UserId id,
             @Valid @RequestBody UpdateUserRequest request
     ) {
         log.info("Received request to update");
@@ -53,7 +54,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(
-            @NotNull @PathVariable UUID id
+            @NotNull @PathVariable UserId id
     ) {
         log.info("Received request to delete user");
         userHandler.handle(new DeleteUserRequest(), id);
@@ -63,7 +64,7 @@ public class UserController {
 
     @PatchMapping("/{id}/password")
     public ResponseEntity<Void> changePassword(
-            @NotNull @PathVariable UUID id,
+            @NotNull @PathVariable UserId id,
             @Valid @RequestBody ChangePasswordRequest request
     ) {
         log.info("Received request to change password");

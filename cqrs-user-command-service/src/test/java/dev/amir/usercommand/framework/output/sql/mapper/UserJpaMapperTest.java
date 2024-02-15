@@ -34,7 +34,7 @@ class UserJpaMapperTest {
 
         assertNotNull(actual);
         assertEquals(expected.getRoleId().getValue(), actual.getRoleId());
-        assertEquals(expected.getId().getValue(), actual.getId());
+        assertEquals(expected.getId().getValue().toString(), actual.getId().toString());
         assertEquals(expected.getPassword(), actual.getPassword());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
@@ -57,7 +57,7 @@ class UserJpaMapperTest {
 
         assertNotNull(actual);
         assertEquals(expected.getRoleId(), actual.getRoleId().getValue());
-        assertEquals(expected.getId(), actual.getId().getValue());
+        assertEquals(expected.getId().toString(), actual.getId().getValue().toString());
         assertEquals(expected.getPassword(), actual.getPassword());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getLastname(), actual.getLastname());
@@ -73,30 +73,12 @@ class UserJpaMapperTest {
     }
 
     @Test
-    void test_UserIdToUuid() {
-        UserId expected = new UserId();
-
-        UUID actual = underTest.userIdToUuid(expected);
-
-        assertEquals(expected.getValue(), actual);
-    }
-
-    @Test
     void test_RoleIdToUuid() {
         RoleId expected = new RoleId();
 
         UUID actual = underTest.roleIdToUuid(expected);
 
         assertEquals(expected.getValue(), actual);
-    }
-
-    @Test
-    void test_UuidToUserId() {
-        UUID expected = UUID.randomUUID();
-
-        UserId actual = underTest.uuidToUserId(expected);
-
-        assertEquals(expected, actual.getValue());
     }
 
     @Test
@@ -109,22 +91,8 @@ class UserJpaMapperTest {
     }
 
     @Test
-    void test_UserIdToUuid_WhenUserIdIsNull_ReturnsNull() {
-        UUID actual = underTest.userIdToUuid(null);
-
-        assertNull(actual);
-    }
-
-    @Test
     void test_RoleIdToUuid_WhenRoleIdIsNull_ReturnsNull() {
         UUID actual = underTest.roleIdToUuid(null);
-
-        assertNull(actual);
-    }
-
-    @Test
-    void test_UuidToUserId_WhenUuidIsNull_ReturnsNull() {
-        UserId actual = underTest.uuidToUserId(null);
 
         assertNull(actual);
     }

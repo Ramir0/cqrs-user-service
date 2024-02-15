@@ -9,7 +9,6 @@ import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
 import dev.amir.usercommand.framework.input.rest.response.CreateUserResponse;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,22 +30,22 @@ public class UserHandlerImpl implements UserHandler {
     }
 
     @Override
-    public void handle(UpdateUserRequest request, UUID userIdParam) {
+    public void handle(UpdateUserRequest request, UserId userIdParam) {
         User user = requestMapper.convert(request);
-        UserId userId = new UserId(userIdParam);
+        UserId userId = userIdParam;
         user.setId(userId);
         userInputPort.updateUser(user);
         log.info("User with ID: {} Updated", userId);
     }
 
     @Override
-    public void handle(DeleteUserRequest request, UUID userId) {
+    public void handle(DeleteUserRequest request, UserId userId) {
         userInputPort.deleteUser(userId);
         log.info("verifying deletion of user with ID {} ", userId);
     }
 
     @Override
-    public void handle(ChangePasswordRequest request, UUID userIdParam) {
+    public void handle(ChangePasswordRequest request, UserId userIdParam) {
         userInputPort.changeUserPassword(userIdParam, request.password());
         log.info("Password changed for user with ID: {}", userIdParam);
     }

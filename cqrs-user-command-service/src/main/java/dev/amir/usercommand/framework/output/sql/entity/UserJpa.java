@@ -2,6 +2,7 @@ package dev.amir.usercommand.framework.output.sql.entity;
 
 import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserGender;
+import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.domain.valueobject.UserLastName;
 import dev.amir.usercommand.domain.valueobject.UserName;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
@@ -33,7 +34,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 public class UserJpa {
     @Id
     @JdbcTypeCode(java.sql.Types.VARCHAR)
-    private UUID id;
+    private UserId id; // TODO error en post y update
     @JdbcTypeCode(java.sql.Types.VARCHAR)
     @Column(name = "role_id")
     private UUID roleId;

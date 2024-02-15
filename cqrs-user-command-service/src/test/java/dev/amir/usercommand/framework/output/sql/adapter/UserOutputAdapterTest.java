@@ -48,7 +48,7 @@ class UserOutputAdapterTest {
         User savedUser = new User();
         savedUser.setId(savedUserId);
         UserJpa savedUserJpa = new UserJpa();
-        savedUserJpa.setId(savedUserId.getValue());
+        savedUserJpa.setId(savedUserId);
 
         when(jpaMapperMock.convert(eq(user))).thenReturn(userJpa);
         when(jpaRepositoryMock.save(userJpa)).thenReturn(savedUserJpa);
