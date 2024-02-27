@@ -1,11 +1,8 @@
 package dev.amir.usercommand.framework.output.sql.mapper;
 
 import dev.amir.usercommand.domain.entity.User;
-import dev.amir.usercommand.domain.valueobject.RoleId;
-import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.util.RandomObject;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +30,7 @@ class UserJpaMapperTest {
         UserJpa actual = underTest.convert(expected);
 
         assertNotNull(actual);
-        assertEquals(expected.getRoleId().getValue(), actual.getRoleId());
+        assertEquals(expected.getRoleId().getValue().toString(), actual.getRoleId().toString());
         assertEquals(expected.getId().getValue().toString(), actual.getId().toString());
         assertEquals(expected.getPassword(), actual.getPassword());
         assertEquals(expected.getName(), actual.getName());
@@ -56,7 +53,7 @@ class UserJpaMapperTest {
         User actual = underTest.convert(expected);
 
         assertNotNull(actual);
-        assertEquals(expected.getRoleId(), actual.getRoleId().getValue());
+        assertEquals(expected.getRoleId().toString(), actual.getRoleId().getValue().toString());
         assertEquals(expected.getId().toString(), actual.getId().getValue().toString());
         assertEquals(expected.getPassword(), actual.getPassword());
         assertEquals(expected.getName(), actual.getName());
@@ -68,38 +65,6 @@ class UserJpaMapperTest {
     @Test
     void test_Convert_WhenUserJpa_ReturnsNull() {
         User actual = underTest.convert((UserJpa) null);
-
-        assertNull(actual);
-    }
-
-    @Test
-    void test_RoleIdToUuid() {
-        RoleId expected = new RoleId();
-
-        UUID actual = underTest.roleIdToUuid(expected);
-
-        assertEquals(expected.getValue(), actual);
-    }
-
-    @Test
-    void test_UuidToRoleId() {
-        UUID expected = UUID.randomUUID();
-
-        RoleId actual = underTest.uuidToRoleId(expected);
-
-        assertEquals(expected, actual.getValue());
-    }
-
-    @Test
-    void test_RoleIdToUuid_WhenRoleIdIsNull_ReturnsNull() {
-        UUID actual = underTest.roleIdToUuid(null);
-
-        assertNull(actual);
-    }
-
-    @Test
-    void test_UuidToRoleId_WhenUuidIsNull_ReturnsNull() {
-        RoleId actual = underTest.uuidToRoleId(null);
 
         assertNull(actual);
     }

@@ -8,6 +8,7 @@ import dev.amir.usercommand.application.retry.executor.RetryExecutor;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
+import dev.amir.usercommand.domain.valueobject.RoleId;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
 import java.util.UUID;
@@ -33,6 +34,7 @@ public class UserUseCases implements UserInputPort {
         }
         log.info("Generating ID value for user creation");
         user.setId(new UserId());
+        user.setRoleId(new RoleId("7ea89508-906f-11ee-b9d1-0242ac120002"));
         log.info("Attempting to create user with ID: {}", user.getId());
         User savedUser = retryExecutor.execute(() -> userOutputPort.save(user));
         log.info("User with ID: {} successfully created", savedUser.getId());

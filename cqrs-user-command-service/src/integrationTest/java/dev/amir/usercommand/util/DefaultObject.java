@@ -24,7 +24,7 @@ public final class DefaultObject {
     public static final UserEmail defaultUserEmail = new UserEmail("user123@example.net");
     public static final UserJpa defaultUserJpa = new UserJpa(
             defaultUserId,
-            defaultRoleId.getValue(),
+            defaultRoleId,
             defaultUserUsername,
             defaultPassword,
             defaultUserName,
