@@ -10,11 +10,11 @@ public class UserIdConverter implements AttributeConverter<UserId, UUID> {
 
     @Override
     public UUID convertToDatabaseColumn(UserId fieldValue) {
-        return fieldValue != null ? fieldValue.getValue() : null;
+        return fieldValue.getValue();
     }
 
     @Override
     public UserId convertToEntityAttribute(UUID columnValue) {
-        return columnValue != null ? new UserId(columnValue) : null;
+        return new UserId(columnValue);
     }
 }
