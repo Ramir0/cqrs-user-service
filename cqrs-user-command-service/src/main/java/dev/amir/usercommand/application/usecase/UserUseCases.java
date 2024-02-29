@@ -50,16 +50,14 @@ public class UserUseCases implements UserInputPort {
     }
 
     @Override
-    public void deleteUser(UserId userIdParam) {
-        log.info("Attempting to delete user with ID: {}", userIdParam);
-        UserId userId = userIdParam;
+    public void deleteUser(UserId userId) {
+        log.info("Attempting to delete user with ID: {}", userId);
         retryExecutor.execute(() -> userOutputPort.delete(userId));
         log.info("User with ID: {} successfully deleted", userId);
     }
 
     @Override
-    public void changeUserPassword(UserId userIdParam, UserPassword password) {
-        UserId userId = userIdParam;
+    public void changeUserPassword(UserId userId, UserPassword password) {
         if (userOutputPort.isUserRemoved(userId)) {
             throw new UserNotFoundException(userId.getValue());
         }
