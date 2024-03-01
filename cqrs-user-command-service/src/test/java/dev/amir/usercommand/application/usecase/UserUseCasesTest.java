@@ -113,7 +113,7 @@ class UserUseCasesTest {
         doNothing().when(retryExecutorMock).execute(any(RetryAction.class));
         doNothing().when(userOutputPortMock).changePassword(any(UserId.class), any(UserPassword.class));
 
-        underTest.changeUserPassword(userId.getValue(), password);
+        underTest.changeUserPassword(userId, password);
 
         verify(retryExecutorMock).execute(retryActionCaptor.capture());
         RetryAction retryAction = retryActionCaptor.getValue();
@@ -127,7 +127,7 @@ class UserUseCasesTest {
         doNothing().when(userOutputPortMock).delete(any(UserId.class));
 
         UserId userId = new UserId();
-        underTest.deleteUser(userId.getValue());
+        underTest.deleteUser(userId);
 
         verify(retryExecutorMock).execute(retryActionCaptor.capture());
         RetryAction retryAction = retryActionCaptor.getValue();
@@ -163,7 +163,7 @@ class UserUseCasesTest {
 
         UserNotFoundException exception = assertThrows(
                 UserNotFoundException.class,
-                () -> underTest.changeUserPassword(userId.getValue(), password)
+                () -> underTest.changeUserPassword(userId, password)
         );
 
         assertEquals("User with ID: " + userId + " Not found", exception.getMessage());

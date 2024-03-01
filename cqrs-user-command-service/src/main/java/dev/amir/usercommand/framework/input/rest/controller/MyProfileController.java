@@ -1,11 +1,11 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
+import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.framework.input.rest.handler.MyProfileHandler;
 import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateProfileRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class MyProfileController {
 
     @PatchMapping("/password")
     public ResponseEntity<Void> changeMyPassword(
-            @NotNull @PathVariable UUID id,
+            @NotNull @PathVariable UserId id,
             @Valid @RequestBody ChangePasswordRequest request
     ) {
         profileHandler.handle(request, id);
@@ -33,7 +33,7 @@ public class MyProfileController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateProfile(
-            @NotNull @PathVariable UUID id,
+            @NotNull @PathVariable UserId id,
             @Valid @RequestBody UpdateProfileRequest request
     ) {
         log.info("Received request to update");

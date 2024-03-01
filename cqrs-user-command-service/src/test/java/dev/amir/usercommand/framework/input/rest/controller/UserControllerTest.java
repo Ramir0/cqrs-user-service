@@ -1,5 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
+import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.framework.input.rest.handler.UserHandler;
 import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
@@ -46,9 +47,9 @@ class UserControllerTest {
 
     @Test
     void test_UpdateUser() {
-        UUID userId = UUID.randomUUID();
+        UserId userId = RandomObject.nextObject(UserId.class);
         UpdateUserRequest request = RandomObject.nextObject(UpdateUserRequest.class);
-        doNothing().when(userHandlerMock).handle(any(UpdateUserRequest.class), any(UUID.class));
+        doNothing().when(userHandlerMock).handle(any(UpdateUserRequest.class), any(UserId.class));
 
         ResponseEntity<Void> actual = underTest.updateUser(userId, request);
 
@@ -59,9 +60,9 @@ class UserControllerTest {
 
     @Test
     void test_DeleteUser() {
-        UUID userId = UUID.randomUUID();
+        UserId userId = RandomObject.nextObject(UserId.class);
 
-        doNothing().when(userHandlerMock).handle(any(DeleteUserRequest.class), any(UUID.class));
+        doNothing().when(userHandlerMock).handle(any(DeleteUserRequest.class), any(UserId.class));
 
         ResponseEntity<Void> actual = underTest.deleteUser(userId);
 
@@ -71,9 +72,9 @@ class UserControllerTest {
 
     @Test
     void test_ChangePassword() {
-        UUID userId = UUID.randomUUID();
+        UserId userId = RandomObject.nextObject(UserId.class);
         ChangePasswordRequest request = RandomObject.nextObject(ChangePasswordRequest.class);
-        doNothing().when(userHandlerMock).handle(any(ChangePasswordRequest.class), any(UUID.class));
+        doNothing().when(userHandlerMock).handle(any(ChangePasswordRequest.class), any(UserId.class));
 
         ResponseEntity<Void> actual = underTest.changePassword(userId, request);
 
