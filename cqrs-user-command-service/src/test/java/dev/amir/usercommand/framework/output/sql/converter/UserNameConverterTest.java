@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class UserNameConverterTest {
     private UserNameConverter underTest;
@@ -25,11 +26,25 @@ public class UserNameConverterTest {
     }
 
     @Test
+    void test_ConvertToDatabaseColumnWhenValueIsNull() {
+        String actual = underTest.convertToDatabaseColumn(null);
+
+        assertNull(actual);
+    }
+
+    @Test
     void test_ConvertToEntityAttribute() {
         String name = RandomObject.nextObject(String.class);
 
         UserName actual = underTest.convertToEntityAttribute(name);
 
         assertEquals(name, actual.value());
+    }
+
+    @Test
+    void test_ConvertToEntityAttributeWhenValueIsNull() {
+        UserName actual = underTest.convertToEntityAttribute(null);
+
+        assertNull(actual);
     }
 }
