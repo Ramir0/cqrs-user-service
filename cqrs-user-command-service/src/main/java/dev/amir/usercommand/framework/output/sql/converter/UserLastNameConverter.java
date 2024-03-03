@@ -8,11 +8,11 @@ import jakarta.persistence.Convert;
 public class UserLastNameConverter implements AttributeConverter<UserLastName, String> {
     @Override
     public String convertToDatabaseColumn(UserLastName fieldValue) {
-        return fieldValue.value();
+        return fieldValue != null ? fieldValue.value() : null;
     }
 
     @Override
     public UserLastName convertToEntityAttribute(String columnValue) {
-        return new UserLastName(columnValue);
+        return columnValue != null ? new UserLastName(columnValue) : null;
     }
 }

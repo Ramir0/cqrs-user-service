@@ -1,7 +1,7 @@
 package dev.amir.authorizationserver.service;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import java.util.Map;
 
 public interface JwtService {
-    String generateToken(UsernamePasswordAuthenticationToken request);
+    String generateToken(String username, Map<String, Object> claims);
 }

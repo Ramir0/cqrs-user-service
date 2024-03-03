@@ -4,8 +4,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,11 +19,12 @@ public class JwtServiceImpl implements JwtService {
     private String jwtKey;
 
     @Override
-    public String generateToken(UsernamePasswordAuthenticationToken request) {
+    public String generateToken(String username, Map<String, Object> claims) {
         Date issuedAt = new Date(System.currentTimeMillis());
         Date expiration = new Date(calculateExpirationDate(issuedAt.getTime()));
         return Jwts.builder()
-                .subject(request.getName())
+                .subject(username)
+                .claims(claims)
                 .issuedAt(issuedAt)
                 .expiration(expiration)
                 .header().type(JWT_TYPE)
