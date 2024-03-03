@@ -1,10 +1,10 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
+import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.framework.input.rest.handler.MyProfileHandler;
 import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateProfileRequest;
 import dev.amir.usercommand.util.RandomObject;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,9 +30,9 @@ class MyProfileControllerTest {
 
     @Test
     void test_ChangePassword() {
-        UUID userId = UUID.randomUUID();
+        UserId userId = RandomObject.nextObject(UserId.class);
         ChangePasswordRequest request = RandomObject.nextObject(ChangePasswordRequest.class);
-        doNothing().when(myProfileHandlerMock).handle(any(ChangePasswordRequest.class), any(UUID.class));
+        doNothing().when(myProfileHandlerMock).handle(any(ChangePasswordRequest.class), any(UserId.class));
 
         ResponseEntity<Void> actual = underTest.changeMyPassword(userId, request);
 
@@ -43,9 +43,9 @@ class MyProfileControllerTest {
 
     @Test
     void test_UpdateProfile() {
-        UUID userId = UUID.randomUUID();
+        UserId userId = RandomObject.nextObject(UserId.class);
         UpdateProfileRequest request = RandomObject.nextObject(UpdateProfileRequest.class);
-        doNothing().when(myProfileHandlerMock).handle(any(UpdateProfileRequest.class), any(UUID.class));
+        doNothing().when(myProfileHandlerMock).handle(any(UpdateProfileRequest.class), any(UserId.class));
 
         ResponseEntity<Void> actual = underTest.updateProfile(userId, request);
 

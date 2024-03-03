@@ -11,9 +11,9 @@ public interface UserInputPort {
 
     void updateUser(User user);
 
-    void deleteUser(UUID userId);
+    void deleteUser(UserId userId);
 
-    void changeUserPassword(UUID userIdParam, UserPassword password);
+    void changeUserPassword(UserId userIdParam, UserPassword password);
 
     void updateUserProfile(User user);
 }

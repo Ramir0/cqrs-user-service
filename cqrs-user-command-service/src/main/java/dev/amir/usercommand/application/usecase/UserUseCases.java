@@ -8,6 +8,7 @@ import dev.amir.usercommand.application.retry.executor.RetryExecutor;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
+import dev.amir.usercommand.domain.valueobject.RoleId;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
 import java.util.UUID;
@@ -33,6 +34,7 @@ public class UserUseCases implements UserInputPort {
         }
         log.info("Generating ID value for user creation");
         user.setId(new UserId());
+        user.setRoleId(new RoleId("7ea89508-906f-11ee-b9d1-0242ac120002"));
         log.info("Attempting to create user with ID: {}", user.getId());
         User savedUser = retryExecutor.execute(() -> userOutputPort.save(user));
         log.info("User with ID: {} successfully created", savedUser.getId());
@@ -48,16 +50,14 @@ public class UserUseCases implements UserInputPort {
     }
 
     @Override
-    public void deleteUser(UUID userIdParam) {
-        log.info("Attempting to delete user with ID: {}", userIdParam);
-        UserId userId = new UserId(userIdParam);
+    public void deleteUser(UserId userId) {
+        log.info("Attempting to delete user with ID: {}", userId);
         retryExecutor.execute(() -> userOutputPort.delete(userId));
         log.info("User with ID: {} successfully deleted", userId);
     }
 
     @Override
-    public void changeUserPassword(UUID userIdParam, UserPassword password) {
-        UserId userId = new UserId(userIdParam);
+    public void changeUserPassword(UserId userId, UserPassword password) {
         if (userOutputPort.isUserRemoved(userId)) {
             throw new UserNotFoundException(userId.getValue());
         }

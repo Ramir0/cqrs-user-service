@@ -26,8 +26,8 @@ public final class DefaultObject {
     public static final UserEmail defaultUserEmail = new UserEmail("user123@example.net");
     public static final UserBirthDate defaultUserBirthDate = new UserBirthDate(LocalDate.parse("2000-01-06"));
     public static final UserJpa defaultUserJpa = new UserJpa(
-            defaultUserId.getValue(),
-            defaultRoleId.getValue(),
+            defaultUserId,
+            defaultRoleId,
             defaultUserUsername,
             defaultPassword,
             defaultUserName,

@@ -1,6 +1,8 @@
 package dev.amir.usercommand.domain.valueobject;
 
 import dev.amir.usercommand.domain.exception.UserValidationException;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.EqualsAndHashCode;
@@ -8,7 +10,9 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
+@Embeddable
 public class UserId {
+    @Column(name = "id")
     private final UUID value;
 
     public UserId() {
