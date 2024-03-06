@@ -9,11 +9,11 @@ public class UserNameConverter implements AttributeConverter<UserName, String> {
 
     @Override
     public String convertToDatabaseColumn(UserName fieldValue) {
-        return fieldValue.value();
+        return fieldValue != null ? fieldValue.value() : null;
     }
 
     @Override
     public UserName convertToEntityAttribute(String columnValue) {
-        return new UserName(columnValue);
+        return columnValue != null ? new UserName(columnValue) : null;
     }
 }

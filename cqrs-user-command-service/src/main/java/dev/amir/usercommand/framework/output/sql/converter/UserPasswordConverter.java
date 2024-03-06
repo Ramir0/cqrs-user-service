@@ -8,11 +8,11 @@ import jakarta.persistence.Convert;
 public class UserPasswordConverter implements AttributeConverter<UserPassword, String> {
     @Override
     public String convertToDatabaseColumn(UserPassword fieldValue) {
-        return fieldValue.value();
+        return fieldValue != null ? fieldValue.value() : null;
     }
 
     @Override
     public UserPassword convertToEntityAttribute(String columnValue) {
-        return new UserPassword(columnValue);
+        return columnValue != null ? new UserPassword(columnValue) : null;
     }
 }

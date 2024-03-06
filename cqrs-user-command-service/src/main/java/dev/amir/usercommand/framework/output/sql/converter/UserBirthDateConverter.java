@@ -8,12 +8,12 @@ public class UserBirthDateConverter implements AttributeConverter<UserBirthDate,
 
     @Override
     public LocalDate convertToDatabaseColumn(UserBirthDate fieldValue) {
-        return fieldValue.value();
+        return fieldValue != null ? fieldValue.value() : null;
     }
 
     @Override
-    public UserBirthDate convertToEntityAttribute(LocalDate columValue) {
-        return new UserBirthDate(columValue);
+    public UserBirthDate convertToEntityAttribute(LocalDate columnValue) {
+        return columnValue != null ? new UserBirthDate(columnValue) : null;
     }
 }
 
