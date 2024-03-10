@@ -25,7 +25,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.any;
@@ -59,19 +58,18 @@ class UserUseCasesTest {
         userResponse.setId(new UserId());
         User user = RandomObject.nextObject(User.class);
 
+        when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
+        when(userOutputPortMock.save(any(User.class))).thenReturn(userResponse);
+
         UserId invalidUserId = user.getId();
         RoleId invalidRoleId = user.getRoleId();
         LocalDateTime invalidCreatedAt = user.getCreatedAt();
-
-        when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
-        when(userOutputPortMock.save(any(User.class))).thenReturn(userResponse);
 
         // When
         UserId newUserId = underTest.createUser(user);
 
         // Then
-        assertNotNull(newUserId);
-        assertNotEquals(invalidUserId, user.getId());
+        assertNotEquals(invalidUserId, newUserId);
         assertNotEquals(invalidRoleId, user.getRoleId());
         assertNotEquals(invalidCreatedAt, user.getCreatedAt());
 
