@@ -1,4 +1,4 @@
-package dev.amir.usercommand.domain.valueobject;
+package dev.amir.usercommand.domain.valueobject.user;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -6,6 +6,7 @@ import jakarta.validation.Validator;
 import java.util.Set;
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UserEmailValidationTest {
+class UserUsernameValidationTest {
     private Validator validator;
 
     @BeforeEach
@@ -23,12 +24,11 @@ public class UserEmailValidationTest {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"usr@test.com", "test@local", "User_4551@test.com"})
-    void test_ValidValue_ReturnsNoConstraintViolation(String value) {
-        UserEmail email = new UserEmail(value);
+    @Test
+    void test_ValidValue_ReturnsNoConstraintViolation() {
+        UserUsername username = new UserUsername("NewUser_9000");
 
-        Set<ConstraintViolation<UserEmail>> violations = validator.validate(email);
+        Set<ConstraintViolation<UserUsername>> violations = validator.validate(username);
 
         assertTrue(violations.isEmpty());
     }
@@ -37,9 +37,9 @@ public class UserEmailValidationTest {
     @NullSource
     @ValueSource(strings = {"", " ", "   ", "\n", "\r\n"})
     void test_NoValue_ReturnsOneConstraintViolation(String value) {
-        UserEmail email = new UserEmail(value);
+        UserUsername username = new UserUsername(value);
 
-        Set<ConstraintViolation<UserEmail>> violations = validator.validate(email);
+        Set<ConstraintViolation<UserUsername>> violations = validator.validate(username);
 
         assertFalse(violations.isEmpty());
         boolean existNoValueViolation = violations
@@ -49,11 +49,11 @@ public class UserEmailValidationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"u@gmai.co"})
+    @ValueSource(strings = {"Aa1", "test123TEST123test"})
     void test_MinMaxValue_ReturnsOneConstraintViolation(String value) {
-        UserEmail email = new UserEmail(value);
+        UserUsername username = new UserUsername(value);
 
-        Set<ConstraintViolation<UserEmail>> violations = validator.validate(email);
+        Set<ConstraintViolation<UserUsername>> violations = validator.validate(username);
 
         assertEquals(1, violations.size());
         violations.forEach(violation -> {
@@ -63,16 +63,16 @@ public class UserEmailValidationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"R,abc@def.com", "Abc_@_ 123com", "123$%@^321com", "!@#$%^&*com"})
+    @ValueSource(strings = {"Abc$123", "Abc__123", "123$%^321", "!@#$%^&*"})
     void test_InvalidValue_ReturnsOneConstraintViolation(String value) {
-        UserEmail email = new UserEmail(value);
+        UserUsername username = new UserUsername(value);
 
-        Set<ConstraintViolation<UserEmail>> violations = validator.validate(email);
+        Set<ConstraintViolation<UserUsername>> violations = validator.validate(username);
 
         assertEquals(1, violations.size());
         violations.forEach(violation -> {
             assertInstanceOf(ConstraintViolationImpl.class, violation);
-            assertEquals("must be a well-formed email address", violation.getMessage());
+            assertTrue(violation.getMessage().startsWith("must match "));
         });
     }
 }

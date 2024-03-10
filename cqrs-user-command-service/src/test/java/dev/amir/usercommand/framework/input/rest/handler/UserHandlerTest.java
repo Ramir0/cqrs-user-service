@@ -2,8 +2,8 @@ package dev.amir.usercommand.framework.input.rest.handler;
 
 import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.domain.entity.User;
-import dev.amir.usercommand.domain.valueobject.UserId;
-import dev.amir.usercommand.domain.valueobject.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.UserId;
+import dev.amir.usercommand.domain.valueobject.user.UserPassword;
 import dev.amir.usercommand.framework.input.rest.mapper.UserRequestMapper;
 import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
@@ -11,7 +11,6 @@ import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
 import dev.amir.usercommand.framework.input.rest.response.CreateUserResponse;
 import dev.amir.usercommand.util.RandomObject;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

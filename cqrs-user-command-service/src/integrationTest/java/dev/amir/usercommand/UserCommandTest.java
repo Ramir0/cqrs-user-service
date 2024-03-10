@@ -1,14 +1,14 @@
 package dev.amir.usercommand;
 
-import dev.amir.usercommand.domain.valueobject.UserEmail;
-import dev.amir.usercommand.domain.valueobject.UserStatus;
-import dev.amir.usercommand.domain.valueobject.UserUsername;
+import dev.amir.usercommand.domain.valueobject.user.UserEmail;
+import dev.amir.usercommand.domain.valueobject.user.UserId;
+import dev.amir.usercommand.domain.valueobject.user.UserStatus;
+import dev.amir.usercommand.domain.valueobject.user.UserUsername;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
-import java.util.UUID;
 import org.assertj.core.util.Files;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,21 +70,21 @@ public class UserCommandTest {
     @Test
     public void test_DeleteUserTest() throws Exception {
         UserJpa userJpa = new UserJpa();
-        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
+        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(userJpa));
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(userJpa);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/{id}", defaultUserId))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId));
         verify(jpaRepositoryMock).save(eq(userJpa));
     }
 
     @Test
     void test_UpdateUserTest() throws Exception {
         UserJpa userJpa = new UserJpa();
-        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(userJpa));
+        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(userJpa));
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(userJpa);
         File responseFile = ResourceUtils.getFile("classpath:requests/update-users-request.json");
 
@@ -94,14 +94,14 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId));
         verify(jpaRepositoryMock).save(eq(userJpa));
     }
 
     @Test
     void test_ChangePassword() throws Exception {
-        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.of(defaultUserJpa));
-        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UUID.class))).thenReturn(false);
+        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(defaultUserJpa));
+        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UserId.class))).thenReturn(false);
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
         File responseFile = ResourceUtils.getFile("classpath:requests/change-password-user-request.json");
 
@@ -111,15 +111,15 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
-        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId));
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId));
         verify(jpaRepositoryMock).save(eq(defaultUserJpa));
     }
 
 
     @Test
     public void test_HandleUserNotFoundExceptionForChangePassword() throws Exception {
-        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UUID.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UserId.class))).thenReturn(false);
         File responseFile = ResourceUtils.getFile("classpath:requests/change-password-user-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -128,7 +128,7 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId));
         verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
@@ -153,7 +153,7 @@ public class UserCommandTest {
 
     @Test
     public void test_HandleUserNotFoundExceptionForUpdateUser() throws Exception {
-        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
+        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.empty());
         File responseFile = ResourceUtils.getFile("classpath:requests/update-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders.put("/users/{userId}", defaultUserId)
@@ -162,19 +162,19 @@ public class UserCommandTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId));
         verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUserNotFoundExceptionForDeleteUser() throws Exception {
-        when(jpaRepositoryMock.findById(any(UUID.class))).thenReturn(Optional.empty());
+        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.empty());
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", defaultUserId))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId.getValue()));
+        verify(jpaRepositoryMock).findById(eq(defaultUserId));
         verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 

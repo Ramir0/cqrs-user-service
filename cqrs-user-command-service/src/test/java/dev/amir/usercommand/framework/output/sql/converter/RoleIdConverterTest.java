@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
-import dev.amir.usercommand.domain.valueobject.RoleId;
+import dev.amir.usercommand.domain.valueobject.role.RoleId;
 import dev.amir.usercommand.util.RandomObject;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;

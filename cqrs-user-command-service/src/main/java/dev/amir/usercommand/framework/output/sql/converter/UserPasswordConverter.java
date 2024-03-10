@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
-import dev.amir.usercommand.domain.valueobject.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.UserPassword;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Convert;
 

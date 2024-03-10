@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
-import dev.amir.usercommand.domain.valueobject.UserBirthDate;
+import dev.amir.usercommand.domain.valueobject.user.UserBirthDate;
 import jakarta.persistence.AttributeConverter;
 import java.time.LocalDate;
 

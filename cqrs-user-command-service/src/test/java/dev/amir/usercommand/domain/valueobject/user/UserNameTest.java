@@ -1,26 +1,27 @@
-package dev.amir.usercommand.domain.valueobject;
+package dev.amir.usercommand.domain.valueobject.user;
 
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class UserEmailTest {
+public class UserNameTest {
 
     @Test
     void test_StringArgConstructor() {
-        String expected = RandomObject.nextObject(String.class);
+        String name = RandomObject.nextObject(String.class);
 
-        UserEmail email = new UserEmail(expected);
+        UserName userName = new UserName(name);
 
-        assertEquals(expected, email.toString());
+        assertNotNull(userName);
     }
 
     @Test
     void test_ToString_ReturnsValue() {
         String expected = RandomObject.nextObject(String.class);
 
-        UserEmail actual = new UserEmail(expected);
+        UserName actual = new UserName(expected);
 
         assertEquals(expected, actual.toString());
     }
@@ -29,18 +30,18 @@ public class UserEmailTest {
     void test_GetValue_ReturnsValue() {
         String expected = RandomObject.nextObject(String.class);
 
-        UserEmail email = new UserEmail(expected);
+        UserName name = new UserName(expected);
 
-        assertEquals(expected, email.value());
+        assertEquals(expected, name.value());
     }
 
     @Test
     void test_Equals_IsTrue() {
         String expected = RandomObject.nextObject(String.class);
 
-        UserEmail email1 = new UserEmail(expected);
-        UserEmail email2 = new UserEmail(expected);
+        UserName name1 = new UserName(expected);
+        UserName name2 = new UserName(expected);
 
-        assertEquals(email1, email2);
+        assertEquals(name1, name2);
     }
 }

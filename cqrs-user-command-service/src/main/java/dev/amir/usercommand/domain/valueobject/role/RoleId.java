@@ -1,8 +1,7 @@
-package dev.amir.usercommand.domain.valueobject;
+package dev.amir.usercommand.domain.valueobject.role;
 
 import dev.amir.usercommand.domain.exception.UserValidationException;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.EqualsAndHashCode;
@@ -10,29 +9,28 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-@Embeddable
-public class UserId {
-    @Column(name = "id")
+public class RoleId {
+    @Column(name = "role_id")
     private final UUID value;
 
-    public UserId() {
+    public RoleId() {
         value = UUID.randomUUID();
     }
 
-    public UserId(String valueAsString) {
+    public RoleId(String valueAsString) {
         try {
             this.value = UUID.fromString(valueAsString);
         } catch (Exception exception) {
             throw new UserValidationException(
-                    "Invalid value, UserId cannot be initialized: " + valueAsString,
+                    "Invalid value, RoleId cannot be initialized: " + valueAsString,
                     exception
             );
         }
     }
 
-    public UserId(UUID value) {
+    public RoleId(UUID value) {
         if (Objects.isNull(value)) {
-            throw new UserValidationException("Invalid value, UserId cannot be null");
+            throw new UserValidationException("Invalid value, RoleId cannot be null");
         }
         this.value = value;
     }

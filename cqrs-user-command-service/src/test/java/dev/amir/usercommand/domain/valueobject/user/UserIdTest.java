@@ -1,4 +1,4 @@
-package dev.amir.usercommand.domain.valueobject;
+package dev.amir.usercommand.domain.valueobject.user;
 
 import dev.amir.usercommand.domain.exception.UserValidationException;
 import java.util.UUID;
