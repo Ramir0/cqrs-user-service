@@ -36,8 +36,7 @@ public final class DefaultObject {
             defaultUserStatus,
             UserGender.MALE,
             defaultUserBirthDate,
-            LocalDateTime.of(2020, 1, 31, 11, 35, 20),
-            LocalDateTime.of(2023, 6, 15, 8, 51, 40)
+            LocalDateTime.of(2020, 1, 31, 11, 35, 20)
     );
 
     private DefaultObject() {

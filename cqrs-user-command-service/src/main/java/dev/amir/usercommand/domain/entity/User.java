@@ -10,7 +10,6 @@ import dev.amir.usercommand.domain.valueobject.UserName;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserStatus;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,5 +30,4 @@ public class User {
     private UserGender gender;
     private UserBirthDate birthDate;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

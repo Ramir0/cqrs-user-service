@@ -57,6 +57,4 @@ public class UserJpa {
     private UserBirthDate birthDate;
     @Column
     private LocalDateTime createdAt;
-    @Column
-    private LocalDateTime updatedAt;
 }

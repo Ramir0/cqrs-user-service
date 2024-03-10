@@ -8,11 +8,13 @@ import dev.amir.usercommand.application.retry.function.RetryFunction;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
+import dev.amir.usercommand.domain.valueobject.RoleId;
 import dev.amir.usercommand.domain.valueobject.UserEmail;
 import dev.amir.usercommand.domain.valueobject.UserId;
 import dev.amir.usercommand.domain.valueobject.UserPassword;
 import dev.amir.usercommand.domain.valueobject.UserUsername;
 import dev.amir.usercommand.util.RandomObject;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -22,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -56,6 +59,10 @@ class UserUseCasesTest {
         userResponse.setId(new UserId());
         User user = RandomObject.nextObject(User.class);
 
+        UserId invalidUserId = user.getId();
+        RoleId invalidRoleId = user.getRoleId();
+        LocalDateTime invalidCreatedAt = user.getCreatedAt();
+
         when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
         when(userOutputPortMock.save(any(User.class))).thenReturn(userResponse);
 
@@ -64,6 +71,9 @@ class UserUseCasesTest {
 
         // Then
         assertNotNull(newUserId);
+        assertNotEquals(invalidUserId, user.getId());
+        assertNotEquals(invalidRoleId, user.getRoleId());
+        assertNotEquals(invalidCreatedAt, user.getCreatedAt());
 
         verify(retryExecutorMock).execute(retryFunctionCaptor.capture());
         RetryFunction<User> retryFunction = retryFunctionCaptor.getValue();
