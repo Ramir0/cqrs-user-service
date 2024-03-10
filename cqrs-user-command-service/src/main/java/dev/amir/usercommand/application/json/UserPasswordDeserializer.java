@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import dev.amir.usercommand.domain.exception.UserPasswordValidationException;
 import dev.amir.usercommand.domain.validator.AttributeErrorType;
 import dev.amir.usercommand.domain.validator.AttributeValidator;
-import dev.amir.usercommand.domain.valueobject.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.UserPassword;
 import java.io.IOException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;

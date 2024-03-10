@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.handler;
 
-import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.user.UserId;
 import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
 import dev.amir.usercommand.framework.input.rest.request.DeleteUserRequest;

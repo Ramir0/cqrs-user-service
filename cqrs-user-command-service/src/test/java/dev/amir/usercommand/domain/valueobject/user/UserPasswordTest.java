@@ -1,4 +1,4 @@
-package dev.amir.usercommand.domain.valueobject;
+package dev.amir.usercommand.domain.valueobject.user;
 
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
-import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.user.UserId;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.util.UUID;

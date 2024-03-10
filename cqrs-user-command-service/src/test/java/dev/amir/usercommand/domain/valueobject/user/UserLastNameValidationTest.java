@@ -1,4 +1,4 @@
-package dev.amir.usercommand.domain.valueobject;
+package dev.amir.usercommand.domain.valueobject.user;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UserUsernameValidationTest {
+public class UserLastNameValidationTest {
     private Validator validator;
 
     @BeforeEach
@@ -26,9 +26,9 @@ class UserUsernameValidationTest {
 
     @Test
     void test_ValidValue_ReturnsNoConstraintViolation() {
-        UserUsername username = new UserUsername("NewUser_9000");
+        UserLastName lastName = new UserLastName("User Last Name");
 
-        Set<ConstraintViolation<UserUsername>> violations = validator.validate(username);
+        Set<ConstraintViolation<UserLastName>> violations = validator.validate(lastName);
 
         assertTrue(violations.isEmpty());
     }
@@ -37,9 +37,9 @@ class UserUsernameValidationTest {
     @NullSource
     @ValueSource(strings = {"", " ", "   ", "\n", "\r\n"})
     void test_NoValue_ReturnsOneConstraintViolation(String value) {
-        UserUsername username = new UserUsername(value);
+        UserLastName lastName = new UserLastName(value);
 
-        Set<ConstraintViolation<UserUsername>> violations = validator.validate(username);
+        Set<ConstraintViolation<UserLastName>> violations = validator.validate(lastName);
 
         assertFalse(violations.isEmpty());
         boolean existNoValueViolation = violations
@@ -49,11 +49,11 @@ class UserUsernameValidationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"Aa1", "test123TEST123test"})
+    @ValueSource(strings = {"Aa", "test  TEST  test Test"})
     void test_MinMaxValue_ReturnsOneConstraintViolation(String value) {
-        UserUsername username = new UserUsername(value);
+        UserLastName lastName = new UserLastName(value);
 
-        Set<ConstraintViolation<UserUsername>> violations = validator.validate(username);
+        Set<ConstraintViolation<UserLastName>> violations = validator.validate(lastName);
 
         assertEquals(1, violations.size());
         violations.forEach(violation -> {
@@ -65,9 +65,9 @@ class UserUsernameValidationTest {
     @ParameterizedTest
     @ValueSource(strings = {"Abc$123", "Abc__123", "123$%^321", "!@#$%^&*"})
     void test_InvalidValue_ReturnsOneConstraintViolation(String value) {
-        UserUsername username = new UserUsername(value);
+        UserLastName lastName = new UserLastName(value);
 
-        Set<ConstraintViolation<UserUsername>> violations = validator.validate(username);
+        Set<ConstraintViolation<UserLastName>> violations = validator.validate(lastName);
 
         assertEquals(1, violations.size());
         violations.forEach(violation -> {

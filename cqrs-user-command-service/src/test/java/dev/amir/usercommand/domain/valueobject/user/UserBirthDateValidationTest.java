@@ -1,4 +1,4 @@
-package dev.amir.usercommand.domain.valueobject;
+package dev.amir.usercommand.domain.valueobject.user;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
