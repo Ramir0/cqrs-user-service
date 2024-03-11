@@ -8,11 +8,13 @@ import dev.amir.usercommand.application.retry.function.RetryFunction;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
+import dev.amir.usercommand.domain.valueobject.role.RoleId;
 import dev.amir.usercommand.domain.valueobject.user.UserEmail;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
 import dev.amir.usercommand.domain.valueobject.user.UserPassword;
 import dev.amir.usercommand.domain.valueobject.user.UserUsername;
 import dev.amir.usercommand.util.RandomObject;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -22,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.any;
@@ -59,11 +61,17 @@ class UserUseCasesTest {
         when(retryExecutorMock.execute(argThat(retryMatcher))).thenReturn(userResponse);
         when(userOutputPortMock.save(any(User.class))).thenReturn(userResponse);
 
+        UserId invalidUserId = user.getId();
+        RoleId invalidRoleId = user.getRoleId();
+        LocalDateTime invalidCreatedAt = user.getCreatedAt();
+
         // When
         UserId newUserId = underTest.createUser(user);
 
         // Then
-        assertNotNull(newUserId);
+        assertNotEquals(invalidUserId, newUserId);
+        assertNotEquals(invalidRoleId, user.getRoleId());
+        assertNotEquals(invalidCreatedAt, user.getCreatedAt());
 
         verify(retryExecutorMock).execute(retryFunctionCaptor.capture());
         RetryFunction<User> retryFunction = retryFunctionCaptor.getValue();

@@ -1,5 +1,6 @@
 package dev.amir.usercommand.domain.entity;
 
+
 import dev.amir.usercommand.domain.valueobject.role.RoleId;
 import dev.amir.usercommand.domain.valueobject.user.UserBirthDate;
 import dev.amir.usercommand.domain.valueobject.user.UserEmail;
@@ -30,5 +31,4 @@ public class User {
     private UserGender gender;
     private UserBirthDate birthDate;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
