@@ -4,3 +4,20 @@ server:
 spring:
   application:
     name: authorization-server
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=user-db;encrypt=true;trustServerCertificate=true;
+    username: sa
+    password: Str#ng_Passw#rd
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      connectionTimeout: 5000
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+    open-in-view: false
+
+security:
+  jwt:
+    expiration: 45
+    secret-key: TH1S_1S_@_STR0NG_S3CR3T_K3Y_4_D3V3L0PM3NT_3NVS

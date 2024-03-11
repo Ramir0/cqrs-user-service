@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.controller;
 
-import dev.amir.usercommand.domain.valueobject.UserId;
+import dev.amir.usercommand.domain.valueobject.user.UserId;
 import dev.amir.usercommand.framework.input.rest.handler.UserHandler;
 import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
@@ -9,7 +9,6 @@ import dev.amir.usercommand.framework.input.rest.request.UpdateUserRequest;
 import dev.amir.usercommand.framework.input.rest.response.CreateUserResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

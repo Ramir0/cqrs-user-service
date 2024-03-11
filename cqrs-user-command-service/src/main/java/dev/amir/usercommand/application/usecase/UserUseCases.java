@@ -6,13 +6,13 @@ import dev.amir.usercommand.application.retry.executor.RetryExecutor;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
-import dev.amir.usercommand.domain.valueobject.RoleId;
-import dev.amir.usercommand.domain.valueobject.UserId;
-import dev.amir.usercommand.domain.valueobject.UserPassword;
-import java.time.LocalDateTime;
+import dev.amir.usercommand.domain.valueobject.role.RoleId;
+import dev.amir.usercommand.domain.valueobject.user.UserId;
+import dev.amir.usercommand.domain.valueobject.user.UserPassword;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RequiredArgsConstructor

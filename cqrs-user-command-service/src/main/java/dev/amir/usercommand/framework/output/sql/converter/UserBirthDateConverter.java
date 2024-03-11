@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
-import dev.amir.usercommand.domain.valueobject.UserBirthDate;
+import dev.amir.usercommand.domain.valueobject.user.UserBirthDate;
 import jakarta.persistence.AttributeConverter;
 import java.time.LocalDate;
 
@@ -8,12 +8,12 @@ public class UserBirthDateConverter implements AttributeConverter<UserBirthDate,
 
     @Override
     public LocalDate convertToDatabaseColumn(UserBirthDate fieldValue) {
-        return fieldValue.value();
+        return fieldValue != null ? fieldValue.value() : null;
     }
 
     @Override
-    public UserBirthDate convertToEntityAttribute(LocalDate columValue) {
-        return new UserBirthDate(columValue);
+    public UserBirthDate convertToEntityAttribute(LocalDate columnValue) {
+        return columnValue != null ? new UserBirthDate(columnValue) : null;
     }
 }
 

@@ -3,9 +3,9 @@ package dev.amir.usercommand.framework.output.sql.adapter;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
-import dev.amir.usercommand.domain.valueobject.UserId;
-import dev.amir.usercommand.domain.valueobject.UserPassword;
-import dev.amir.usercommand.domain.valueobject.UserStatus;
+import dev.amir.usercommand.domain.valueobject.user.UserId;
+import dev.amir.usercommand.domain.valueobject.user.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.UserStatus;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.mapper.UserJpaMapper;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
@@ -36,7 +36,7 @@ public class UserOutputAdapter implements UserOutputPort {
     public User update(User user) {
         log.info("Updating user");
         UserId userId = user.getId();
-        Optional<UserJpa> existingUser = jpaRepository.findById(userId.getValue());
+        Optional<UserJpa> existingUser = jpaRepository.findById(userId);
         if (existingUser.isEmpty()) {
             throw new UserNotFoundException(userId.getValue());
         }
@@ -63,7 +63,7 @@ public class UserOutputAdapter implements UserOutputPort {
     @Override
     public void delete(UserId userId) {
         log.info("Deleting user");
-        Optional<UserJpa> existingUser = jpaRepository.findById(userId.getValue());
+        Optional<UserJpa> existingUser = jpaRepository.findById(userId);
 
         if (existingUser.isEmpty()) {
             throw new UserNotFoundException(userId.getValue());
@@ -92,13 +92,13 @@ public class UserOutputAdapter implements UserOutputPort {
     @Override
     public boolean isUserRemoved(UserId userId) {
         log.info("checking if user status is removed");
-        return jpaRepository.existsByStatusAndId(UserStatus.REMOVED, userId.getValue());
+        return jpaRepository.existsByStatusAndId(UserStatus.REMOVED, userId);
     }
 
     @Override
     public void changePassword(UserId userId, UserPassword password) {
         log.info("Changing password");
-        Optional<UserJpa> existingUser = jpaRepository.findById(userId.getValue());
+        Optional<UserJpa> existingUser = jpaRepository.findById(userId);
 
         if (existingUser.isEmpty()) {
             throw new UserNotFoundException(userId.getValue());
@@ -114,7 +114,7 @@ public class UserOutputAdapter implements UserOutputPort {
     @Override
     public void updateProfile(User user) {
         log.info("Updating User");
-        Optional<UserJpa> existingUser = jpaRepository.findById(user.getId().getValue());
+        Optional<UserJpa> existingUser = jpaRepository.findById(user.getId());
 
         if (existingUser.isEmpty()) {
             throw new UserNotFoundException(user.getId().getValue());

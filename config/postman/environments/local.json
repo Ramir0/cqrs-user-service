@@ -1,5 +1,5 @@
 {
-  "id": "4fceade2-eea5-4fc8-8d50-0eb0a77b56d2",
+  "id": "30f0e99e-dfda-4496-97c6-c16a50f15ac3",
   "name": "Local",
   "values": [
     {
@@ -27,13 +27,13 @@
       "enabled": true
     },
     {
-      "key": "auth-code",
+      "key": "token",
       "value": "",
       "type": "default",
       "enabled": true
     }
   ],
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2024-02-11T18:20:22.307Z",
+  "_postman_exported_at": "2024-03-02T21:51:22.257Z",
   "_postman_exported_using": "Postman/10.22.13"
 }

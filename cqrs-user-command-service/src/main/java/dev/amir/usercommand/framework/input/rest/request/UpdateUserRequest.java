@@ -1,12 +1,12 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
-import dev.amir.usercommand.domain.valueobject.RoleId;
-import dev.amir.usercommand.domain.valueobject.UserEmail;
-import dev.amir.usercommand.domain.valueobject.UserGender;
-import dev.amir.usercommand.domain.valueobject.UserLastName;
-import dev.amir.usercommand.domain.valueobject.UserName;
-import dev.amir.usercommand.domain.valueobject.UserStatus;
-import dev.amir.usercommand.domain.valueobject.UserUsername;
+import dev.amir.usercommand.domain.valueobject.role.RoleId;
+import dev.amir.usercommand.domain.valueobject.user.UserEmail;
+import dev.amir.usercommand.domain.valueobject.user.UserGender;
+import dev.amir.usercommand.domain.valueobject.user.UserLastName;
+import dev.amir.usercommand.domain.valueobject.user.UserName;
+import dev.amir.usercommand.domain.valueobject.user.UserStatus;
+import dev.amir.usercommand.domain.valueobject.user.UserUsername;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
