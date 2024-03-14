@@ -4,7 +4,7 @@ import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.exception.UserPasswordValidationException;
 import dev.amir.usercommand.domain.validator.AttributeErrorType;
-import dev.amir.usercommand.domain.valueobject.user.UserEmail;
+import dev.amir.usercommand.domain.valueobject.user.Email;
 import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,7 +81,7 @@ class UserResponseExceptionHandlerTest {
 
     @Test
     void test_handleDuplicateUserException_ReturnsStatusCode409() {
-        DuplicateUserException ex = new DuplicateUserException(new UserEmail("new_email@test.com"));
+        DuplicateUserException ex = new DuplicateUserException(new Email("new_email@test.com"));
 
         ResponseEntity<String> response = underTest.handleDuplicateUserException(ex);
 

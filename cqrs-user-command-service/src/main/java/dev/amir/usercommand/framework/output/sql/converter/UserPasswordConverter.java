@@ -1,18 +1,18 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Convert;
 
 @Convert
-public class UserPasswordConverter implements AttributeConverter<UserPassword, String> {
+public class UserPasswordConverter implements AttributeConverter<Password, String> {
     @Override
-    public String convertToDatabaseColumn(UserPassword fieldValue) {
+    public String convertToDatabaseColumn(Password fieldValue) {
         return fieldValue != null ? fieldValue.value() : null;
     }
 
     @Override
-    public UserPassword convertToEntityAttribute(String columnValue) {
-        return columnValue != null ? new UserPassword(columnValue) : null;
+    public Password convertToEntityAttribute(String columnValue) {
+        return columnValue != null ? new Password(columnValue) : null;
     }
 }

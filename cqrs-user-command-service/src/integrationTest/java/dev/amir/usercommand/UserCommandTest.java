@@ -1,9 +1,9 @@
 package dev.amir.usercommand;
 
-import dev.amir.usercommand.domain.valueobject.user.UserEmail;
+import dev.amir.usercommand.domain.valueobject.user.Email;
+import dev.amir.usercommand.domain.valueobject.user.Status;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
-import dev.amir.usercommand.domain.valueobject.user.UserStatus;
-import dev.amir.usercommand.domain.valueobject.user.UserUsername;
+import dev.amir.usercommand.domain.valueobject.user.Username;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
 import java.io.File;
@@ -49,8 +49,8 @@ public class UserCommandTest {
     @Test
     void test_CreateUserTest() throws Exception {
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
-        when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(false);
-        when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByEmail(any(Email.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByUsername(any(Username.class))).thenReturn(false);
 
         File responseFile = ResourceUtils.getFile("classpath:requests/create-users-request.json");
 
@@ -62,8 +62,8 @@ public class UserCommandTest {
                 .andExpect(jsonPath("$.id").value(defaultUserId.toString()));
 
         verify(jpaRepositoryMock).save(any(UserJpa.class));
-        verify(jpaRepositoryMock).existsByEmail(any(UserEmail.class));
-        verify(jpaRepositoryMock).existsByUsername(any(UserUsername.class));
+        verify(jpaRepositoryMock).existsByEmail(any(Email.class));
+        verify(jpaRepositoryMock).existsByUsername(any(Username.class));
 
     }
 
@@ -101,7 +101,7 @@ public class UserCommandTest {
     @Test
     void test_ChangePassword() throws Exception {
         when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(defaultUserJpa));
-        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UserId.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByStatusAndId(any(Status.class), any(UserId.class))).thenReturn(false);
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
         File responseFile = ResourceUtils.getFile("classpath:requests/change-password-user-request.json");
 
@@ -112,14 +112,14 @@ public class UserCommandTest {
                 .andExpect(status().isNoContent());
 
         verify(jpaRepositoryMock).findById(eq(defaultUserId));
-        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId));
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(Status.REMOVED), eq(defaultUserId));
         verify(jpaRepositoryMock).save(eq(defaultUserJpa));
     }
 
 
     @Test
     public void test_HandleUserNotFoundExceptionForChangePassword() throws Exception {
-        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UserId.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByStatusAndId(any(Status.class), any(UserId.class))).thenReturn(false);
         File responseFile = ResourceUtils.getFile("classpath:requests/change-password-user-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -128,15 +128,15 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(defaultUserId));
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(Status.REMOVED), eq(defaultUserId));
         verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUnknownExceptionForCreateUser() throws Exception {
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenThrow(InternalError.class);
-        when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(false);
-        when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByEmail(any(Email.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByUsername(any(Username.class))).thenReturn(false);
 
         File responseFile = ResourceUtils.getFile("classpath:requests/create-users-request.json");
 
@@ -147,8 +147,8 @@ public class UserCommandTest {
                 .andExpect(content().string("Internal error"));
 
         verify(jpaRepositoryMock).save(any(UserJpa.class));
-        verify(jpaRepositoryMock).existsByEmail(any(UserEmail.class));
-        verify(jpaRepositoryMock).existsByUsername(any(UserUsername.class));
+        verify(jpaRepositoryMock).existsByEmail(any(Email.class));
+        verify(jpaRepositoryMock).existsByUsername(any(Username.class));
     }
 
     @Test

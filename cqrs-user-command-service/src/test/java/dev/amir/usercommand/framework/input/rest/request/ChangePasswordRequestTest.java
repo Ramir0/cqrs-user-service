@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,7 @@ public class ChangePasswordRequestTest {
 
     @Test
     void test_AllArgsConstructor() {
-        UserPassword password = RandomObject.nextObject(UserPassword.class);
+        Password password = RandomObject.nextObject(Password.class);
 
         ChangePasswordRequest actual = new ChangePasswordRequest(password);
 

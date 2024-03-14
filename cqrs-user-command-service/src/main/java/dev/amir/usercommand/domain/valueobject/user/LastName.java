@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record UserLastName(
+public record LastName(
         @NotBlank
         @Size(min = 3, max = 15)
         @Pattern(regexp = "^[a-zA-Z\\s]+$")
@@ -13,7 +13,7 @@ public record UserLastName(
 ) {
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public UserLastName(String value) {
+    public LastName(String value) {
         this.value = value;
     }
 

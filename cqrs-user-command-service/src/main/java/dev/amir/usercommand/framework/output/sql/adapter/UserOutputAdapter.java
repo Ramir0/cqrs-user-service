@@ -3,9 +3,9 @@ package dev.amir.usercommand.framework.output.sql.adapter;
 import dev.amir.usercommand.application.port.output.UserOutputPort;
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
+import dev.amir.usercommand.domain.valueobject.user.Password;
+import dev.amir.usercommand.domain.valueobject.user.Status;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
-import dev.amir.usercommand.domain.valueobject.user.UserStatus;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.mapper.UserJpaMapper;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
@@ -28,7 +28,8 @@ public class UserOutputAdapter implements UserOutputPort {
         log.info("Saving user");
         User savedUser = jpaMapper.convert(jpaRepository.save(jpaMapper.convert(user)));
 
-        log.info("User with ID: {} and name: {} has been successfully saved", savedUser.getId(), savedUser.getName());
+        log.info("User with ID: {} and firstName: {} has been successfully saved", savedUser.getId(),
+                savedUser.getFirstName());
         return savedUser;
     }
 
@@ -45,7 +46,7 @@ public class UserOutputAdapter implements UserOutputPort {
         log.info("Updating user with ID: {}", userId);
 
         userJpa.setUsername(user.getUsername());
-        userJpa.setName(user.getName());
+        userJpa.setFirstName(user.getFirstName());
         userJpa.setLastname(user.getLastname());
         userJpa.setEmail(user.getEmail());
         userJpa.setStatus(user.getStatus());
@@ -53,9 +54,9 @@ public class UserOutputAdapter implements UserOutputPort {
 
         jpaRepository.save(userJpa);
         log.info(
-                "User with ID: {} and name: {} has been successfully updated",
+                "User with ID: {} and firstName: {} has been successfully updated",
                 userId,
-                user.getName()
+                user.getFirstName()
         );
         return jpaMapper.convert(userJpa);
     }
@@ -72,7 +73,7 @@ public class UserOutputAdapter implements UserOutputPort {
         UserJpa userJpa = existingUser.get();
         userJpa.setUsername(null);
         userJpa.setEmail(null);
-        userJpa.setStatus(UserStatus.REMOVED);
+        userJpa.setStatus(Status.REMOVED);
 
         jpaRepository.save(userJpa);
     }
@@ -85,18 +86,18 @@ public class UserOutputAdapter implements UserOutputPort {
 
     @Override
     public boolean existsByUsername(User user) {
-        log.info("checking if user name exists");
+        log.info("checking if user firstName exists");
         return jpaRepository.existsByUsername(user.getUsername());
     }
 
     @Override
     public boolean isUserRemoved(UserId userId) {
         log.info("checking if user status is removed");
-        return jpaRepository.existsByStatusAndId(UserStatus.REMOVED, userId);
+        return jpaRepository.existsByStatusAndId(Status.REMOVED, userId);
     }
 
     @Override
-    public void changePassword(UserId userId, UserPassword password) {
+    public void changePassword(UserId userId, Password password) {
         log.info("Changing password");
         Optional<UserJpa> existingUser = jpaRepository.findById(userId);
 
@@ -105,7 +106,7 @@ public class UserOutputAdapter implements UserOutputPort {
         }
 
         UserJpa userJpa = existingUser.get();
-        userJpa.setStatus(UserStatus.PENDING);
+        userJpa.setStatus(Status.PENDING);
         userJpa.setPassword(password);
 
         jpaRepository.save(userJpa);
@@ -122,7 +123,7 @@ public class UserOutputAdapter implements UserOutputPort {
 
         UserJpa userJpa = existingUser.get();
 
-        userJpa.setName(user.getName());
+        userJpa.setFirstName(user.getFirstName());
         userJpa.setLastname(user.getLastname());
         userJpa.setGender(user.getGender());
         userJpa.setBirthDate(user.getBirthDate());

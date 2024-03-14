@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.amir.usercommand.application.json.UserPasswordDeserializer;
 import dev.amir.usercommand.domain.validator.PasswordValidator;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +17,7 @@ public class JsonConfiguration {
     @Bean
     public ObjectMapper objectMapper(PasswordEncoder passwordEncoder, PasswordValidator passwordValidator) {
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(UserPassword.class, new UserPasswordDeserializer(passwordEncoder, passwordValidator));
+        module.addDeserializer(Password.class, new UserPasswordDeserializer(passwordEncoder, passwordValidator));
 
         return JsonMapper.builder()
                 .constructorDetector(ConstructorDetector.DEFAULT)

@@ -2,11 +2,11 @@ package dev.amir.usercommand.framework.output.sql.adapter;
 
 import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
-import dev.amir.usercommand.domain.valueobject.user.UserEmail;
+import dev.amir.usercommand.domain.valueobject.user.Email;
+import dev.amir.usercommand.domain.valueobject.user.Password;
+import dev.amir.usercommand.domain.valueobject.user.Status;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
-import dev.amir.usercommand.domain.valueobject.user.UserStatus;
-import dev.amir.usercommand.domain.valueobject.user.UserUsername;
+import dev.amir.usercommand.domain.valueobject.user.Username;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.framework.output.sql.mapper.UserJpaMapper;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
@@ -103,9 +103,9 @@ class UserOutputAdapterTest {
     @Test
     void test_Delete() {
         UserJpa userJpa = new UserJpa();
-        userJpa.setEmail(new UserEmail("user_email@test.com"));
-        userJpa.setUsername(new UserUsername("Username"));
-        userJpa.setStatus(UserStatus.ACTIVE);
+        userJpa.setEmail(new Email("user_email@test.com"));
+        userJpa.setUsername(new Username("Username"));
+        userJpa.setStatus(Status.ACTIVE);
         UserId userId = new UserId();
 
         when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(userJpa));
@@ -115,7 +115,7 @@ class UserOutputAdapterTest {
 
         assertNull(userJpa.getEmail());
         assertNull(userJpa.getUsername());
-        assertEquals(UserStatus.REMOVED, userJpa.getStatus());
+        assertEquals(Status.REMOVED, userJpa.getStatus());
         verify(jpaRepositoryMock).findById(eq(userId));
         verify(jpaRepositoryMock).save(eq(userJpa));
     }
@@ -135,9 +135,9 @@ class UserOutputAdapterTest {
     @Test
     void test_existByEmail_EmailExists_ReturnsTrue() {
         User user = new User();
-        user.setEmail(new UserEmail("user_email@test.com"));
+        user.setEmail(new Email("user_email@test.com"));
 
-        when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(true);
+        when(jpaRepositoryMock.existsByEmail(any(Email.class))).thenReturn(true);
 
         boolean result = underTest.existByEmail(user);
 
@@ -148,9 +148,9 @@ class UserOutputAdapterTest {
     @Test
     void test_existByEmail_EmailDoesNotExist_ReturnsFalse() {
         User user = new User();
-        user.setEmail(new UserEmail("user_email@test.com"));
+        user.setEmail(new Email("user_email@test.com"));
 
-        when(jpaRepositoryMock.existsByEmail(any(UserEmail.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByEmail(any(Email.class))).thenReturn(false);
 
         boolean result = underTest.existByEmail(user);
 
@@ -161,8 +161,8 @@ class UserOutputAdapterTest {
     @Test
     void test_existByUserName_UsernameExists_ReturnsTrue() {
         User user = new User();
-        user.setUsername(new UserUsername("Username"));
-        when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(true);
+        user.setUsername(new Username("Username"));
+        when(jpaRepositoryMock.existsByUsername(any(Username.class))).thenReturn(true);
 
         boolean result = underTest.existsByUsername(user);
 
@@ -173,8 +173,8 @@ class UserOutputAdapterTest {
     @Test
     void test_existByUserName_UsernameDoesNotExist_ReturnsFalse() {
         User user = new User();
-        user.setUsername(new UserUsername("Username"));
-        when(jpaRepositoryMock.existsByUsername(any(UserUsername.class))).thenReturn(false);
+        user.setUsername(new Username("Username"));
+        when(jpaRepositoryMock.existsByUsername(any(Username.class))).thenReturn(false);
 
         boolean result = underTest.existsByUsername(user);
 
@@ -185,33 +185,33 @@ class UserOutputAdapterTest {
     @Test
     void test_isUserRemoved_UserStatus_isRemoved_ReturnsTrue() {
         UserId userId = new UserId();
-        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UserId.class))).thenReturn(true);
+        when(jpaRepositoryMock.existsByStatusAndId(any(Status.class), any(UserId.class))).thenReturn(true);
 
         boolean result = underTest.isUserRemoved(userId);
 
         assertTrue(result);
-        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(userId));
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(Status.REMOVED), eq(userId));
     }
 
     @Test
     void test_isUserRemoved_UserStatus_isNotRemoved_ReturnsFalse() {
         UserId userId = new UserId();
-        when(jpaRepositoryMock.existsByStatusAndId(any(UserStatus.class), any(UserId.class))).thenReturn(false);
+        when(jpaRepositoryMock.existsByStatusAndId(any(Status.class), any(UserId.class))).thenReturn(false);
 
         boolean result = underTest.isUserRemoved(userId);
 
         assertFalse(result);
-        verify(jpaRepositoryMock).existsByStatusAndId(eq(UserStatus.REMOVED), eq(userId));
+        verify(jpaRepositoryMock).existsByStatusAndId(eq(Status.REMOVED), eq(userId));
     }
 
     @Test
     void test_ChangePassword() {
         UserJpa userJpa = new UserJpa();
-        UserPassword oldPassword = RandomObject.nextObject(UserPassword.class);
+        Password oldPassword = RandomObject.nextObject(Password.class);
         userJpa.setPassword(oldPassword);
 
         UserId savedUserId = new UserId();
-        UserPassword password = RandomObject.nextObject(UserPassword.class);
+        Password password = RandomObject.nextObject(Password.class);
 
         when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(userJpa));
         when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(null);
@@ -226,7 +226,7 @@ class UserOutputAdapterTest {
     @Test
     void test_ChangePassword_WhenUserDoesNotExist_ThrowsException() {
         UserId newUserId = new UserId();
-        UserPassword password = RandomObject.nextObject(UserPassword.class);
+        Password password = RandomObject.nextObject(Password.class);
         when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.empty());
 
 

@@ -1,20 +1,19 @@
 package dev.amir.usercommand.domain.valueobject.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record UserEmail(
+public record FirstName(
         @NotBlank
-        @Size(min = 10, max = 150)
-        @Email(regexp = "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:"
-                + "\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+        @Size(min = 3, max = 15)
+        @Pattern(regexp = "^[a-zA-Z\\s]+$")
         String value
 ) {
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public UserEmail(String value) {
+    public FirstName(String value) {
         this.value = value;
     }
 

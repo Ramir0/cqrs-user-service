@@ -7,8 +7,8 @@ import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.role.RoleId;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +54,7 @@ public class UserUseCases implements UserInputPort {
     }
 
     @Override
-    public void changeUserPassword(UserId userId, UserPassword password) {
+    public void changeUserPassword(UserId userId, Password password) {
         if (userOutputPort.isUserRemoved(userId)) {
             throw new UserNotFoundException(userId.getValue());
         }

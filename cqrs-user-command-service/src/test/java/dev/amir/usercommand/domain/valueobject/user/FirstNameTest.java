@@ -6,42 +6,42 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class UserPasswordTest {
+public class FirstNameTest {
 
     @Test
     void test_StringArgConstructor() {
-        String password = RandomObject.nextObject(String.class);
+        String name = RandomObject.nextObject(String.class);
 
-        UserPassword userPassword = new UserPassword(password);
+        FirstName firstName = new FirstName(name);
 
-        assertNotNull(userPassword);
+        assertNotNull(firstName);
     }
 
     @Test
     void test_ToString_ReturnsValue() {
         String expected = RandomObject.nextObject(String.class);
 
-        UserPassword password = new UserPassword(expected);
+        FirstName actual = new FirstName(expected);
 
-        assertEquals(expected, password.toString());
+        assertEquals(expected, actual.toString());
     }
 
     @Test
     void test_GetValue_ReturnsValue() {
         String expected = RandomObject.nextObject(String.class);
 
-        UserPassword password = new UserPassword(expected);
+        FirstName name = new FirstName(expected);
 
-        assertEquals(expected, password.value());
+        assertEquals(expected, name.value());
     }
 
     @Test
     void test_Equals_IsTrue() {
         String expected = RandomObject.nextObject(String.class);
 
-        UserPassword password1 = new UserPassword(expected);
-        UserPassword password2 = new UserPassword(expected);
+        FirstName name1 = new FirstName(expected);
+        FirstName name2 = new FirstName(expected);
 
-        assertEquals(password1, password2);
+        assertEquals(name1, name2);
     }
 }

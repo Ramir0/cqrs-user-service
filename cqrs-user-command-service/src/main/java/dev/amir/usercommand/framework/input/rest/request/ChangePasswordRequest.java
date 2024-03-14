@@ -1,10 +1,10 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 public record ChangePasswordRequest(
-        @NotNull @Valid UserPassword password
+        @NotNull @Valid Password password
 ) {
 }

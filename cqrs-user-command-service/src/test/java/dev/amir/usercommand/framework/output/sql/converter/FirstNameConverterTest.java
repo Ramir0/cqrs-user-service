@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
-import dev.amir.usercommand.domain.valueobject.user.UserName;
+import dev.amir.usercommand.domain.valueobject.user.FirstName;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class UserNameConverterTest {
+public class FirstNameConverterTest {
     private UserNameConverter underTest;
 
     @BeforeEach
@@ -18,7 +18,7 @@ public class UserNameConverterTest {
 
     @Test
     void test_ConvertToDatabaseColumn() {
-        UserName name = RandomObject.nextObject(UserName.class);
+        FirstName name = RandomObject.nextObject(FirstName.class);
 
         String actual = underTest.convertToDatabaseColumn(name);
 
@@ -36,14 +36,14 @@ public class UserNameConverterTest {
     void test_ConvertToEntityAttribute() {
         String name = RandomObject.nextObject(String.class);
 
-        UserName actual = underTest.convertToEntityAttribute(name);
+        FirstName actual = underTest.convertToEntityAttribute(name);
 
         assertEquals(name, actual.value());
     }
 
     @Test
     void test_ConvertToEntityAttributeWhenValueIsNull() {
-        UserName actual = underTest.convertToEntityAttribute(null);
+        FirstName actual = underTest.convertToEntityAttribute(null);
 
         assertNull(actual);
     }

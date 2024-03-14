@@ -2,15 +2,15 @@ package dev.amir.usercommand.domain.entity;
 
 
 import dev.amir.usercommand.domain.valueobject.role.RoleId;
-import dev.amir.usercommand.domain.valueobject.user.UserBirthDate;
-import dev.amir.usercommand.domain.valueobject.user.UserEmail;
-import dev.amir.usercommand.domain.valueobject.user.UserGender;
+import dev.amir.usercommand.domain.valueobject.user.BirthDate;
+import dev.amir.usercommand.domain.valueobject.user.Email;
+import dev.amir.usercommand.domain.valueobject.user.FirstName;
+import dev.amir.usercommand.domain.valueobject.user.Gender;
+import dev.amir.usercommand.domain.valueobject.user.LastName;
+import dev.amir.usercommand.domain.valueobject.user.Password;
+import dev.amir.usercommand.domain.valueobject.user.Status;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
-import dev.amir.usercommand.domain.valueobject.user.UserLastName;
-import dev.amir.usercommand.domain.valueobject.user.UserName;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
-import dev.amir.usercommand.domain.valueobject.user.UserStatus;
-import dev.amir.usercommand.domain.valueobject.user.UserUsername;
+import dev.amir.usercommand.domain.valueobject.user.Username;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,13 +22,13 @@ import lombok.Setter;
 public class User {
     private UserId id;
     private RoleId roleId;
-    private UserUsername username;
-    private UserPassword password;
-    private UserName name;
-    private UserLastName lastname;
-    private UserEmail email;
-    private UserStatus status;
-    private UserGender gender;
-    private UserBirthDate birthDate;
+    private Username username;
+    private Password password;
+    private FirstName firstName;
+    private LastName lastname;
+    private Email email;
+    private Status status;
+    private Gender gender;
+    private BirthDate birthDate;
     private LocalDateTime createdAt;
 }

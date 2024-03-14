@@ -1,6 +1,6 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
-import dev.amir.usercommand.domain.valueobject.user.UserEmail;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,21 +8,21 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class UserEmailConverterTest {
-    private UserEmailConverter underTest;
+class PasswordConverterTest {
+    private UserPasswordConverter underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new UserEmailConverter();
+        underTest = new UserPasswordConverter();
     }
 
     @Test
     void test_ConvertToDatabaseColumn() {
-        UserEmail userEmail = RandomObject.nextObject(UserEmail.class);
+        Password password = RandomObject.nextObject(Password.class);
 
-        String actual = underTest.convertToDatabaseColumn(userEmail);
+        String actual = underTest.convertToDatabaseColumn(password);
 
-        assertEquals(userEmail.value(), actual);
+        assertEquals(password.value(), actual);
     }
 
     @Test
@@ -34,16 +34,16 @@ public class UserEmailConverterTest {
 
     @Test
     void test_ConvertToEntityAttribute() {
-        String userEmail = RandomObject.nextObject(String.class);
+        String password = RandomObject.nextObject(String.class);
 
-        UserEmail actual = underTest.convertToEntityAttribute(userEmail);
+        Password actual = underTest.convertToEntityAttribute(password);
 
-        assertEquals(userEmail, actual.value());
+        assertEquals(password, actual.value());
     }
 
     @Test
     void test_ConvertToEntityAttributeWhenValueIsNull() {
-        UserEmail actual = underTest.convertToEntityAttribute(null);
+        Password actual = underTest.convertToEntityAttribute(null);
 
         assertNull(actual);
     }
