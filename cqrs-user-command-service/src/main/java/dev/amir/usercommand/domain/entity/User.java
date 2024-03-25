@@ -24,7 +24,7 @@ public class User {
     private RoleId roleId;
     private Username username;
     private Password password;
-    private FirstName firstName;
+    private FirstName firstname;
     private LastName lastname;
     private Email email;
     private Status status;

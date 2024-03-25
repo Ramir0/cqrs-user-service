@@ -34,7 +34,7 @@ class CreateUserRequestTest {
         assertEquals(roleId, actual.roleId());
         assertEquals(userName, actual.username());
         assertEquals(password, actual.password());
-        assertEquals(firstName, actual.firstName());
+        assertEquals(firstName, actual.firstname());
         assertEquals(lastname, actual.lastname());
         assertEquals(email, actual.email());
     }

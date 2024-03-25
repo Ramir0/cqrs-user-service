@@ -20,7 +20,7 @@ public class UpdateProfileRequestTest {
 
         UpdateProfileRequest actual = new UpdateProfileRequest(name, lastname, gender, birthDate);
 
-        assertEquals(name, actual.firstName());
+        assertEquals(name, actual.firstname());
         assertEquals(lastname, actual.lastname());
         assertEquals(gender, actual.gender());
         assertEquals(birthDate, actual.birthDate());

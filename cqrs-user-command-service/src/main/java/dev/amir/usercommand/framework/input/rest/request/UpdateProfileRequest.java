@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdateProfileRequest(
-        @Valid @NotNull FirstName firstName,
+        @Valid @NotNull FirstName firstname,
         @Valid @NotNull LastName lastname,
         Gender gender,
         @Valid BirthDate birthDate) {
