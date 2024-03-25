@@ -9,10 +9,10 @@ import dev.amir.usercommand.domain.entity.User;
 import dev.amir.usercommand.domain.exception.DuplicateUserException;
 import dev.amir.usercommand.domain.exception.UserNotFoundException;
 import dev.amir.usercommand.domain.valueobject.role.RoleId;
-import dev.amir.usercommand.domain.valueobject.user.UserEmail;
+import dev.amir.usercommand.domain.valueobject.user.Email;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
-import dev.amir.usercommand.domain.valueobject.user.UserUsername;
+import dev.amir.usercommand.domain.valueobject.user.Username;
 import dev.amir.usercommand.util.RandomObject;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
@@ -82,7 +82,7 @@ class UserUseCasesTest {
     @Test
     void test_when_EmailExists_ThrowsException() {
         User user = new User();
-        user.setEmail(new UserEmail("user_email@test.com"));
+        user.setEmail(new Email("user_email@test.com"));
 
         when(userOutputPortMock.existByEmail(any(User.class))).thenReturn(true);
 
@@ -98,7 +98,7 @@ class UserUseCasesTest {
     @Test
     void test_when_UserUserNameExists_ThrowsException() {
         User user = new User();
-        user.setUsername(new UserUsername("user_name"));
+        user.setUsername(new Username("user_name"));
 
         when(userOutputPortMock.existsByUsername(any(User.class))).thenReturn(true);
 
@@ -116,10 +116,10 @@ class UserUseCasesTest {
         User userResponse = new User();
         UserId userId = new UserId();
         userResponse.setId(userId);
-        UserPassword password = RandomObject.nextObject(UserPassword.class);
+        Password password = RandomObject.nextObject(Password.class);
 
         doNothing().when(retryExecutorMock).execute(any(RetryAction.class));
-        doNothing().when(userOutputPortMock).changePassword(any(UserId.class), any(UserPassword.class));
+        doNothing().when(userOutputPortMock).changePassword(any(UserId.class), any(Password.class));
 
         underTest.changeUserPassword(userId, password);
 
@@ -165,7 +165,7 @@ class UserUseCasesTest {
     @Test
     void test_when_UserIsRemoved_ThrowsException() {
         UserId userId = new UserId();
-        UserPassword password = RandomObject.nextObject(UserPassword.class);
+        Password password = RandomObject.nextObject(Password.class);
 
         when(userOutputPortMock.isUserRemoved(any(UserId.class))).thenReturn(true);
 

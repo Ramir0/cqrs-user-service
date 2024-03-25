@@ -33,7 +33,7 @@ class UserJpaMapperTest {
         assertEquals(expected.getRoleId().toString(), actual.getRoleId().toString());
         assertEquals(expected.getId().toString(), actual.getId().toString());
         assertEquals(expected.getPassword(), actual.getPassword());
-        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getFirstName(), actual.getFirstName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
         assertEquals(expected.getStatus(), actual.getStatus());
@@ -56,7 +56,7 @@ class UserJpaMapperTest {
         assertEquals(expected.getRoleId().toString(), actual.getRoleId().toString());
         assertEquals(expected.getId().toString(), actual.getId().toString());
         assertEquals(expected.getPassword(), actual.getPassword());
-        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getFirstName(), actual.getFirstName());
         assertEquals(expected.getLastname(), actual.getLastname());
         assertEquals(expected.getEmail(), actual.getEmail());
         assertEquals(expected.getStatus(), actual.getStatus());

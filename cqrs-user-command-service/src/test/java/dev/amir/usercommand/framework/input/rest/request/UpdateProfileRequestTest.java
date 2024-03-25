@@ -1,9 +1,9 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
-import dev.amir.usercommand.domain.valueobject.user.UserBirthDate;
-import dev.amir.usercommand.domain.valueobject.user.UserGender;
-import dev.amir.usercommand.domain.valueobject.user.UserLastName;
-import dev.amir.usercommand.domain.valueobject.user.UserName;
+import dev.amir.usercommand.domain.valueobject.user.BirthDate;
+import dev.amir.usercommand.domain.valueobject.user.FirstName;
+import dev.amir.usercommand.domain.valueobject.user.Gender;
+import dev.amir.usercommand.domain.valueobject.user.LastName;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +13,16 @@ public class UpdateProfileRequestTest {
 
     @Test
     void test_AllArgsConstructor() {
-        UserName name = RandomObject.nextObject(UserName.class);
-        UserLastName lastname = RandomObject.nextObject(UserLastName.class);
-        UserGender userGender = RandomObject.nextObject(UserGender.class);
-        UserBirthDate birthDate = RandomObject.nextObject(UserBirthDate.class);
+        FirstName name = RandomObject.nextObject(FirstName.class);
+        LastName lastname = RandomObject.nextObject(LastName.class);
+        Gender gender = RandomObject.nextObject(Gender.class);
+        BirthDate birthDate = RandomObject.nextObject(BirthDate.class);
 
-        UpdateProfileRequest actual = new UpdateProfileRequest(name, lastname, userGender, birthDate);
+        UpdateProfileRequest actual = new UpdateProfileRequest(name, lastname, gender, birthDate);
 
-        assertEquals(name, actual.name());
+        assertEquals(name, actual.firstName());
         assertEquals(lastname, actual.lastname());
-        assertEquals(userGender, actual.gender());
+        assertEquals(gender, actual.gender());
         assertEquals(birthDate, actual.birthDate());
     }
 }

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UserNameValidationTest {
+public class FirstNameValidationTest {
     private Validator validator;
 
     @BeforeEach
@@ -26,9 +26,9 @@ public class UserNameValidationTest {
 
     @Test
     void test_ValidValue_ReturnsNoConstraintViolation() {
-        UserName username = new UserName("User Name");
+        FirstName username = new FirstName("User Name");
 
-        Set<ConstraintViolation<UserName>> violations = validator.validate(username);
+        Set<ConstraintViolation<FirstName>> violations = validator.validate(username);
 
         assertTrue(violations.isEmpty());
     }
@@ -37,9 +37,9 @@ public class UserNameValidationTest {
     @NullSource
     @ValueSource(strings = {"", " ", "   ", "\n", "\r\n"})
     void test_NoValue_ReturnsOneConstraintViolation(String value) {
-        UserName name = new UserName(value);
+        FirstName name = new FirstName(value);
 
-        Set<ConstraintViolation<UserName>> violations = validator.validate(name);
+        Set<ConstraintViolation<FirstName>> violations = validator.validate(name);
 
         assertFalse(violations.isEmpty());
         boolean existNoValueViolation = violations
@@ -51,9 +51,9 @@ public class UserNameValidationTest {
     @ParameterizedTest
     @ValueSource(strings = {"Aa", "test  TEST  test Test"})
     void test_MinMaxValue_ReturnsOneConstraintViolation(String value) {
-        UserName name = new UserName(value);
+        FirstName name = new FirstName(value);
 
-        Set<ConstraintViolation<UserName>> violations = validator.validate(name);
+        Set<ConstraintViolation<FirstName>> violations = validator.validate(name);
 
         assertEquals(1, violations.size());
         violations.forEach(violation -> {
@@ -65,9 +65,9 @@ public class UserNameValidationTest {
     @ParameterizedTest
     @ValueSource(strings = {"Abc$123", "Abc__123", "123$%^321", "!@#$%^&*"})
     void test_InvalidValue_ReturnsOneConstraintViolation(String value) {
-        UserName name = new UserName(value);
+        FirstName name = new FirstName(value);
 
-        Set<ConstraintViolation<UserName>> violations = validator.validate(name);
+        Set<ConstraintViolation<FirstName>> violations = validator.validate(name);
 
         assertEquals(1, violations.size());
         violations.forEach(violation -> {

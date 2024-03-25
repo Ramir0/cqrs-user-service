@@ -6,22 +6,22 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UserBirthDateTest {
+public class BirthDateTest {
 
     @Test
     void test_StringArgConstructor() {
         LocalDate expected = RandomObject.nextObject(LocalDate.class);
 
-        UserBirthDate userBirthDate = new UserBirthDate(expected);
+        BirthDate birthDate = new BirthDate(expected);
 
-        assertEquals(expected, userBirthDate.value());
+        assertEquals(expected, birthDate.value());
     }
 
     @Test
     void test_ToString_ReturnsValue() {
         LocalDate expected = RandomObject.nextObject(LocalDate.class);
 
-        UserBirthDate actual = new UserBirthDate(expected);
+        BirthDate actual = new BirthDate(expected);
 
         assertEquals(expected.toString(), actual.toString());
     }
@@ -30,7 +30,7 @@ public class UserBirthDateTest {
     void test_GetValue_ReturnsValue() {
         LocalDate expected = RandomObject.nextObject(LocalDate.class);
 
-        UserBirthDate birthDate = new UserBirthDate(expected);
+        BirthDate birthDate = new BirthDate(expected);
 
         assertEquals(expected, birthDate.value());
     }
@@ -39,8 +39,8 @@ public class UserBirthDateTest {
     void test_Equals_IsTrue() {
         LocalDate expected = RandomObject.nextObject(LocalDate.class);
 
-        UserBirthDate birthDate1 = new UserBirthDate(expected);
-        UserBirthDate birthDate2 = new UserBirthDate(expected);
+        BirthDate birthDate1 = new BirthDate(expected);
+        BirthDate birthDate2 = new BirthDate(expected);
 
         assertEquals(birthDate1, birthDate2);
     }

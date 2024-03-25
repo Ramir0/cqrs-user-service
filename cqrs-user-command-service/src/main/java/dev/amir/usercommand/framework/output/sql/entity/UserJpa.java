@@ -1,15 +1,15 @@
 package dev.amir.usercommand.framework.output.sql.entity;
 
 import dev.amir.usercommand.domain.valueobject.role.RoleId;
-import dev.amir.usercommand.domain.valueobject.user.UserBirthDate;
-import dev.amir.usercommand.domain.valueobject.user.UserEmail;
-import dev.amir.usercommand.domain.valueobject.user.UserGender;
+import dev.amir.usercommand.domain.valueobject.user.BirthDate;
+import dev.amir.usercommand.domain.valueobject.user.Email;
+import dev.amir.usercommand.domain.valueobject.user.FirstName;
+import dev.amir.usercommand.domain.valueobject.user.Gender;
+import dev.amir.usercommand.domain.valueobject.user.LastName;
+import dev.amir.usercommand.domain.valueobject.user.Password;
+import dev.amir.usercommand.domain.valueobject.user.Status;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
-import dev.amir.usercommand.domain.valueobject.user.UserLastName;
-import dev.amir.usercommand.domain.valueobject.user.UserName;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
-import dev.amir.usercommand.domain.valueobject.user.UserStatus;
-import dev.amir.usercommand.domain.valueobject.user.UserUsername;
+import dev.amir.usercommand.domain.valueobject.user.Username;
 import dev.amir.usercommand.framework.output.sql.converter.RoleIdConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserBirthDateConverter;
 import dev.amir.usercommand.framework.output.sql.converter.UserEmailConverter;
@@ -40,21 +40,22 @@ public class UserJpa {
     @Convert(converter = RoleIdConverter.class)
     private RoleId roleId;
     @Convert(converter = UserUsernameConverter.class)
-    private UserUsername username;
+    private Username username;
     @Convert(converter = UserPasswordConverter.class)
-    private UserPassword password;
+    private Password password;
     @Convert(converter = UserNameConverter.class)
-    private UserName name;
+    @Column(name = "name")
+    private FirstName firstName;
     @Convert(converter = UserLastNameConverter.class)
-    private UserLastName lastname;
+    private LastName lastname;
     @Convert(converter = UserEmailConverter.class)
-    private UserEmail email;
+    private Email email;
     @Column
-    private UserStatus status;
+    private Status status;
     @Column
-    private UserGender gender;
+    private Gender gender;
     @Convert(converter = UserBirthDateConverter.class)
-    private UserBirthDate birthDate;
+    private BirthDate birthDate;
     @Column
     private LocalDateTime createdAt;
 }

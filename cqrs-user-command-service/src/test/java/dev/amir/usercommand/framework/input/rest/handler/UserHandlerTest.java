@@ -2,8 +2,8 @@ package dev.amir.usercommand.framework.input.rest.handler;
 
 import dev.amir.usercommand.application.port.input.UserInputPort;
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
 import dev.amir.usercommand.framework.input.rest.mapper.UserRequestMapper;
 import dev.amir.usercommand.framework.input.rest.request.ChangePasswordRequest;
 import dev.amir.usercommand.framework.input.rest.request.CreateUserRequest;
@@ -82,7 +82,7 @@ class UserHandlerTest {
         UserId userId = RandomObject.nextObject(UserId.class);
         ChangePasswordRequest request = RandomObject.nextObject(ChangePasswordRequest.class);
 
-        doNothing().when(userInputPortMock).changeUserPassword(any(UserId.class), any(UserPassword.class));
+        doNothing().when(userInputPortMock).changeUserPassword(any(UserId.class), any(Password.class));
 
         underTest.handle(request, userId);
 

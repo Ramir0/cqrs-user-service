@@ -1,18 +1,18 @@
 package dev.amir.usercommand.framework.output.sql.converter;
 
-import dev.amir.usercommand.domain.valueobject.user.UserLastName;
+import dev.amir.usercommand.domain.valueobject.user.LastName;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Convert;
 
 @Convert
-public class UserLastNameConverter implements AttributeConverter<UserLastName, String> {
+public class UserLastNameConverter implements AttributeConverter<LastName, String> {
     @Override
-    public String convertToDatabaseColumn(UserLastName fieldValue) {
+    public String convertToDatabaseColumn(LastName fieldValue) {
         return fieldValue != null ? fieldValue.value() : null;
     }
 
     @Override
-    public UserLastName convertToEntityAttribute(String columnValue) {
-        return columnValue != null ? new UserLastName(columnValue) : null;
+    public LastName convertToEntityAttribute(String columnValue) {
+        return columnValue != null ? new LastName(columnValue) : null;
     }
 }

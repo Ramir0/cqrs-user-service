@@ -1,5 +1,5 @@
 {
-  "name": "NewName",
+  "firstName": "NewName",
   "lastname": "NewLastname",
   "email": "new_email@test.com"
 }

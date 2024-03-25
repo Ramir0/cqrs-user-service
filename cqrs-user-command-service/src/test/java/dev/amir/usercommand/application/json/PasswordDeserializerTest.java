@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import dev.amir.usercommand.domain.exception.UserPasswordValidationException;
 import dev.amir.usercommand.domain.validator.AttributeErrorType;
 import dev.amir.usercommand.domain.validator.AttributeValidator;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import dev.amir.usercommand.util.RandomObject;
 import java.io.IOException;
 import java.util.Set;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UserPasswordDeserializerTest {
+class PasswordDeserializerTest {
     @Mock
     private JsonParser parserMock;
     @Mock
@@ -46,7 +46,7 @@ class UserPasswordDeserializerTest {
         when(validatorMock.validate(anyString())).thenReturn(Set.of());
         when(encoderMock.encode(anyString())).thenReturn(password);
 
-        UserPassword userPassword = underTest.deserialize(parserMock, contextMock);
+        Password userPassword = underTest.deserialize(parserMock, contextMock);
 
         assertEquals(password, userPassword.value());
         verify(parserMock).getValueAsString();

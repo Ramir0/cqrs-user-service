@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import dev.amir.usercommand.domain.exception.UserPasswordValidationException;
 import dev.amir.usercommand.domain.validator.AttributeErrorType;
 import dev.amir.usercommand.domain.validator.AttributeValidator;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import java.io.IOException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +16,12 @@ import org.springframework.util.CollectionUtils;
 
 @Slf4j
 @RequiredArgsConstructor
-public class UserPasswordDeserializer extends JsonDeserializer<UserPassword> {
+public class UserPasswordDeserializer extends JsonDeserializer<Password> {
     private final PasswordEncoder passwordEncoder;
     private final AttributeValidator<String> passwordValidator;
 
     @Override
-    public UserPassword deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+    public Password deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         log.debug("Deserialize and Encrypt password field");
         String userPassword = parser.getValueAsString();
         Set<AttributeErrorType> errors = passwordValidator.validate(userPassword);
@@ -30,6 +30,6 @@ public class UserPasswordDeserializer extends JsonDeserializer<UserPassword> {
         }
 
         String encodedPassword = passwordEncoder.encode(userPassword);
-        return new UserPassword(encodedPassword);
+        return new Password(encodedPassword);
     }
 }

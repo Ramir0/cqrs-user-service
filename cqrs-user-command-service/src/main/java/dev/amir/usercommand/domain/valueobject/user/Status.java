@@ -1,6 +1,6 @@
 package dev.amir.usercommand.domain.valueobject.user;
 
-public enum UserStatus {
+public enum Status {
     PENDING,
     ACTIVE,
     INACTIVE,

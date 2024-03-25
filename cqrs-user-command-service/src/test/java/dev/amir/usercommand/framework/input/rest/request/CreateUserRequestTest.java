@@ -1,11 +1,11 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
 import dev.amir.usercommand.domain.valueobject.role.RoleId;
-import dev.amir.usercommand.domain.valueobject.user.UserEmail;
-import dev.amir.usercommand.domain.valueobject.user.UserLastName;
-import dev.amir.usercommand.domain.valueobject.user.UserName;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
-import dev.amir.usercommand.domain.valueobject.user.UserUsername;
+import dev.amir.usercommand.domain.valueobject.user.Email;
+import dev.amir.usercommand.domain.valueobject.user.FirstName;
+import dev.amir.usercommand.domain.valueobject.user.LastName;
+import dev.amir.usercommand.domain.valueobject.user.Password;
+import dev.amir.usercommand.domain.valueobject.user.Username;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;
 
@@ -16,25 +16,25 @@ class CreateUserRequestTest {
     @Test
     void test_AllArgsConstructor() {
         RoleId roleId = RandomObject.nextObject(RoleId.class);
-        UserUsername username = RandomObject.nextObject(UserUsername.class);
-        UserPassword password = RandomObject.nextObject(UserPassword.class);
-        UserName name = RandomObject.nextObject(UserName.class);
-        UserLastName lastname = RandomObject.nextObject(UserLastName.class);
-        UserEmail email = RandomObject.nextObject(UserEmail.class);
+        Username userName = RandomObject.nextObject(Username.class);
+        Password password = RandomObject.nextObject(Password.class);
+        FirstName firstName = RandomObject.nextObject(FirstName.class);
+        LastName lastname = RandomObject.nextObject(LastName.class);
+        Email email = RandomObject.nextObject(Email.class);
 
         CreateUserRequest actual = new CreateUserRequest(
                 roleId,
-                username,
+                userName,
                 password,
-                name,
+                firstName,
                 lastname,
                 email
         );
 
         assertEquals(roleId, actual.roleId());
-        assertEquals(username, actual.username());
+        assertEquals(userName, actual.username());
         assertEquals(password, actual.password());
-        assertEquals(name, actual.name());
+        assertEquals(firstName, actual.firstName());
         assertEquals(lastname, actual.lastname());
         assertEquals(email, actual.email());
     }

@@ -1,12 +1,12 @@
 package dev.amir.usercommand.framework.input.rest.request;
 
 import dev.amir.usercommand.domain.valueobject.role.RoleId;
-import dev.amir.usercommand.domain.valueobject.user.UserEmail;
-import dev.amir.usercommand.domain.valueobject.user.UserGender;
-import dev.amir.usercommand.domain.valueobject.user.UserLastName;
-import dev.amir.usercommand.domain.valueobject.user.UserName;
-import dev.amir.usercommand.domain.valueobject.user.UserStatus;
-import dev.amir.usercommand.domain.valueobject.user.UserUsername;
+import dev.amir.usercommand.domain.valueobject.user.Email;
+import dev.amir.usercommand.domain.valueobject.user.FirstName;
+import dev.amir.usercommand.domain.valueobject.user.Gender;
+import dev.amir.usercommand.domain.valueobject.user.LastName;
+import dev.amir.usercommand.domain.valueobject.user.Status;
+import dev.amir.usercommand.domain.valueobject.user.Username;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.Test;
 
@@ -17,21 +17,21 @@ class UpdateUserRequestTest {
     @Test
     void test_AllArgsConstructor() {
         RoleId roleId = RandomObject.nextObject(RoleId.class);
-        UserUsername username = RandomObject.nextObject(UserUsername.class);
-        UserName name = RandomObject.nextObject(UserName.class);
-        UserLastName lastname = RandomObject.nextObject(UserLastName.class);
-        UserEmail email = RandomObject.nextObject(UserEmail.class);
-        UserStatus status = RandomObject.nextObject(UserStatus.class);
-        UserGender userGender = RandomObject.nextObject(UserGender.class);
+        Username userName = RandomObject.nextObject(Username.class);
+        FirstName name = RandomObject.nextObject(FirstName.class);
+        LastName lastname = RandomObject.nextObject(LastName.class);
+        Email email = RandomObject.nextObject(Email.class);
+        Status status = RandomObject.nextObject(Status.class);
+        Gender gender = RandomObject.nextObject(Gender.class);
 
-        UpdateUserRequest actual = new UpdateUserRequest(roleId, username, name, lastname, email, status, userGender);
+        UpdateUserRequest actual = new UpdateUserRequest(roleId, userName, name, lastname, email, status, gender);
 
         assertEquals(roleId, actual.roleId());
-        assertEquals(username, actual.username());
-        assertEquals(name, actual.name());
+        assertEquals(userName, actual.username());
+        assertEquals(name, actual.firstName());
         assertEquals(lastname, actual.lastname());
         assertEquals(email, actual.email());
         assertEquals(status, actual.status());
-        assertEquals(userGender, actual.gender());
+        assertEquals(gender, actual.gender());
     }
 }

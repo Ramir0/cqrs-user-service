@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class UserNameTest {
+class UsernameTest {
 
     @Test
     void test_StringArgConstructor() {
-        String name = RandomObject.nextObject(String.class);
+        String username = RandomObject.nextObject(String.class);
 
-        UserName userName = new UserName(name);
+        Username userName = new Username(username);
 
         assertNotNull(userName);
     }
@@ -21,7 +21,7 @@ public class UserNameTest {
     void test_ToString_ReturnsValue() {
         String expected = RandomObject.nextObject(String.class);
 
-        UserName actual = new UserName(expected);
+        Username actual = new Username(expected);
 
         assertEquals(expected, actual.toString());
     }
@@ -30,18 +30,18 @@ public class UserNameTest {
     void test_GetValue_ReturnsValue() {
         String expected = RandomObject.nextObject(String.class);
 
-        UserName name = new UserName(expected);
+        Username actual = new Username(expected);
 
-        assertEquals(expected, name.value());
+        assertEquals(expected, actual.value());
     }
 
     @Test
     void test_Equals_IsTrue() {
         String expected = RandomObject.nextObject(String.class);
 
-        UserName name1 = new UserName(expected);
-        UserName name2 = new UserName(expected);
+        Username actual1 = new Username(expected);
+        Username actual2 = new Username(expected);
 
-        assertEquals(name1, name2);
+        assertEquals(actual1, actual2);
     }
 }

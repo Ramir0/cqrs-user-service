@@ -6,7 +6,7 @@ import jakarta.annotation.Nullable;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-public record UserBirthDate(
+public record BirthDate(
         @Nullable
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @DateRange(min = "1900-01-01", yearsFromToDay = -18)
@@ -14,7 +14,7 @@ public record UserBirthDate(
 ) {
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public UserBirthDate(LocalDate value) {
+    public BirthDate(LocalDate value) {
         this.value = value;
     }
 

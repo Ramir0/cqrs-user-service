@@ -1,8 +1,8 @@
 package dev.amir.usercommand.application.port.output;
 
 import dev.amir.usercommand.domain.entity.User;
+import dev.amir.usercommand.domain.valueobject.user.Password;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
-import dev.amir.usercommand.domain.valueobject.user.UserPassword;
 
 public interface UserOutputPort {
     User save(User user);
@@ -15,7 +15,7 @@ public interface UserOutputPort {
 
     boolean existsByUsername(User user);
 
-    void changePassword(UserId userId, UserPassword password);
+    void changePassword(UserId userId, Password password);
 
     boolean isUserRemoved(UserId userId);
 
