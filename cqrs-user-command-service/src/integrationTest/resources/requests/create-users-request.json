@@ -1,7 +1,7 @@
 {
   "username": "NewUsername",
   "password": "New.Password123#",
-  "firstName": "NewName",
+  "firstname": "NewName",
   "lastname": "NewLastname",
   "email": "new_email@test.com"
 }
