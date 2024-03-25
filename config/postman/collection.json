@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "9e00fa9c-ca4b-42c5-b52d-f9ebd7275bd2",
+    "_postman_id": "c2b42c90-2c1d-4087-9c50-95383a711ee5",
     "name": "UserService",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "124234"
@@ -30,7 +30,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"123\"\r\n}",
+              "raw": "{\r\n    \"username\": \"NewUsername\",\r\n    \"password\": \"New.Password123#\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -73,7 +73,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"NewUsername\",\r\n    \"password\": \"New.Password123#\",\n    \"name\": \"NewName\",\r\n    \"lastname\": \"NewLastname\",\r\n    \"email\": \"new_email@test.com\",\r\n    \"status\": \"ACTIVE\",\r\n    \"gender\": \"MALE\"\r\n}",
+          "raw": "{\r\n    \"username\": \"NewUsername\",\r\n    \"password\": \"New.Password123#\",\r\n    \"firstname\": \"NewName\",\r\n    \"lastname\": \"NewLastname\",\r\n    \"email\": \"new_email@test.com\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -99,7 +99,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\": \"UpdatedUsername\",\r\n    \"name\": \"UpdatedName\",\r\n    \"lastname\": \"UpdatedLastname\",\r\n    \"email\": \"updated_email@test.com\",\r\n    \"status\": \"INACTIVE\",\r\n    \"gender\": \"NON_BINARY\"\r\n}",
+          "raw": "{\r\n    \"username\": \"UpdatedUsername\",\r\n    \"firstname\": \"UpdatedName\",\r\n    \"lastname\": \"UpdatedLastname\",\r\n    \"email\": \"updated_email@test.com\",\r\n    \"status\": \"INACTIVE\",\r\n    \"gender\": \"NON_BINARY\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -204,7 +204,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"password\": \"new_password\"\r\n}",
+          "raw": "{\r\n    \"password\": \"New=Password1\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -232,7 +232,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"name\": \"MyName\",\r\n    \"lastname\": \"MyLastname\",\r\n    \"gender\": \"MyGender\",\r\n    \"birthDate\": \"2010-01-20\"\r\n}",
+          "raw": "{\r\n    \"firstname\": \"MyName\",\r\n    \"lastname\": \"MyLastname\",\r\n    \"gender\": \"MALE\",\r\n    \"birthDate\": \"2000-01-20\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -240,9 +240,9 @@
           }
         },
         "url": {
-          "raw": "{{base-url}}/profile",
+          "raw": "{{user-command-host}}/profile/{{user-id}}",
           "host": [
-            "{{base-url}}"
+            "{{user-command-host}}"
           ],
           "path": [
             "profile",
