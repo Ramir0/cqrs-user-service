@@ -9,6 +9,8 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -27,5 +29,11 @@ public class UserJpa {
     @Column
     private UserStatus status;
     @Column
+    private String username;
+    @Column
     private UserGender gender;
+    @Column
+    private LocalDate birthDate;
+    @Column
+    private LocalDateTime createdAt;
 }
