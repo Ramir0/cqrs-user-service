@@ -28,7 +28,7 @@ class UpdateUserRequestTest {
 
         assertEquals(roleId, actual.roleId());
         assertEquals(userName, actual.username());
-        assertEquals(name, actual.firstName());
+        assertEquals(name, actual.firstname());
         assertEquals(lastname, actual.lastname());
         assertEquals(email, actual.email());
         assertEquals(status, actual.status());

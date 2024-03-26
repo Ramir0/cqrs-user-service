@@ -45,7 +45,7 @@ public class UserJpa {
     private Password password;
     @Convert(converter = UserNameConverter.class)
     @Column(name = "name")
-    private FirstName firstName;
+    private FirstName firstname;
     @Convert(converter = UserLastNameConverter.class)
     private LastName lastname;
     @Convert(converter = UserEmailConverter.class)

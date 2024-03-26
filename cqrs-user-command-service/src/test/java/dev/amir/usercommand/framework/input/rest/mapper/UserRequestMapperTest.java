@@ -31,7 +31,7 @@ class UserRequestMapperTest {
         User actual = underTest.convert(expected);
 
         assertEquals(expected.roleId(), actual.getRoleId());
-        assertEquals(expected.firstName(), actual.getFirstName());
+        assertEquals(expected.firstname(), actual.getFirstname());
         assertEquals(expected.lastname(), actual.getLastname());
         assertEquals(expected.email(), actual.getEmail());
     }
@@ -50,7 +50,7 @@ class UserRequestMapperTest {
         User actual = underTest.convert(expected);
 
         assertEquals(expected.roleId(), actual.getRoleId());
-        assertEquals(expected.firstName(), actual.getFirstName());
+        assertEquals(expected.firstname(), actual.getFirstname());
         assertEquals(expected.lastname(), actual.getLastname());
         assertEquals(expected.email(), actual.getEmail());
     }
@@ -68,7 +68,7 @@ class UserRequestMapperTest {
 
         User actual = underTest.convert(expected);
 
-        assertEquals(expected.firstName(), actual.getFirstName());
+        assertEquals(expected.firstname(), actual.getFirstname());
         assertEquals(expected.lastname(), actual.getLastname());
         assertEquals(expected.gender(), actual.getGender());
         assertEquals(expected.birthDate(), actual.getBirthDate());

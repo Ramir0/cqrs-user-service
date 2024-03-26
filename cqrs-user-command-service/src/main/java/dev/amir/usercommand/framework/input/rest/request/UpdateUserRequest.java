@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 public record UpdateUserRequest(
         RoleId roleId,
         @Valid @NotNull Username username,
-        @Valid @NotNull FirstName firstName,
+        @Valid @NotNull FirstName firstname,
         @Valid @NotNull LastName lastname,
         @Valid @NotNull Email email,
         Status status,

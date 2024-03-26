@@ -13,7 +13,7 @@ public record CreateUserRequest(
         RoleId roleId,
         @Valid @NotNull Username username,
         @Valid @NotNull Password password,
-        @Valid @NotNull FirstName firstName,
+        @Valid @NotNull FirstName firstname,
         @Valid @NotNull LastName lastname,
         @Valid @NotNull Email email
 ) {

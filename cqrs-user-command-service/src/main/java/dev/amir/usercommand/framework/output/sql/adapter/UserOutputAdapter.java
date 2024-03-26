@@ -28,8 +28,8 @@ public class UserOutputAdapter implements UserOutputPort {
         log.info("Saving user");
         User savedUser = jpaMapper.convert(jpaRepository.save(jpaMapper.convert(user)));
 
-        log.info("User with ID: {} and firstName: {} has been successfully saved", savedUser.getId(),
-                savedUser.getFirstName());
+        log.info("User with ID: {} and firstname: {} has been successfully saved", savedUser.getId(),
+                savedUser.getFirstname());
         return savedUser;
     }
 
@@ -46,7 +46,7 @@ public class UserOutputAdapter implements UserOutputPort {
         log.info("Updating user with ID: {}", userId);
 
         userJpa.setUsername(user.getUsername());
-        userJpa.setFirstName(user.getFirstName());
+        userJpa.setFirstname(user.getFirstname());
         userJpa.setLastname(user.getLastname());
         userJpa.setEmail(user.getEmail());
         userJpa.setStatus(user.getStatus());
@@ -54,9 +54,9 @@ public class UserOutputAdapter implements UserOutputPort {
 
         jpaRepository.save(userJpa);
         log.info(
-                "User with ID: {} and firstName: {} has been successfully updated",
+                "User with ID: {} and firstname: {} has been successfully updated",
                 userId,
-                user.getFirstName()
+                user.getFirstname()
         );
         return jpaMapper.convert(userJpa);
     }
@@ -86,7 +86,7 @@ public class UserOutputAdapter implements UserOutputPort {
 
     @Override
     public boolean existsByUsername(User user) {
-        log.info("checking if user firstName exists");
+        log.info("checking if user firstname exists");
         return jpaRepository.existsByUsername(user.getUsername());
     }
 
@@ -123,7 +123,7 @@ public class UserOutputAdapter implements UserOutputPort {
 
         UserJpa userJpa = existingUser.get();
 
-        userJpa.setFirstName(user.getFirstName());
+        userJpa.setFirstname(user.getFirstname());
         userJpa.setLastname(user.getLastname());
         userJpa.setGender(user.getGender());
         userJpa.setBirthDate(user.getBirthDate());

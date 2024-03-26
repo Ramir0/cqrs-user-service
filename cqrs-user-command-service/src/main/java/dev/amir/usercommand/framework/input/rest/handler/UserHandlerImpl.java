@@ -30,9 +30,8 @@ public class UserHandlerImpl implements UserHandler {
     }
 
     @Override
-    public void handle(UpdateUserRequest request, UserId userIdParam) {
+    public void handle(UpdateUserRequest request, UserId userId) {
         User user = requestMapper.convert(request);
-        UserId userId = userIdParam;
         user.setId(userId);
         userInputPort.updateUser(user);
         log.info("User with ID: {} Updated", userId);
