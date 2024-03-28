@@ -1,11 +1,15 @@
 package dev.amir.userquery.framework.input.rest.controller;
 
 import dev.amir.userquery.domain.entity.User;
+import dev.amir.userquery.domain.valueobject.UserGender;
+import dev.amir.userquery.domain.valueobject.UserStatus;
 import dev.amir.userquery.framework.input.rest.handler.UserQueryHandler;
 import dev.amir.userquery.framework.input.rest.query.GetAllUsersQuery;
 import dev.amir.userquery.framework.input.rest.query.GetUserByIdQuery;
 import dev.amir.userquery.framework.input.rest.response.GetAllUsersResponse;
 import dev.amir.userquery.framework.input.rest.response.GetUserByIdResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -50,7 +54,10 @@ class UserControllerTest {
     void test_GetUserById() {
         String userId = UUID.randomUUID().toString();
         GetUserByIdQuery query = new GetUserByIdQuery(userId);
-        GetUserByIdResponse response = new GetUserByIdResponse(new User());
+        GetUserByIdResponse response = new GetUserByIdResponse("b6a3d07d-0c0d-4d7f-b968-453808256e31",
+                "DefaultName", "DefaultLastname", "default@email.com", UserStatus.PENDING,
+                "user123abc", UserGender.MALE, LocalDate.parse("2000-01-06"),
+                LocalDateTime.parse("2010-10-31T08:30:00"), "Standard");
         when(userQueryHandlerMock.handle(any(GetUserByIdQuery.class))).thenReturn(response);
 
         ResponseEntity<GetUserByIdResponse> actual = underTest.getUserById(query);
@@ -58,7 +65,7 @@ class UserControllerTest {
         assertNotNull(actual);
         assertEquals(HttpStatus.OK, actual.getStatusCode());
         assertNotNull(actual.getBody());
-        assertNotNull(actual.getBody().user());
+        assertNotNull(actual.getBody());
         verify(userQueryHandlerMock).handle(eq(query));
     }
 }
