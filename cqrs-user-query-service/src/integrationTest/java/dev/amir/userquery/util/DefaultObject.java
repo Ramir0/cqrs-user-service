@@ -12,6 +12,7 @@ public final class DefaultObject {
     public static final String defaultUserId2 = "ad88345e-3abd-4fbd-81eb-c6ba9ff17c6f";
     public static final LocalDate defaultBirthDate = LocalDate.parse("2000-01-06");
     public static final LocalDateTime defaultCreatedAt = LocalDateTime.parse("2010-10-31T08:30:00");
+    public static final Role defaultRole = new Role();
     public static final UserJpa defaultUserJpa = new UserJpa(
             defaultUserId,
             "DefaultName",
@@ -22,7 +23,7 @@ public final class DefaultObject {
             UserGender.MALE,
             defaultBirthDate,
             defaultCreatedAt,
-            new Role()
+            defaultRole
     );
     public static final UserJpa defaultUserJpa2 = new UserJpa(
             defaultUserId2,
