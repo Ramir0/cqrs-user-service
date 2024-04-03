@@ -9,11 +9,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class FirstNameConverterTest {
-    private UserNameConverter underTest;
+    private UserFirstNameConverter underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new UserNameConverter();
+        underTest = new UserFirstNameConverter();
     }
 
     @Test

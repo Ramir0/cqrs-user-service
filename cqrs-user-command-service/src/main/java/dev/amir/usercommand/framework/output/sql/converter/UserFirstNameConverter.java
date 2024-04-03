@@ -2,10 +2,10 @@ package dev.amir.usercommand.framework.output.sql.converter;
 
 import dev.amir.usercommand.domain.valueobject.user.FirstName;
 import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
 
-@Convert
-public class UserNameConverter implements AttributeConverter<FirstName, String> {
+@Converter(autoApply = true)
+public class UserFirstNameConverter implements AttributeConverter<FirstName, String> {
 
     @Override
     public String convertToDatabaseColumn(FirstName fieldValue) {
