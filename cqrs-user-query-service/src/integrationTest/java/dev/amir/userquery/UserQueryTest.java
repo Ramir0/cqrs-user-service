@@ -72,10 +72,15 @@ public class UserQueryTest {
 
         mockMvc.perform(get("/users/{userId}", userId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.user.name").value(userJpa.getName()))
-                .andExpect(jsonPath("$.user.lastname").value(userJpa.getLastname()))
-                .andExpect(jsonPath("$.user.status").value(userJpa.getStatus().name()))
-                .andExpect(jsonPath("$.user.id").value(userId))
+                .andExpect(jsonPath("$.name").value(userJpa.getName()))
+                .andExpect(jsonPath("$.lastname").value(userJpa.getLastname()))
+                .andExpect(jsonPath("$.status").value(userJpa.getStatus().name()))
+                .andExpect(jsonPath("$.id").value(userId))
+                .andExpect(jsonPath("$.email").value(userJpa.getEmail()))
+                .andExpect(jsonPath("$.username").value(userJpa.getUsername()))
+                .andExpect(jsonPath("$.gender").value(userJpa.getGender().name()))
+                .andExpect(jsonPath("$.birthDate").value(userJpa.getBirthDate().toString()))
+                .andExpect(jsonPath("$.role").value(userJpa.getRole().getName()))
                 .andExpect(status().isOk());
 
         verify(userJpaRepositoryMock).findById(eq(userId));

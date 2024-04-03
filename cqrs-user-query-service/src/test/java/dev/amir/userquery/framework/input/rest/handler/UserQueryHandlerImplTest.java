@@ -1,6 +1,7 @@
 package dev.amir.userquery.framework.input.rest.handler;
 
 import dev.amir.userquery.application.port.input.UserInputPort;
+import dev.amir.userquery.domain.entity.Role;
 import dev.amir.userquery.domain.entity.User;
 import dev.amir.userquery.framework.input.rest.query.GetAllUsersQuery;
 import dev.amir.userquery.framework.input.rest.query.GetUserByIdQuery;
@@ -51,14 +52,15 @@ class UserQueryHandlerImplTest {
         User expected = new User();
         String expectedUserId = UUID.randomUUID().toString();
         expected.setId(expectedUserId);
+        expected.setRole(new Role());
         GetUserByIdQuery query = new GetUserByIdQuery(expectedUserId);
         when(userInputPortMock.getUserById(anyString())).thenReturn(expected);
 
         GetUserByIdResponse actual = underTest.handle(query);
 
         assertNotNull(actual);
-        assertNotNull(actual.user());
-        assertEquals(expectedUserId, actual.user().getId());
+        assertNotNull(actual);
+        assertEquals(expectedUserId, actual.id());
         verify(userInputPortMock).getUserById(eq(expectedUserId));
     }
 }
