@@ -2,7 +2,9 @@ package dev.amir.usercommand.framework.output.sql.converter;
 
 import dev.amir.usercommand.domain.valueobject.user.Email;
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
+@Converter(autoApply = true)
 public class UserEmailConverter implements AttributeConverter<Email, String> {
 
     @Override

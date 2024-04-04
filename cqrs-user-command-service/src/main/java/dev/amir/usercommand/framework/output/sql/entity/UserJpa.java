@@ -10,52 +10,38 @@ import dev.amir.usercommand.domain.valueobject.user.Password;
 import dev.amir.usercommand.domain.valueobject.user.Status;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
 import dev.amir.usercommand.domain.valueobject.user.Username;
-import dev.amir.usercommand.framework.output.sql.converter.RoleIdConverter;
-import dev.amir.usercommand.framework.output.sql.converter.UserBirthDateConverter;
-import dev.amir.usercommand.framework.output.sql.converter.UserEmailConverter;
-import dev.amir.usercommand.framework.output.sql.converter.UserLastNameConverter;
-import dev.amir.usercommand.framework.output.sql.converter.UserNameConverter;
-import dev.amir.usercommand.framework.output.sql.converter.UserPasswordConverter;
-import dev.amir.usercommand.framework.output.sql.converter.UserUsernameConverter;
+import dev.amir.usercommand.framework.output.sql.type.RoleIdType;
+import dev.amir.usercommand.framework.output.sql.type.UserIdType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
 
 @Data
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserJpa {
+public class UserJpa implements Serializable {
     @Id
+    @Type(UserIdType.class)
     private UserId id;
-    @JdbcTypeCode(java.sql.Types.VARCHAR)
-    @Convert(converter = RoleIdConverter.class)
+    @Type(RoleIdType.class)
     private RoleId roleId;
-    @Convert(converter = UserUsernameConverter.class)
     private Username username;
-    @Convert(converter = UserPasswordConverter.class)
     private Password password;
-    @Convert(converter = UserNameConverter.class)
     @Column(name = "name")
     private FirstName firstname;
-    @Convert(converter = UserLastNameConverter.class)
     private LastName lastname;
-    @Convert(converter = UserEmailConverter.class)
     private Email email;
-    @Column
     private Status status;
-    @Column
     private Gender gender;
-    @Convert(converter = UserBirthDateConverter.class)
     private BirthDate birthDate;
-    @Column
     private LocalDateTime createdAt;
 }

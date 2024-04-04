@@ -1,7 +1,7 @@
 package dev.amir.usercommand.domain.valueobject.role;
 
 import dev.amir.usercommand.domain.exception.UserValidationException;
-import jakarta.persistence.Column;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.EqualsAndHashCode;
@@ -9,8 +9,7 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-public class RoleId {
-    @Column(name = "role_id")
+public class RoleId implements Serializable {
     private final UUID value;
 
     public RoleId() {
