@@ -16,7 +16,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +27,7 @@ import org.hibernate.annotations.Type;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserJpa implements Serializable {
+public class UserJpa {
     @Id
     @Type(UserIdType.class)
     private UserId id;

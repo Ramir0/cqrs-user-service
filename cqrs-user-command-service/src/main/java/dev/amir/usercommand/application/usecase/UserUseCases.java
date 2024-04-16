@@ -65,8 +65,8 @@ public class UserUseCases implements UserInputPort {
 
     @Override
     public void updateUserProfile(User user) {
-        log.info("Attempting to update user with ID: {}", user.getId());
+        log.info("Attempting to update user profile with ID: {}", user.getId());
         retryExecutor.execute(() -> userOutputPort.updateProfile(user));
-        log.info("User with ID: {} successfully updated", user.getId());
+        log.info("User profile with ID: {} successfully updated", user.getId());
     }
 }

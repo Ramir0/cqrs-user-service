@@ -2,14 +2,14 @@ package dev.amir.usercommand.domain.valueobject.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import dev.amir.usercommand.domain.validator.DateRange;
-import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public record BirthDate(
-        @Nullable
+        @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        @DateRange(min = "1900-01-01", yearsFromToDay = -18)
+        @DateRange(yearsFromToDay = -18)
         LocalDate value
 ) {
 

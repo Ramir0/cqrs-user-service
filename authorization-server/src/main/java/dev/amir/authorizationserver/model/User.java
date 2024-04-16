@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+    public static final String PREFIX_ROLE = "ROLE_";
+
     @Id
     private String id;
     @Column
@@ -36,7 +38,7 @@ public class User implements UserDetails {
         var authorities = role.getPermissions().stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getName()))
                 .collect(Collectors.toList());
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+        authorities.add(new SimpleGrantedAuthority(PREFIX_ROLE + role.getName()));
         return authorities;
     }
 

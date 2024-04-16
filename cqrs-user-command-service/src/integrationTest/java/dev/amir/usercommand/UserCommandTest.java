@@ -5,6 +5,7 @@ import dev.amir.usercommand.domain.valueobject.user.Status;
 import dev.amir.usercommand.domain.valueobject.user.UserId;
 import dev.amir.usercommand.domain.valueobject.user.Username;
 import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
+import dev.amir.usercommand.framework.output.sql.repository.RoleJpaRepository;
 import dev.amir.usercommand.framework.output.sql.repository.UserJpaRepository;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -36,21 +37,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserCommandTest {
     @MockBean
-    private UserJpaRepository jpaRepositoryMock;
+    private UserJpaRepository userRepositoryMock;
+    @MockBean
+    private RoleJpaRepository roleRepositoryMock;
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     public void test_LoadContext() {
-        assertNotNull(jpaRepositoryMock);
+        assertNotNull(userRepositoryMock);
         assertNotNull(mockMvc);
     }
 
     @Test
     void test_CreateUserTest() throws Exception {
-        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
-        when(jpaRepositoryMock.existsByEmail(any(Email.class))).thenReturn(false);
-        when(jpaRepositoryMock.existsByUsername(any(Username.class))).thenReturn(false);
+        when(userRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
+        when(userRepositoryMock.existsByEmail(any(Email.class))).thenReturn(false);
+        when(userRepositoryMock.existsByUsername(any(Username.class))).thenReturn(false);
 
         File responseFile = ResourceUtils.getFile("classpath:requests/create-users-request.json");
 
@@ -61,31 +64,31 @@ public class UserCommandTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(defaultUserId.toString()));
 
-        verify(jpaRepositoryMock).save(any(UserJpa.class));
-        verify(jpaRepositoryMock).existsByEmail(any(Email.class));
-        verify(jpaRepositoryMock).existsByUsername(any(Username.class));
+        verify(userRepositoryMock).save(any(UserJpa.class));
+        verify(userRepositoryMock).existsByEmail(any(Email.class));
+        verify(userRepositoryMock).existsByUsername(any(Username.class));
 
     }
 
     @Test
     public void test_DeleteUserTest() throws Exception {
         UserJpa userJpa = new UserJpa();
-        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(userJpa));
-        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(userJpa);
+        when(userRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(userJpa));
+        when(userRepositoryMock.save(any(UserJpa.class))).thenReturn(userJpa);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/users/{id}", defaultUserId))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId));
-        verify(jpaRepositoryMock).save(eq(userJpa));
+        verify(userRepositoryMock).findById(eq(defaultUserId));
+        verify(userRepositoryMock).save(eq(userJpa));
     }
 
     @Test
     void test_UpdateUserTest() throws Exception {
         UserJpa userJpa = new UserJpa();
-        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(userJpa));
-        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(userJpa);
+        when(userRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(userJpa));
+        when(userRepositoryMock.save(any(UserJpa.class))).thenReturn(userJpa);
         File responseFile = ResourceUtils.getFile("classpath:requests/update-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -94,15 +97,15 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId));
-        verify(jpaRepositoryMock).save(eq(userJpa));
+        verify(userRepositoryMock).findById(eq(defaultUserId));
+        verify(userRepositoryMock).save(eq(userJpa));
     }
 
     @Test
     void test_ChangePassword() throws Exception {
-        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(defaultUserJpa));
-        when(jpaRepositoryMock.existsByStatusAndId(any(Status.class), any(UserId.class))).thenReturn(false);
-        when(jpaRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
+        when(userRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.of(defaultUserJpa));
+        when(userRepositoryMock.existsByStatusAndId(any(Status.class), any(UserId.class))).thenReturn(false);
+        when(userRepositoryMock.save(any(UserJpa.class))).thenReturn(defaultUserJpa);
         File responseFile = ResourceUtils.getFile("classpath:requests/change-password-user-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -111,15 +114,15 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId));
-        verify(jpaRepositoryMock).existsByStatusAndId(eq(Status.REMOVED), eq(defaultUserId));
-        verify(jpaRepositoryMock).save(eq(defaultUserJpa));
+        verify(userRepositoryMock).findById(eq(defaultUserId));
+        verify(userRepositoryMock).existsByStatusAndId(eq(Status.REMOVED), eq(defaultUserId));
+        verify(userRepositoryMock).save(eq(defaultUserJpa));
     }
 
 
     @Test
     public void test_HandleUserNotFoundExceptionForChangePassword() throws Exception {
-        when(jpaRepositoryMock.existsByStatusAndId(any(Status.class), any(UserId.class))).thenReturn(false);
+        when(userRepositoryMock.existsByStatusAndId(any(Status.class), any(UserId.class))).thenReturn(false);
         File responseFile = ResourceUtils.getFile("classpath:requests/change-password-user-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -128,15 +131,15 @@ public class UserCommandTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(jpaRepositoryMock).existsByStatusAndId(eq(Status.REMOVED), eq(defaultUserId));
-        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
+        verify(userRepositoryMock).existsByStatusAndId(eq(Status.REMOVED), eq(defaultUserId));
+        verify(userRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUnknownExceptionForCreateUser() throws Exception {
-        when(jpaRepositoryMock.save(any(UserJpa.class))).thenThrow(InternalError.class);
-        when(jpaRepositoryMock.existsByEmail(any(Email.class))).thenReturn(false);
-        when(jpaRepositoryMock.existsByUsername(any(Username.class))).thenReturn(false);
+        when(userRepositoryMock.save(any(UserJpa.class))).thenThrow(InternalError.class);
+        when(userRepositoryMock.existsByEmail(any(Email.class))).thenReturn(false);
+        when(userRepositoryMock.existsByUsername(any(Username.class))).thenReturn(false);
 
         File responseFile = ResourceUtils.getFile("classpath:requests/create-users-request.json");
 
@@ -146,14 +149,14 @@ public class UserCommandTest {
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Internal error"));
 
-        verify(jpaRepositoryMock).save(any(UserJpa.class));
-        verify(jpaRepositoryMock).existsByEmail(any(Email.class));
-        verify(jpaRepositoryMock).existsByUsername(any(Username.class));
+        verify(userRepositoryMock).save(any(UserJpa.class));
+        verify(userRepositoryMock).existsByEmail(any(Email.class));
+        verify(userRepositoryMock).existsByUsername(any(Username.class));
     }
 
     @Test
     public void test_HandleUserNotFoundExceptionForUpdateUser() throws Exception {
-        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.empty());
+        when(userRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.empty());
         File responseFile = ResourceUtils.getFile("classpath:requests/update-users-request.json");
 
         mockMvc.perform(MockMvcRequestBuilders.put("/users/{userId}", defaultUserId)
@@ -162,20 +165,20 @@ public class UserCommandTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId));
-        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
+        verify(userRepositoryMock).findById(eq(defaultUserId));
+        verify(userRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
     public void test_HandleUserNotFoundExceptionForDeleteUser() throws Exception {
-        when(jpaRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.empty());
+        when(userRepositoryMock.findById(any(UserId.class))).thenReturn(Optional.empty());
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", defaultUserId))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("User not found"));
 
-        verify(jpaRepositoryMock).findById(eq(defaultUserId));
-        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
+        verify(userRepositoryMock).findById(eq(defaultUserId));
+        verify(userRepositoryMock, never()).save(any(UserJpa.class));
     }
 
     @Test
@@ -198,6 +201,6 @@ public class UserCommandTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("There is missing data in the Request"));
 
-        verify(jpaRepositoryMock, never()).save(any(UserJpa.class));
+        verify(userRepositoryMock, never()).save(any(UserJpa.class));
     }
 }

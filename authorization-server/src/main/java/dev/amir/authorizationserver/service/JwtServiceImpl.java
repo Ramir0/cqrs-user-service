@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 public class JwtServiceImpl implements JwtService {
     private static final String JWT_TYPE = "JWT";
 
-    @Value("${security.jwt.expiration}")
-    private long expirationMinutes = 30;
+    @Value("${security.jwt.expiration:30}")
+    private long expirationMinutes;
 
     @Value("${security.jwt.secret-key}")
     private String jwtKey;
