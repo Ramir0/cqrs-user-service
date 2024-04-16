@@ -5,15 +5,12 @@ import dev.amir.usercommand.framework.output.sql.entity.UserJpa;
 import dev.amir.usercommand.util.RandomObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@ExtendWith(SpringExtension.class)
 class UserJpaMapperTest {
 
     private UserJpaMapper underTest;
@@ -40,7 +37,7 @@ class UserJpaMapperTest {
     }
 
     @Test
-    void test_Convert_WhenUser_ReturnsNull() {
+    void test_Convert_WhenUserIsNull_ReturnsNull() {
         UserJpa actual = underTest.convert((User) null);
 
         assertNull(actual);
@@ -63,7 +60,7 @@ class UserJpaMapperTest {
     }
 
     @Test
-    void test_Convert_WhenUserJpa_ReturnsNull() {
+    void test_Convert_WhenUserJpaIsNull_ReturnsNull() {
         User actual = underTest.convert((UserJpa) null);
 
         assertNull(actual);

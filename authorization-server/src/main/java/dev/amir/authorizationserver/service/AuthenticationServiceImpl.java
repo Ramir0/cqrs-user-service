@@ -30,6 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private Map<String, Object> generateClaims(Authentication authentication) {
         if (authentication.getPrincipal() instanceof User user) {
             return Map.of(
+                    "id", user.getId(),
                     "name", user.getName(),
                     "role", user.getRole().getName(),
                     "permissions", authentication.getAuthorities()

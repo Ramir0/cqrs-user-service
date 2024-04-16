@@ -47,5 +47,4 @@ class RoleIdTest {
                 () -> new RoleId((UUID) null)
         );
     }
-
 }

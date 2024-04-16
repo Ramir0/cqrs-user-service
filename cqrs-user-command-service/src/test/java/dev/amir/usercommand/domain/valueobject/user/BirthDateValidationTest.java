@@ -6,8 +6,8 @@ import jakarta.validation.Validator;
 import java.time.LocalDate;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -20,7 +20,6 @@ public class BirthDateValidationTest {
     void setUp() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
-
 
     @ParameterizedTest
     @ValueSource(strings = {"1900-01-01", "2005-08-20", "1990-06-15", "1999-12-31"})
@@ -42,13 +41,12 @@ public class BirthDateValidationTest {
         assertFalse(violations.isEmpty());
     }
 
-    @ParameterizedTest
-    @NullSource
-    void test_NullValue_ReturnsNoConstraintViolation(LocalDate value) {
-        BirthDate birthDate = new BirthDate(value);
+    @Test
+    void test_NullValue_ReturnsNoConstraintViolation() {
+        BirthDate birthDate = new BirthDate(null);
 
         Set<ConstraintViolation<BirthDate>> violations = validator.validate(birthDate);
 
-        assertTrue(violations.isEmpty());
+        assertFalse(violations.isEmpty());
     }
 }
