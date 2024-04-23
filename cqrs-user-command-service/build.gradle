@@ -5,13 +5,13 @@ dependencies {
   implementation 'org.springframework.retry:spring-retry'
   implementation 'org.springframework.security:spring-security-crypto'
   implementation 'org.flywaydb:flyway-core'
-  implementation 'org.flywaydb:flyway-sqlserver'
 
   compileOnly 'org.projectlombok:lombok'
   compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
 
   developmentOnly 'org.springframework.boot:spring-boot-devtools'
-  runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+  runtimeOnly "org.hibernate:hibernate-community-dialects:${hibernateDialectsVersion}"
+  runtimeOnly "org.xerial:sqlite-jdbc:${sqliteVersion}"
 
   annotationProcessor 'org.projectlombok:lombok'
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
@@ -19,7 +19,7 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation "org.jeasy:easy-random-core:${easyRandomVersion}"
   testImplementation "org.mapstruct:mapstruct:${mapstructVersion}"
-  testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
+  testImplementation "org.mockito:mockito-core:${mockitoVersion}"
 
   integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

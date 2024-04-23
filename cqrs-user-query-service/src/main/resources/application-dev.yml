@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:file:users.db?cache=shared
+    hikari:
+      connectionTimeout: 1000
+  jpa:
+    open-in-view: false
+    show-sql: true

@@ -11,6 +11,6 @@ CREATE TABLE permissions (
 CREATE TABLE roles_permissions (
     role_id VARCHAR(36),
     permission_id VARCHAR(36),
-    FOREIGN KEY (Role_Id) REFERENCES Roles(Id),
-    FOREIGN KEY (Permission_Id) REFERENCES Permissions(Id)
+    FOREIGN KEY (role_id) REFERENCES roles(id),
+    FOREIGN KEY (permission_id) REFERENCES permissions(id)
 );

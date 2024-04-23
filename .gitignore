@@ -40,3 +40,6 @@ bin/
 
 ### Docker ###
 .data/
+
+### SQLite DB ###
+users.db

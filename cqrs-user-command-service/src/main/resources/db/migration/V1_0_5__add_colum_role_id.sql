@@ -1,1 +1,1 @@
-ALTER TABLE users ADD role_id VARCHAR(36) FOREIGN KEY (Role_Id) REFERENCES Roles(Id);
+ALTER TABLE users ADD role_id VARCHAR(36) REFERENCES roles(id);

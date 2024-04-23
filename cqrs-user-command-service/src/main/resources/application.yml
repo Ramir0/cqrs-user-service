@@ -4,22 +4,5 @@ server:
 spring:
   application:
     name: user-command-service
-  datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=user-db;encrypt=true;trustServerCertificate=true;
-    username: sa
-    password: Str#ng_Passw#rd
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    hikari:
-      connectionTimeout: 5000
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.SQLServerDialect
-    open-in-view: false
-  flyway:
-    enabled: true
-  retry:
-    max-attempts: 4
-    initial-interval: 1000
-    multiplier: 2
-    max-interval: 30000
+  profiles:
+    default: dev
