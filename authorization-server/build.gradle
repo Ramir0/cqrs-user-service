@@ -7,12 +7,12 @@ dependencies {
   runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
   runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
 
-  runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
-
   compileOnly 'org.projectlombok:lombok'
   compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
 
   developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  runtimeOnly "org.hibernate:hibernate-community-dialects:${hibernateDialectsVersion}"
+  runtimeOnly "org.xerial:sqlite-jdbc:${sqliteVersion}"
 
   annotationProcessor 'org.projectlombok:lombok'
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
@@ -20,7 +20,7 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation "org.jeasy:easy-random-core:${easyRandomVersion}"
   testImplementation "org.mapstruct:mapstruct:${mapstructVersion}"
-  testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
+  testImplementation "org.mockito:mockito-core:${mockitoVersion}"
 
   integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

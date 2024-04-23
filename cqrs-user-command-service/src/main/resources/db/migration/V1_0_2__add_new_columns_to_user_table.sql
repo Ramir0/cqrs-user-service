@@ -1,6 +1,5 @@
-ALTER TABLE users
-ADD username VARCHAR(15),
-    gender TINYINT NULL,
-    birth_date DATE NULL,
-    created_at DATETIME,
-    updated_at DATETIME;
+ALTER TABLE users ADD username VARCHAR(15);
+ALTER TABLE users ADD gender TINYINT NULL;
+ALTER TABLE users ADD birth_date DATE NULL;
+ALTER TABLE users ADD created_at DATETIME;
+ALTER TABLE users ADD updated_at DATETIME;

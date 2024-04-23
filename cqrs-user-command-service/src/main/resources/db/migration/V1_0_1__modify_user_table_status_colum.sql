@@ -1,5 +1,4 @@
 ALTER TABLE users ADD status TINYINT;
-GO
 
 UPDATE users
 SET status = 1
@@ -10,4 +9,3 @@ SET status = 2
 WHERE is_active = 0;
 
 ALTER TABLE users DROP COLUMN is_active;
-GO

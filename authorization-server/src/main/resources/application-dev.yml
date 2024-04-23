@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:file:users.db?cache=shared
+    hikari:
+      connectionTimeout: 1000
+  jpa:
+    open-in-view: false
+    show-sql: true
+
+security:
+  jwt:
+    expiration: 45
+    secret-key: TH1S_1S_@_STR0NG_S3CR3T_K3Y_4_D3V3L0PM3NT_3NVS
